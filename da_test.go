@@ -10,7 +10,12 @@ import (
 
 func TestDummyDA(t *testing.T) {
 	dummy := NewDummyDA()
-	ExecuteDATest(t, dummy)
+	t.Run("ExecuteDA", func(t *testing.T) {
+		ExecuteDATest(t, dummy)
+	})
+	t.Run("CheckErrors", func(t *testing.T) {
+		CheckErrors(t, dummy)
+	})
 }
 
 func ExecuteDATest(t *testing.T, da da.DA) {
@@ -58,5 +63,10 @@ func ExecuteDATest(t *testing.T, da da.DA) {
 	ok, err = da.Validate(commitment2, proof1)
 	assert.NoError(t, err)
 	assert.False(t, ok)
+}
 
+func CheckErrors(t *testing.T, da da.DA) {
+	blob, err := da.Get([]byte("invalid"))
+	assert.Error(t, err)
+	assert.Empty(t, blob)
 }

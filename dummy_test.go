@@ -5,8 +5,10 @@ import (
 	"crypto/rand"
 	"crypto/sha256"
 	"encoding/binary"
-	"github.com/rollkit/go-da"
+	"errors"
 	"sync/atomic"
+
+	"github.com/rollkit/go-da"
 )
 
 // DummyDA is a simple implementation of in-memory DA. Not production ready! Intended only for testing!
@@ -29,7 +31,11 @@ func NewDummyDA() *DummyDA {
 }
 
 func (d *DummyDA) Get(id da.ID) (da.Blob, error) {
-	return d.data[string(id)], nil
+	blob, ok := d.data[string(id)]
+	if !ok {
+		return nil, errors.New("no blob for given ID")
+	}
+	return blob, nil
 }
 
 func (d *DummyDA) Commit(blob da.Blob) (da.Commitment, error) {
