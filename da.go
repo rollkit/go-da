@@ -6,27 +6,19 @@ type DA interface {
 	//
 	// Error should be returned if ID is not formatted properly, there is no Blob for given ID or any other client-level
 	// error occurred (dropped connection, timeout, etc).
-	Get(id ID) (Blob, error)
+	Get(ids []ID) ([]Blob, error)
 
 	// Commit creates a Commitment for the given Blob.
-	Commit(blob Blob) (Commitment, error)
+	Commit(blobs []Blob) ([]Commitment, error)
 
 	// Submit submits a Blob to Data Availability layer.
 	//
 	// This method is synchronous. Upon successful submission to Data Availability layer, it returns ID identifying blob
 	// in DA and Proof of inclusion.
-	Submit(blob Blob) (ID, Proof, error)
+	Submit(blobs []Blob) ([]ID, []Proof, error)
 
 	// Validate validates Commitment against Proof. This should be possible without retrieving Blob.
-	Validate(commit Commitment, proof Proof) (bool, error)
-}
-
-// BatchDA is a batched version of DA interface.
-type BatchDA interface {
-	Get(ids []ID) ([]Blob, error)
-	Commit(blobs []Blob) ([]Commitment, error)
-	Submit(blobs []Blob) ([]ID, []Proof, error)
-	Validate(commits []Commitment, proofs []Proof) ([]bool, error)
+	Validate(commits []ID, proofs []Proof) ([]bool, error)
 }
 
 // Blob is the data submitted/received from DA interface.

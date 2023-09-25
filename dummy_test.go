@@ -30,28 +30,51 @@ func NewDummyDA() *DummyDA {
 	return da
 }
 
-func (d *DummyDA) Get(id da.ID) (da.Blob, error) {
-	blob, ok := d.data[string(id)]
-	if !ok {
-		return nil, errors.New("no blob for given ID")
+var _ da.DA = &DummyDA{}
+
+func (d *DummyDA) Get(ids []da.ID) ([]da.Blob, error) {
+	blobs := make([]da.Blob, len(ids))
+	for i, id := range ids {
+		blob, ok := d.data[string(id)]
+		if !ok {
+			return nil, errors.New("no blob for given ID")
+		}
+		blobs[i] = blob
 	}
-	return blob, nil
+	return blobs, nil
 }
 
-func (d *DummyDA) Commit(blob da.Blob) (da.Commitment, error) {
-	return d.getHash(blob), nil
+func (d *DummyDA) Commit(blobs []da.Blob) ([]da.Commitment, error) {
+	commits := make([]da.Commitment, len(blobs))
+	for i, blob := range blobs {
+		commits[i] = d.getHash(blob)
+	}
+	return commits, nil
 }
 
-func (d *DummyDA) Submit(blob da.Blob) (da.ID, da.Proof, error) {
-	id := d.nextID()
-	proof := d.getProof(id, blob)
+func (d *DummyDA) Submit(blobs []da.Blob) ([]da.ID, []da.Proof, error) {
+	ids := make([]da.ID, len(blobs))
+	proofs := make([]da.Proof, len(blobs))
+	for i, blob := range blobs {
+		id := d.nextID()
+		ids[i] = id
+		proofs[i] = d.getProof(id, blob)
 
-	d.data[string(id)] = blob
-	return id, proof, nil
+		d.data[string(id)] = blob
+	}
+
+	return ids, proofs, nil
 }
 
-func (d *DummyDA) Validate(commit da.Commitment, proof da.Proof) (bool, error) {
-	return ed25519.Verify(d.pubKey, commit, proof), nil
+func (d *DummyDA) Validate(ids []da.ID, proofs []da.Proof) ([]bool, error) {
+	if len(ids) != len(proofs) {
+		return nil, errors.New("number of IDs doesn't equal to number of proofs")
+	}
+	results := make([]bool, len(ids))
+	for i := 0; i < len(ids); i++ {
+		results[i] = ed25519.Verify(d.pubKey, ids[i], proofs[i])
+	}
+	return results, nil
 }
 
 func (d *DummyDA) nextID() []byte {
