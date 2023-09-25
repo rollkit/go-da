@@ -57,10 +57,10 @@ func (d *DummyDA) Submit(blobs []da.Blob) ([]da.ID, []da.Proof, error) {
 	proofs := make([]da.Proof, len(blobs))
 	for i, blob := range blobs {
 		id := d.nextID()
-		ids[i] = id
-		proofs[i] = d.getProof(id, blob)
+		ids[i] = append(id, d.getHash(blob)...)
+		proofs[i] = d.getProof(ids[i], blob)
 
-		d.data[string(id)] = blob
+		d.data[string(ids[i])] = blob
 	}
 
 	return ids, proofs, nil
@@ -72,7 +72,7 @@ func (d *DummyDA) Validate(ids []da.ID, proofs []da.Proof) ([]bool, error) {
 	}
 	results := make([]bool, len(ids))
 	for i := 0; i < len(ids); i++ {
-		results[i] = ed25519.Verify(d.pubKey, ids[i], proofs[i])
+		results[i] = ed25519.Verify(d.pubKey, ids[i][8:], proofs[i])
 	}
 	return results, nil
 }

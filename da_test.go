@@ -56,21 +56,28 @@ func ExecuteDATest(t *testing.T, da da.DA) {
 	assert.NoError(t, err)
 	assert.NotEmpty(t, commitment2)
 
-	oks, err := da.Validate(commitment1, proof1)
+	oks, err := da.Validate(id1, proof1)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, oks)
 	for _, ok := range oks {
 		assert.True(t, ok)
 	}
 
-	oks, err = da.Validate(commitment1, proof2)
+	oks, err = da.Validate(id2, proof2)
+	assert.NoError(t, err)
+	assert.NotEmpty(t, oks)
+	for _, ok := range oks {
+		assert.True(t, ok)
+	}
+
+	oks, err = da.Validate(id1, proof2)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, oks)
 	for _, ok := range oks {
 		assert.False(t, ok)
 	}
 
-	oks, err = da.Validate(commitment2, proof1)
+	oks, err = da.Validate(id2, proof1)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, oks)
 	for _, ok := range oks {

@@ -18,7 +18,7 @@ type DA interface {
 	Submit(blobs []Blob) ([]ID, []Proof, error)
 
 	// Validate validates Commitment against Proof. This should be possible without retrieving Blob.
-	Validate(commits []ID, proofs []Proof) ([]bool, error)
+	Validate(ids []ID, proofs []Proof) ([]bool, error)
 }
 
 // Blob is the data submitted/received from DA interface.
