@@ -44,6 +44,10 @@ func (d *DummyDA) Get(ids []da.ID) ([]da.Blob, error) {
 	return blobs, nil
 }
 
+func (d *DummyDA) GetIDs(height uint64) ([]da.ID, error) {
+	panic("not implemented!")
+}
+
 func (d *DummyDA) Commit(blobs []da.Blob) ([]da.Commitment, error) {
 	commits := make([]da.Commitment, len(blobs))
 	for i, blob := range blobs {
