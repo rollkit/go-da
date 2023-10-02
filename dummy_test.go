@@ -1,12 +1,12 @@
 package da_test
 
 import (
+	"bytes"
 	"crypto/ed25519"
 	"crypto/rand"
 	"crypto/sha256"
 	"encoding/binary"
 	"errors"
-	"sync/atomic"
 
 	"github.com/rollkit/go-da"
 )
@@ -16,15 +16,19 @@ import (
 // Data is stored in a map, where key is a serialized sequence number. This key is returned as ID.
 // Commitments are simply hashes, and proofs are ED25519 signatures.
 type DummyDA struct {
-	data    map[string][]byte
+	data    map[uint64][]kvp
 	privKey ed25519.PrivateKey
 	pubKey  ed25519.PublicKey
-	cnt     uint64
+	height  uint64
+}
+
+type kvp struct {
+	key, value []byte
 }
 
 func NewDummyDA() *DummyDA {
 	da := &DummyDA{
-		data: make(map[string][]byte),
+		data: make(map[uint64][]kvp),
 	}
 	da.pubKey, da.privKey, _ = ed25519.GenerateKey(rand.Reader)
 	return da
@@ -35,17 +39,31 @@ var _ da.DA = &DummyDA{}
 func (d *DummyDA) Get(ids []da.ID) ([]da.Blob, error) {
 	blobs := make([]da.Blob, len(ids))
 	for i, id := range ids {
-		blob, ok := d.data[string(id)]
-		if !ok {
+		if len(id) < 8 {
+			return nil, errors.New("invalid ID")
+		}
+		height := binary.LittleEndian.Uint64(id)
+		found := false
+		for j := 0; !found && j < len(d.data[height]); j++ {
+			if bytes.Compare(d.data[height][j].key, id) == 0 {
+				blobs[i] = d.data[height][j].value
+				found = true
+			}
+		}
+		if !found {
 			return nil, errors.New("no blob for given ID")
 		}
-		blobs[i] = blob
 	}
 	return blobs, nil
 }
 
 func (d *DummyDA) GetIDs(height uint64) ([]da.ID, error) {
-	panic("not implemented!")
+	kvps := d.data[height]
+	ids := make([]da.ID, len(kvps))
+	for i, kv := range kvps {
+		ids[i] = kv.key
+	}
+	return ids, nil
 }
 
 func (d *DummyDA) Commit(blobs []da.Blob) ([]da.Commitment, error) {
@@ -59,12 +77,12 @@ func (d *DummyDA) Commit(blobs []da.Blob) ([]da.Commitment, error) {
 func (d *DummyDA) Submit(blobs []da.Blob) ([]da.ID, []da.Proof, error) {
 	ids := make([]da.ID, len(blobs))
 	proofs := make([]da.Proof, len(blobs))
+	d.height += 1
 	for i, blob := range blobs {
-		id := d.nextID()
-		ids[i] = append(id, d.getHash(blob)...)
+		ids[i] = append(d.nextID(), d.getHash(blob)...)
 		proofs[i] = d.getProof(ids[i], blob)
 
-		d.data[string(ids[i])] = blob
+		d.data[d.height] = append(d.data[d.height], kvp{ids[i], blob})
 	}
 
 	return ids, proofs, nil
@@ -82,7 +100,10 @@ func (d *DummyDA) Validate(ids []da.ID, proofs []da.Proof) ([]bool, error) {
 }
 
 func (d *DummyDA) nextID() []byte {
-	cnt := atomic.AddUint64(&d.cnt, 1)
+	return d.getID(d.height)
+}
+
+func (d *DummyDA) getID(cnt uint64) []byte {
 	id := make([]byte, 8)
 	binary.LittleEndian.PutUint64(id, cnt)
 	return id
