@@ -45,7 +45,7 @@ func (d *DummyDA) Get(ids []da.ID) ([]da.Blob, error) {
 		height := binary.LittleEndian.Uint64(id)
 		found := false
 		for j := 0; !found && j < len(d.data[height]); j++ {
-			if bytes.Compare(d.data[height][j].key, id) == 0 {
+			if bytes.Equal(d.data[height][j].key, id) {
 				blobs[i] = d.data[height][j].value
 				found = true
 			}

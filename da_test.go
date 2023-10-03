@@ -2,9 +2,10 @@ package da_test
 
 import (
 	"bytes"
-	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
 
 	"github.com/rollkit/go-da"
 )
@@ -117,7 +118,7 @@ func GetIDsTest(t *testing.T, da da.DA) {
 			if len(blobs) == len(msgs) {
 				found = true
 				for b := 0; b < len(blobs); b++ {
-					if bytes.Compare(blobs[b], msgs[b]) != 0 {
+					if !bytes.Equal(blobs[b], msgs[b]) {
 						found = false
 					}
 				}
