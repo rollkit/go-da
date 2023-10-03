@@ -108,7 +108,7 @@ func GetIDsTest(t *testing.T, da da.DA) {
 	for i := uint64(1); !found && !time.Now().After(end); i++ {
 		ret, err := da.GetIDs(i)
 		if err != nil {
-			break
+			t.Error("failed to get IDs:", err)
 		}
 		if len(ret) > 0 {
 			blobs, err := da.Get(ret)
