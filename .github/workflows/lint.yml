@@ -35,12 +35,6 @@ jobs:
           github-token: ${{ secrets.github_token }}
         if: env.GIT_DIFF
 
-  # hadolint lints the Dockerfile
-  hadolint:
-    uses: rollkit/.github/.github/workflows/reusable_dockerfile_lint.yml@v0.2.2 # yamllint disable-line rule:line-length
-    with:
-      dockerfile: docker/mockserv.Dockerfile
-
   yamllint:
     runs-on: ubuntu-latest
     steps:
