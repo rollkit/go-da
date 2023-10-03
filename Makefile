@@ -65,15 +65,17 @@ test: vet
 	@go test -v -race -covermode=atomic -coverprofile=coverage.txt $(pkgs) -run $(run) -count=$(count)
 .PHONY: test
 
-### proto-gen: Generate protobuf files. Requires docker.
-#proto-gen:
-#	@echo "--> Generating Protobuf files"
+# protobuf related targets will be uncommented while working on https://github.com/rollkit/go-da/issues/5
+
+## proto-gen: Generate protobuf files. Requires docker.
+proto-gen:
+	@echo "--> Generating Protobuf files"
 #	./proto/get_deps.sh
 #	./proto/gen.sh
 #.PHONY: proto-gen
 #
-### proto-lint: Lint protobuf files. Requires docker.
-#proto-lint:
-#	@echo "--> Linting Protobuf files"
+## proto-lint: Lint protobuf files. Requires docker.
+proto-lint:
+	@echo "--> Linting Protobuf files"
 #	@$(DOCKER_BUF) lint --error-format=json
 #.PHONY: proto-lint
