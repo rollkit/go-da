@@ -2,6 +2,7 @@ package da_test
 
 import (
 	"bytes"
+	"github.com/rollkit/go-da/test"
 	"testing"
 	"time"
 
@@ -11,7 +12,11 @@ import (
 )
 
 func TestDummyDA(t *testing.T) {
-	dummy := NewDummyDA()
+	dummy := test.NewDummyDA()
+	RunDATestSuite(t, dummy)
+}
+
+func RunDATestSuite(t *testing.T, dummy *test.DummyDA) {
 	t.Run("Basic DA test", func(t *testing.T) {
 		BasicDATest(t, dummy)
 	})

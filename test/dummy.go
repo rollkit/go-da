@@ -1,4 +1,4 @@
-package da_test
+package test
 
 import (
 	"bytes"
