@@ -1,7 +1,9 @@
 package da_test
 
 import (
+	"bytes"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 
@@ -10,10 +12,13 @@ import (
 
 func TestDummyDA(t *testing.T) {
 	dummy := NewDummyDA()
-	t.Run("ExecuteDA", func(t *testing.T) {
-		ExecuteDATest(t, dummy)
+	t.Run("Basic DA test", func(t *testing.T) {
+		BasicDATest(t, dummy)
 	})
-	t.Run("CheckErrors", func(t *testing.T) {
+	t.Run("Get IDs and all data", func(t *testing.T) {
+		GetIDsTest(t, dummy)
+	})
+	t.Run("Check Errors", func(t *testing.T) {
 		CheckErrors(t, dummy)
 	})
 }
@@ -22,7 +27,7 @@ func TestDummyDA(t *testing.T) {
 type Blob = da.Blob
 type ID = da.ID
 
-func ExecuteDATest(t *testing.T, da da.DA) {
+func BasicDATest(t *testing.T, da da.DA) {
 	msg1 := []byte("message 1")
 	msg2 := []byte("message 2")
 
@@ -89,4 +94,37 @@ func CheckErrors(t *testing.T, da da.DA) {
 	blob, err := da.Get([]ID{[]byte("invalid")})
 	assert.Error(t, err)
 	assert.Empty(t, blob)
+}
+
+func GetIDsTest(t *testing.T, da da.DA) {
+	msgs := [][]byte{[]byte("msg1"), []byte("msg2"), []byte("msg3")}
+
+	ids, proofs, err := da.Submit(msgs)
+	assert.NoError(t, err)
+	assert.Len(t, ids, len(msgs))
+	assert.Len(t, proofs, len(msgs))
+
+	found := false
+	end := time.Now().Add(1 * time.Second)
+	for i := uint64(1); !found && !time.Now().After(end); i++ {
+		ret, err := da.GetIDs(i)
+		if err != nil {
+			t.Error("failed to get IDs:", err)
+		}
+		if len(ret) > 0 {
+			blobs, err := da.Get(ret)
+			assert.NoError(t, err)
+
+			if len(blobs) == len(msgs) {
+				found = true
+				for b := 0; b < len(blobs); b++ {
+					if !bytes.Equal(blobs[b], msgs[b]) {
+						found = false
+					}
+				}
+			}
+		}
+	}
+
+	assert.True(t, found)
 }

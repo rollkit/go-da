@@ -8,6 +8,9 @@ type DA interface {
 	// error occurred (dropped connection, timeout, etc).
 	Get(ids []ID) ([]Blob, error)
 
+	// GetIDs returns IDs of all Blobs located in DA at given height.
+	GetIDs(height uint64) ([]ID, error)
+
 	// Commit creates a Commitment for the given Blob.
 	Commit(blobs []Blob) ([]Commitment, error)
 
