@@ -2,7 +2,7 @@ package da
 
 // DA defines very generic interface for interaction with Data Availability layers.
 type DA interface {
-	// Get returns Blob for given ID, or an error.
+	// Get returns Blob for each given ID, or an error.
 	//
 	// Error should be returned if ID is not formatted properly, there is no Blob for given ID or any other client-level
 	// error occurred (dropped connection, timeout, etc).
@@ -11,16 +11,16 @@ type DA interface {
 	// GetIDs returns IDs of all Blobs located in DA at given height.
 	GetIDs(height uint64) ([]ID, error)
 
-	// Commit creates a Commitment for the given Blob.
+	// Commit creates a Commitment for each given Blob.
 	Commit(blobs []Blob) ([]Commitment, error)
 
-	// Submit submits a Blob to Data Availability layer.
+	// Submit submits a Blobs to Data Availability layer.
 	//
 	// This method is synchronous. Upon successful submission to Data Availability layer, it returns ID identifying blob
 	// in DA and Proof of inclusion.
 	Submit(blobs []Blob) ([]ID, []Proof, error)
 
-	// Validate validates Commitment against Proof. This should be possible without retrieving Blob.
+	// Validate validates Commitments against corresponding Proofs. This should be possible without retrieving Blob.
 	Validate(ids []ID, proofs []Proof) ([]bool, error)
 }
 
