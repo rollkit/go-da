@@ -1,4 +1,4 @@
-package da_test
+package test
 
 import (
 	"bytes"
@@ -26,6 +26,7 @@ type kvp struct {
 	key, value []byte
 }
 
+// NewDummyDA create new instance of DummyDA
 func NewDummyDA() *DummyDA {
 	da := &DummyDA{
 		data: make(map[uint64][]kvp),
@@ -36,6 +37,7 @@ func NewDummyDA() *DummyDA {
 
 var _ da.DA = &DummyDA{}
 
+// Get returns Blobs for given IDs.
 func (d *DummyDA) Get(ids []da.ID) ([]da.Blob, error) {
 	blobs := make([]da.Blob, len(ids))
 	for i, id := range ids {
@@ -57,6 +59,7 @@ func (d *DummyDA) Get(ids []da.ID) ([]da.Blob, error) {
 	return blobs, nil
 }
 
+// GetIDs returns IDs of Blobs at given DA height.
 func (d *DummyDA) GetIDs(height uint64) ([]da.ID, error) {
 	kvps := d.data[height]
 	ids := make([]da.ID, len(kvps))
@@ -66,6 +69,7 @@ func (d *DummyDA) GetIDs(height uint64) ([]da.ID, error) {
 	return ids, nil
 }
 
+// Commit returns cryptographic Commitments for given blobs.
 func (d *DummyDA) Commit(blobs []da.Blob) ([]da.Commitment, error) {
 	commits := make([]da.Commitment, len(blobs))
 	for i, blob := range blobs {
@@ -74,6 +78,7 @@ func (d *DummyDA) Commit(blobs []da.Blob) ([]da.Commitment, error) {
 	return commits, nil
 }
 
+// Submit stores blobs in DA layer.
 func (d *DummyDA) Submit(blobs []da.Blob) ([]da.ID, []da.Proof, error) {
 	ids := make([]da.ID, len(blobs))
 	proofs := make([]da.Proof, len(blobs))
@@ -88,6 +93,7 @@ func (d *DummyDA) Submit(blobs []da.Blob) ([]da.ID, []da.Proof, error) {
 	return ids, proofs, nil
 }
 
+// Validate checks the Proofs for given IDs.
 func (d *DummyDA) Validate(ids []da.ID, proofs []da.Proof) ([]bool, error) {
 	if len(ids) != len(proofs) {
 		return nil, errors.New("number of IDs doesn't equal to number of proofs")

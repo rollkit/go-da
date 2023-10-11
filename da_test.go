@@ -5,13 +5,19 @@ import (
 	"testing"
 	"time"
 
+	"github.com/rollkit/go-da/test"
+
 	"github.com/stretchr/testify/assert"
 
 	"github.com/rollkit/go-da"
 )
 
 func TestDummyDA(t *testing.T) {
-	dummy := NewDummyDA()
+	dummy := test.NewDummyDA()
+	RunDATestSuite(t, dummy)
+}
+
+func RunDATestSuite(t *testing.T, dummy *test.DummyDA) {
 	t.Run("Basic DA test", func(t *testing.T) {
 		BasicDATest(t, dummy)
 	})
