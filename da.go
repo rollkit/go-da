@@ -14,13 +14,13 @@ type DA interface {
 	// Commit creates a Commitment for each given Blob.
 	Commit(blobs []Blob) ([]Commitment, error)
 
-	// Submit submits a Blobs to Data Availability layer.
+	// Submit submits the Blobs to Data Availability layer.
 	//
 	// This method is synchronous. Upon successful submission to Data Availability layer, it returns ID identifying blob
 	// in DA and Proof of inclusion.
 	Submit(blobs []Blob) ([]ID, []Proof, error)
 
-	// Validate validates Commitments against corresponding Proofs. This should be possible without retrieving Blob.
+	// Validate validates Commitments against the corresponding Proofs. This should be possible without retrieving the Blobs.
 	Validate(ids []ID, proofs []Proof) ([]bool, error)
 }
 
