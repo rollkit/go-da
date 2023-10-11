@@ -2,9 +2,10 @@ package da_test
 
 import (
 	"bytes"
-	"github.com/rollkit/go-da/test"
 	"testing"
 	"time"
+
+	"github.com/rollkit/go-da/test"
 
 	"github.com/stretchr/testify/assert"
 
