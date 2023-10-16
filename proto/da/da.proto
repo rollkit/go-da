@@ -1,4 +1,5 @@
 syntax = "proto3";
+package da;
 
 // DAService is the protobuf service definition for interaction with Data Availability layers.
 service DAService {
