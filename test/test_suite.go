@@ -2,12 +2,15 @@ package test
 
 import (
 	"bytes"
-	"github.com/rollkit/go-da"
-	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
+
+	"github.com/rollkit/go-da"
 )
 
+// RunDATestSuite runs all tests against given DA
 func RunDATestSuite(t *testing.T, d da.DA) {
 	t.Run("Basic DA test", func(t *testing.T) {
 		BasicDATest(t, d)
@@ -20,10 +23,15 @@ func RunDATestSuite(t *testing.T, d da.DA) {
 	})
 }
 
-// TODO(tzdybal): how to get rid of this?!
+// TODO(tzdybal): how to get rid of those aliases?
+
+// Blob is a type alias
 type Blob = da.Blob
+
+// ID is a type alias
 type ID = da.ID
 
+// BasicDATest tests round trip of messages to DA and back.
 func BasicDATest(t *testing.T, da da.DA) {
 	msg1 := []byte("message 1")
 	msg2 := []byte("message 2")
@@ -87,12 +95,14 @@ func BasicDATest(t *testing.T, da da.DA) {
 	}
 }
 
+// CheckErrors ensures that errors are handled properly by DA.
 func CheckErrors(t *testing.T, da da.DA) {
 	blob, err := da.Get([]ID{[]byte("invalid")})
 	assert.Error(t, err)
 	assert.Empty(t, blob)
 }
 
+// GetIDsTest tests iteration over DA
 func GetIDsTest(t *testing.T, da da.DA) {
 	msgs := [][]byte{[]byte("msg1"), []byte("msg2"), []byte("msg3")}
 

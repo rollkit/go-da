@@ -1,8 +1,9 @@
 package da_test
 
 import (
-	"github.com/rollkit/go-da/test"
 	"testing"
+
+	"github.com/rollkit/go-da/test"
 )
 
 func TestDummyDA(t *testing.T) {

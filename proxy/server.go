@@ -9,6 +9,7 @@ import (
 	pbda "github.com/rollkit/go-da/types/pb/da"
 )
 
+// NewServer creates new gRPC Server configured to serve DA proxy.
 func NewServer(d da.DA, opts ...grpc.ServerOption) *grpc.Server {
 	srv := grpc.NewServer(opts...)
 
