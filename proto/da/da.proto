@@ -12,7 +12,7 @@ service DAService {
 	// Commit creates a Commitment for each given Blob.
 	rpc Commit(CommitRequest) returns (CommitResponse) {}
 
-	// Submit submits a Blobs to Data Availability layer.
+	// Submit submits the given Blobs to Data Availability layer.
 	rpc Submit(SubmitRequest) returns (SubmitResponse) {}
 
 	// Validate validates Commitments against corresponding Proofs. This should be possible without retrieving Blob.

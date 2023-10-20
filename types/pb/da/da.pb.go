@@ -740,7 +740,7 @@ type DAServiceClient interface {
 	GetIDs(ctx context.Context, in *GetIDsRequest, opts ...grpc.CallOption) (*GetIDsResponse, error)
 	// Commit creates a Commitment for each given Blob.
 	Commit(ctx context.Context, in *CommitRequest, opts ...grpc.CallOption) (*CommitResponse, error)
-	// Submit submits a Blobs to Data Availability layer.
+	// Submit submits the given Blobs to Data Availability layer.
 	Submit(ctx context.Context, in *SubmitRequest, opts ...grpc.CallOption) (*SubmitResponse, error)
 	// Validate validates Commitments against corresponding Proofs. This should be possible without retrieving Blob.
 	Validate(ctx context.Context, in *ValidateRequest, opts ...grpc.CallOption) (*ValidateResponse, error)
@@ -807,7 +807,7 @@ type DAServiceServer interface {
 	GetIDs(context.Context, *GetIDsRequest) (*GetIDsResponse, error)
 	// Commit creates a Commitment for each given Blob.
 	Commit(context.Context, *CommitRequest) (*CommitResponse, error)
-	// Submit submits a Blobs to Data Availability layer.
+	// Submit submits the given Blobs to Data Availability layer.
 	Submit(context.Context, *SubmitRequest) (*SubmitResponse, error)
 	// Validate validates Commitments against corresponding Proofs. This should be possible without retrieving Blob.
 	Validate(context.Context, *ValidateRequest) (*ValidateResponse, error)
