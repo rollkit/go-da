@@ -113,6 +113,10 @@ func GetIDsTest(t *testing.T, da da.DA) {
 
 	found := false
 	end := time.Now().Add(1 * time.Second)
+
+	// To Keep It Simple: we assume working with DA used exclusively for this test (mock, devnet, etc)
+	// As we're the only user, we don't need to handle external data (that could be submitted in real world).
+	// There is no notion of height, so we need to scan the DA to get test data back.
 	for i := uint64(1); !found && !time.Now().After(end); i++ {
 		ret, err := da.GetIDs(i)
 		if err != nil {
@@ -122,6 +126,8 @@ func GetIDsTest(t *testing.T, da da.DA) {
 			blobs, err := da.Get(ret)
 			assert.NoError(t, err)
 
+			// Submit ensures atomicity of batch, so it makes sense to compare actual blobs (bodies) only when lengths
+			// of slices is the same.
 			if len(blobs) == len(msgs) {
 				found = true
 				for b := 0; b < len(blobs); b++ {
