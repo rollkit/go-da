@@ -1,0 +1,92 @@
+syntax = "proto3";
+package da;
+
+// DAService is the protobuf service definition for interaction with Data Availability layers.
+service DAService {
+	// Get returns Blob for each given ID, or an error.
+	rpc Get(GetRequest) returns (GetResponse) {}
+
+	// GetIDs returns IDs of all Blobs located in DA at given height.
+	rpc GetIDs(GetIDsRequest) returns (GetIDsResponse) {}
+
+	// Commit creates a Commitment for each given Blob.
+	rpc Commit(CommitRequest) returns (CommitResponse) {}
+
+	// Submit submits the given Blobs to Data Availability layer.
+	rpc Submit(SubmitRequest) returns (SubmitResponse) {}
+
+	// Validate validates Commitments against corresponding Proofs. This should be possible without retrieving Blob.
+	rpc Validate(ValidateRequest) returns (ValidateResponse) {}
+}
+
+// Blob is the data submitted/received from DA interface.
+message Blob {
+	bytes value = 1;
+}
+
+// ID should contain serialized data required by the implementation to find blob in Data Availability layer.
+message ID {
+	bytes value = 1;
+}
+
+// Commitment should contain serialized cryptographic commitment to Blob value.
+message Commitment {
+	bytes value = 1;
+}
+
+// Proof should contain serialized proof of inclusion (publication) of Blob in Data Availability layer.
+message Proof {
+	bytes value = 1;
+}
+
+// GetRequest is the request type for the Get rpc method.
+message GetRequest {
+	repeated ID ids = 1;
+}
+
+// GetResponse is the response type for the Get rpc method.
+message GetResponse {
+	repeated Blob blobs = 1;
+}
+
+// GetIDsRequest is the request type for the GetIDs rpc method.
+message GetIDsRequest {
+	uint64 height = 1;
+}
+
+// GetIDsResponse is the response type for the GetIDs rpc method.
+message GetIDsResponse {
+	repeated ID ids = 1;
+}
+
+// CommitRequest is the request type for the Commit rpc method.
+message CommitRequest {
+	repeated Blob blobs = 1;
+}
+
+// CommitResponse is the response type for the Commit rpc method.
+message CommitResponse {
+	repeated Commitment commitments = 1;
+}
+
+// SubmitRequest is the request type for the Submit rpc method.
+message SubmitRequest {
+	repeated Blob blobs = 1;
+}
+
+// SubmitResponse is the response type for the Submit rpc method.
+message SubmitResponse {
+	repeated ID ids = 1;
+	repeated Proof proofs = 2;
+}
+
+// ValidateRequest is the request type for the Validate rpc method.
+message ValidateRequest {
+	repeated ID ids = 1;
+	repeated Proof proofs = 2;
+}
+
+// ValidateResponse is the response type for the Validate rpc method.
+message ValidateResponse {
+	repeated bool results = 1;
+}
