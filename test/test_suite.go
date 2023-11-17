@@ -2,6 +2,7 @@ package test
 
 import (
 	"bytes"
+	"sync"
 	"testing"
 	"time"
 
@@ -20,6 +21,9 @@ func RunDATestSuite(t *testing.T, d da.DA) {
 	})
 	t.Run("Check Errors", func(t *testing.T) {
 		CheckErrors(t, d)
+	})
+	t.Run("Concurrent read/write test", func(t *testing.T) {
+		ConcurrentReadWriteTest(t, d)
 	})
 }
 
@@ -140,4 +144,28 @@ func GetIDsTest(t *testing.T, da da.DA) {
 	}
 
 	assert.True(t, found)
+}
+
+// ConcurrentReadWriteTest tests the use of mutex lock in DummyDA by calling separate methods that use `d.data` and making sure there's no race conditions
+func ConcurrentReadWriteTest(t *testing.T, da da.DA) {
+	var wg sync.WaitGroup
+	wg.Add(2)
+
+	go func() {
+		defer wg.Done()
+		for i := uint64(0); i < 10; i++ {
+			_, err := da.GetIDs(i)
+			assert.NoError(t, err)
+		}
+	}()
+
+	go func() {
+		defer wg.Done()
+		for i := uint64(0); i < 10; i++ {
+			_, _, err := da.Submit([][]byte{[]byte("test")})
+			assert.NoError(t, err)
+		}
+	}()
+
+	wg.Wait()
 }

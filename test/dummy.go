@@ -17,11 +17,11 @@ import (
 // Data is stored in a map, where key is a serialized sequence number. This key is returned as ID.
 // Commitments are simply hashes, and proofs are ED25519 signatures.
 type DummyDA struct {
-	mu      *sync.Mutex // protects data
+	mu      *sync.Mutex // protects data and height
 	data    map[uint64][]kvp
+	height  uint64
 	privKey ed25519.PrivateKey
 	pubKey  ed25519.PublicKey
-	height  uint64
 }
 
 type kvp struct {
