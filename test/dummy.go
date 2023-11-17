@@ -7,6 +7,7 @@ import (
 	"crypto/sha256"
 	"encoding/binary"
 	"errors"
+	"sync"
 
 	"github.com/rollkit/go-da"
 )
@@ -16,6 +17,7 @@ import (
 // Data is stored in a map, where key is a serialized sequence number. This key is returned as ID.
 // Commitments are simply hashes, and proofs are ED25519 signatures.
 type DummyDA struct {
+	mu      *sync.Mutex // protects data
 	data    map[uint64][]kvp
 	privKey ed25519.PrivateKey
 	pubKey  ed25519.PublicKey
@@ -29,6 +31,7 @@ type kvp struct {
 // NewDummyDA create new instance of DummyDA
 func NewDummyDA() *DummyDA {
 	da := &DummyDA{
+		mu:   new(sync.Mutex),
 		data: make(map[uint64][]kvp),
 	}
 	da.pubKey, da.privKey, _ = ed25519.GenerateKey(rand.Reader)
@@ -39,6 +42,8 @@ var _ da.DA = &DummyDA{}
 
 // Get returns Blobs for given IDs.
 func (d *DummyDA) Get(ids []da.ID) ([]da.Blob, error) {
+	d.mu.Lock()
+	defer d.mu.Unlock()
 	blobs := make([]da.Blob, len(ids))
 	for i, id := range ids {
 		if len(id) < 8 {
@@ -61,6 +66,8 @@ func (d *DummyDA) Get(ids []da.ID) ([]da.Blob, error) {
 
 // GetIDs returns IDs of Blobs at given DA height.
 func (d *DummyDA) GetIDs(height uint64) ([]da.ID, error) {
+	d.mu.Lock()
+	defer d.mu.Unlock()
 	kvps := d.data[height]
 	ids := make([]da.ID, len(kvps))
 	for i, kv := range kvps {
@@ -80,6 +87,8 @@ func (d *DummyDA) Commit(blobs []da.Blob) ([]da.Commitment, error) {
 
 // Submit stores blobs in DA layer.
 func (d *DummyDA) Submit(blobs []da.Blob) ([]da.ID, []da.Proof, error) {
+	d.mu.Lock()
+	defer d.mu.Unlock()
 	ids := make([]da.ID, len(blobs))
 	proofs := make([]da.Proof, len(blobs))
 	d.height += 1
