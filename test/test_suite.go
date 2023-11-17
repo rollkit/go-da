@@ -153,7 +153,7 @@ func ConcurrentReadWriteTest(t *testing.T, da da.DA) {
 
 	go func() {
 		defer wg.Done()
-		for i := uint64(0); i < 10; i++ {
+		for i := uint64(0); i < 100; i++ {
 			_, err := da.GetIDs(i)
 			assert.NoError(t, err)
 		}
@@ -161,7 +161,7 @@ func ConcurrentReadWriteTest(t *testing.T, da da.DA) {
 
 	go func() {
 		defer wg.Done()
-		for i := uint64(0); i < 10; i++ {
+		for i := uint64(0); i < 100; i++ {
 			_, _, err := da.Submit([][]byte{[]byte("test")})
 			assert.NoError(t, err)
 		}
