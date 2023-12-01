@@ -24,6 +24,10 @@ type proxySrv struct {
 	target da.DA
 }
 
+func (p *proxySrv) Init(ctx context.Context, request *pbda.InitRequest) (*pbda.InitResponse, error) {
+	return &pbda.InitResponse{Version: 1, Name: "Proxy Server", MaxBlobSize: 1024}, nil
+}
+
 func (p *proxySrv) Get(ctx context.Context, request *pbda.GetRequest) (*pbda.GetResponse, error) {
 	ids := idsPB2DA(request.Ids)
 	blobs, err := p.target.Get(ids)
