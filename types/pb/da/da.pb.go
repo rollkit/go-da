@@ -206,22 +206,22 @@ func (m *Proof) GetValue() []byte {
 	return nil
 }
 
-// InitRequest is the request type for the Init rpc method.
-type InitRequest struct {
+// ConfigRequest is the request type for the Config rpc method.
+type ConfigRequest struct {
 }
 
-func (m *InitRequest) Reset()         { *m = InitRequest{} }
-func (m *InitRequest) String() string { return proto.CompactTextString(m) }
-func (*InitRequest) ProtoMessage()    {}
-func (*InitRequest) Descriptor() ([]byte, []int) {
+func (m *ConfigRequest) Reset()         { *m = ConfigRequest{} }
+func (m *ConfigRequest) String() string { return proto.CompactTextString(m) }
+func (*ConfigRequest) ProtoMessage()    {}
+func (*ConfigRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_feb508392bc12c0f, []int{4}
 }
-func (m *InitRequest) XXX_Unmarshal(b []byte) error {
+func (m *ConfigRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *InitRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *ConfigRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_InitRequest.Marshal(b, m, deterministic)
+		return xxx_messageInfo_ConfigRequest.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -231,37 +231,35 @@ func (m *InitRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) 
 		return b[:n], nil
 	}
 }
-func (m *InitRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_InitRequest.Merge(m, src)
+func (m *ConfigRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ConfigRequest.Merge(m, src)
 }
-func (m *InitRequest) XXX_Size() int {
+func (m *ConfigRequest) XXX_Size() int {
 	return m.Size()
 }
-func (m *InitRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_InitRequest.DiscardUnknown(m)
+func (m *ConfigRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ConfigRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_InitRequest proto.InternalMessageInfo
+var xxx_messageInfo_ConfigRequest proto.InternalMessageInfo
 
-// InitResponse is the response type for the Init rpc method.
-type InitResponse struct {
-	Version     int64  `protobuf:"varint,1,opt,name=version,proto3" json:"version,omitempty"`
-	Name        string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	MaxBlobSize int64  `protobuf:"varint,3,opt,name=max_blob_size,json=maxBlobSize,proto3" json:"max_blob_size,omitempty"`
+// ConfigResponse is the response type for the Config rpc method.
+type ConfigResponse struct {
+	MaxBlobSize int64 `protobuf:"varint,1,opt,name=max_blob_size,json=maxBlobSize,proto3" json:"max_blob_size,omitempty"`
 }
 
-func (m *InitResponse) Reset()         { *m = InitResponse{} }
-func (m *InitResponse) String() string { return proto.CompactTextString(m) }
-func (*InitResponse) ProtoMessage()    {}
-func (*InitResponse) Descriptor() ([]byte, []int) {
+func (m *ConfigResponse) Reset()         { *m = ConfigResponse{} }
+func (m *ConfigResponse) String() string { return proto.CompactTextString(m) }
+func (*ConfigResponse) ProtoMessage()    {}
+func (*ConfigResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_feb508392bc12c0f, []int{5}
 }
-func (m *InitResponse) XXX_Unmarshal(b []byte) error {
+func (m *ConfigResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *InitResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *ConfigResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_InitResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_ConfigResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -271,33 +269,19 @@ func (m *InitResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error)
 		return b[:n], nil
 	}
 }
-func (m *InitResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_InitResponse.Merge(m, src)
+func (m *ConfigResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ConfigResponse.Merge(m, src)
 }
-func (m *InitResponse) XXX_Size() int {
+func (m *ConfigResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *InitResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_InitResponse.DiscardUnknown(m)
+func (m *ConfigResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ConfigResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_InitResponse proto.InternalMessageInfo
+var xxx_messageInfo_ConfigResponse proto.InternalMessageInfo
 
-func (m *InitResponse) GetVersion() int64 {
-	if m != nil {
-		return m.Version
-	}
-	return 0
-}
-
-func (m *InitResponse) GetName() string {
-	if m != nil {
-		return m.Name
-	}
-	return ""
-}
-
-func (m *InitResponse) GetMaxBlobSize() int64 {
+func (m *ConfigResponse) GetMaxBlobSize() int64 {
 	if m != nil {
 		return m.MaxBlobSize
 	}
@@ -775,8 +759,8 @@ func init() {
 	proto.RegisterType((*ID)(nil), "da.ID")
 	proto.RegisterType((*Commitment)(nil), "da.Commitment")
 	proto.RegisterType((*Proof)(nil), "da.Proof")
-	proto.RegisterType((*InitRequest)(nil), "da.InitRequest")
-	proto.RegisterType((*InitResponse)(nil), "da.InitResponse")
+	proto.RegisterType((*ConfigRequest)(nil), "da.ConfigRequest")
+	proto.RegisterType((*ConfigResponse)(nil), "da.ConfigResponse")
 	proto.RegisterType((*GetRequest)(nil), "da.GetRequest")
 	proto.RegisterType((*GetResponse)(nil), "da.GetResponse")
 	proto.RegisterType((*GetIDsRequest)(nil), "da.GetIDsRequest")
@@ -792,39 +776,38 @@ func init() {
 func init() { proto.RegisterFile("da/da.proto", fileDescriptor_feb508392bc12c0f) }
 
 var fileDescriptor_feb508392bc12c0f = []byte{
-	// 509 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x54, 0xcb, 0x8e, 0xd3, 0x30,
-	0x14, 0xcd, 0xa3, 0x13, 0xda, 0x9b, 0x69, 0x3b, 0x98, 0x11, 0x8a, 0x22, 0x88, 0x8a, 0x17, 0x50,
-	0xf1, 0xe8, 0xc0, 0xb0, 0x60, 0x4d, 0xa9, 0x54, 0x75, 0x01, 0x42, 0xae, 0xc4, 0x76, 0x70, 0x26,
-	0x86, 0x89, 0x94, 0x47, 0x49, 0xdc, 0x6a, 0x34, 0x5f, 0xc1, 0xc7, 0xf0, 0x11, 0x2c, 0x67, 0xc9,
-	0x12, 0xb5, 0x3f, 0x82, 0x6c, 0xc7, 0x4d, 0x83, 0x54, 0x15, 0x76, 0xb9, 0xf7, 0x9e, 0x73, 0x6c,
-	0xdf, 0x73, 0x14, 0x70, 0x23, 0x7a, 0x16, 0xd1, 0xd1, 0xa2, 0xc8, 0x79, 0x8e, 0xac, 0x88, 0xe2,
-	0x07, 0xd0, 0x1a, 0x27, 0x79, 0x88, 0x4e, 0xe1, 0x68, 0x45, 0x93, 0x25, 0xf3, 0xcc, 0x81, 0x39,
-	0x3c, 0x26, 0xaa, 0xc0, 0x3e, 0x58, 0xb3, 0xc9, 0x9e, 0x19, 0x06, 0x78, 0x97, 0xa7, 0x69, 0xcc,
-	0x53, 0x96, 0xf1, 0x3d, 0x98, 0x87, 0x70, 0xf4, 0xb1, 0xc8, 0xf3, 0x2f, 0x7b, 0xc6, 0x5d, 0x70,
-	0x67, 0x59, 0xcc, 0x09, 0xfb, 0xb6, 0x64, 0x25, 0xc7, 0x9f, 0xe1, 0x58, 0x95, 0xe5, 0x22, 0xcf,
-	0x4a, 0x86, 0x3c, 0xb8, 0xb3, 0x62, 0x45, 0x19, 0xe7, 0x99, 0xa4, 0xd9, 0x44, 0x97, 0x08, 0x41,
-	0x2b, 0xa3, 0x29, 0xf3, 0xac, 0x81, 0x39, 0xec, 0x10, 0xf9, 0x8d, 0x30, 0x74, 0x53, 0x7a, 0x7d,
-	0x11, 0x26, 0x79, 0x78, 0x51, 0xc6, 0x37, 0xcc, 0xb3, 0x25, 0xc7, 0x4d, 0xe9, 0xb5, 0x78, 0xe1,
-	0x3c, 0xbe, 0x61, 0xf8, 0x31, 0xc0, 0x94, 0xe9, 0xf3, 0x90, 0x07, 0x76, 0x1c, 0x95, 0x9e, 0x39,
-	0xb0, 0x87, 0xee, 0xb9, 0x33, 0x8a, 0xe8, 0x68, 0x36, 0x21, 0xa2, 0x85, 0x5f, 0x80, 0x2b, 0x71,
-	0xd5, 0x45, 0x02, 0x38, 0x12, 0xb2, 0x1a, 0xda, 0x16, 0x50, 0xa1, 0x49, 0x54, 0x1b, 0x3f, 0x81,
-	0xee, 0x94, 0xf1, 0xd9, 0xa4, 0xd4, 0xca, 0xf7, 0xc1, 0xb9, 0x62, 0xf1, 0xd7, 0x2b, 0x2e, 0x2f,
-	0xde, 0x22, 0x55, 0x85, 0x9f, 0x42, 0x4f, 0x03, 0xb7, 0x6f, 0xdc, 0x77, 0x87, 0x33, 0xe8, 0xaa,
-	0xfd, 0x6a, 0xd1, 0x43, 0xb7, 0x18, 0x43, 0x4f, 0x13, 0x2a, 0xf1, 0x97, 0xe0, 0x5e, 0x6e, 0x2d,
-	0xd2, 0xbc, 0x9e, 0xe0, 0xd5, 0xce, 0x91, 0x5d, 0x88, 0x38, 0x74, 0xbe, 0x0c, 0xff, 0xe3, 0xd0,
-	0xf7, 0xd0, 0xd3, 0x84, 0x43, 0x2f, 0x42, 0x8f, 0xc0, 0x59, 0x88, 0x34, 0x94, 0x9e, 0x25, 0x87,
-	0x1d, 0x31, 0x94, 0xf9, 0x20, 0xd5, 0x00, 0x7f, 0x80, 0xfe, 0x27, 0x9a, 0xc4, 0x11, 0xe5, 0xec,
-	0xa0, 0x4b, 0xff, 0xa2, 0xf7, 0x1c, 0x4e, 0x6a, 0xbd, 0x3a, 0x56, 0x05, 0x2b, 0x97, 0x49, 0xb5,
-	0x91, 0x36, 0xd1, 0xe5, 0xf9, 0x0f, 0x0b, 0x3a, 0x93, 0xb7, 0x73, 0x56, 0xac, 0xe2, 0x4b, 0x86,
-	0x9e, 0x41, 0x4b, 0xc4, 0x11, 0xf5, 0xe5, 0x99, 0x75, 0x4e, 0xfd, 0x93, 0xba, 0xa1, 0x24, 0xb1,
-	0x81, 0x86, 0x60, 0x4f, 0x19, 0x47, 0x72, 0xb9, 0x75, 0xc4, 0xfc, 0xfe, 0xb6, 0xde, 0x22, 0x5f,
-	0x81, 0xa3, 0x32, 0x80, 0xee, 0x56, 0xc3, 0x3a, 0x38, 0x3e, 0xda, 0x6d, 0xed, 0x52, 0x94, 0x61,
-	0x8a, 0xd2, 0x88, 0x85, 0xa2, 0x34, 0x8d, 0x57, 0x14, 0xe5, 0x8b, 0xa2, 0x34, 0x4c, 0x55, 0x94,
-	0xa6, 0x6d, 0xd8, 0x40, 0x6f, 0xa0, 0xad, 0x77, 0x85, 0xee, 0x09, 0xc4, 0x5f, 0x4e, 0xf8, 0xa7,
-	0xcd, 0xa6, 0x26, 0x8e, 0xbd, 0x9f, 0xeb, 0xc0, 0xbc, 0x5d, 0x07, 0xe6, 0xef, 0x75, 0x60, 0x7e,
-	0xdf, 0x04, 0xc6, 0xed, 0x26, 0x30, 0x7e, 0x6d, 0x02, 0x23, 0x74, 0xe4, 0x8f, 0xe6, 0xf5, 0x9f,
-	0x00, 0x00, 0x00, 0xff, 0xff, 0xfc, 0xd5, 0xe3, 0xb2, 0x77, 0x04, 0x00, 0x00,
+	// 486 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x54, 0xc1, 0x6e, 0xd3, 0x40,
+	0x10, 0xb5, 0x93, 0xc6, 0xa4, 0x63, 0x92, 0xc0, 0x52, 0x21, 0x2b, 0x02, 0xab, 0xec, 0x01, 0x22,
+	0x04, 0x29, 0x2d, 0x48, 0x9c, 0x49, 0x23, 0x45, 0x39, 0x80, 0xd0, 0x46, 0xe2, 0x5a, 0xad, 0xeb,
+	0x6d, 0x6b, 0xc9, 0xce, 0x86, 0xec, 0xa6, 0xaa, 0xfa, 0x15, 0x7c, 0x0f, 0x5f, 0xc0, 0xb1, 0x47,
+	0x8e, 0x28, 0xf9, 0x11, 0xb4, 0x1e, 0x6f, 0x62, 0x23, 0x45, 0xa1, 0xc7, 0x99, 0x79, 0xef, 0x79,
+	0x76, 0xde, 0x93, 0xc1, 0x8f, 0xf9, 0x51, 0xcc, 0xfb, 0xb3, 0xb9, 0xd4, 0x92, 0xd4, 0x62, 0x4e,
+	0x9f, 0xc1, 0xde, 0x20, 0x95, 0x11, 0x39, 0x80, 0xc6, 0x35, 0x4f, 0x17, 0x22, 0x70, 0x0f, 0xdd,
+	0xde, 0x43, 0x86, 0x05, 0xed, 0x42, 0x6d, 0x3c, 0xdc, 0x32, 0xa3, 0x00, 0xa7, 0x32, 0xcb, 0x12,
+	0x9d, 0x89, 0xa9, 0xde, 0x82, 0x79, 0x0e, 0x8d, 0xaf, 0x73, 0x29, 0x2f, 0xb6, 0x8c, 0x3b, 0xd0,
+	0x3a, 0x95, 0xd3, 0x8b, 0xe4, 0x92, 0x89, 0xef, 0x0b, 0xa1, 0x34, 0xfd, 0x00, 0x6d, 0xdb, 0x50,
+	0x33, 0x39, 0x55, 0x82, 0x50, 0x68, 0x65, 0xfc, 0xe6, 0x2c, 0x4a, 0x65, 0x74, 0xa6, 0x92, 0x5b,
+	0x14, 0xa8, 0x33, 0x3f, 0xe3, 0x37, 0x66, 0xef, 0x49, 0x72, 0x2b, 0xe8, 0x4b, 0x80, 0x91, 0xd0,
+	0x85, 0x06, 0x09, 0xa0, 0x9e, 0xc4, 0x2a, 0x70, 0x0f, 0xeb, 0x3d, 0xff, 0xc4, 0xeb, 0xc7, 0xbc,
+	0x3f, 0x1e, 0x32, 0xd3, 0xa2, 0x6f, 0xc1, 0xcf, 0x71, 0x85, 0x74, 0x08, 0x0d, 0x23, 0x6b, 0xa1,
+	0x4d, 0x03, 0x35, 0x9a, 0x0c, 0xdb, 0xf4, 0x15, 0xb4, 0x46, 0x42, 0x8f, 0x87, 0xca, 0x2a, 0x3f,
+	0x05, 0xef, 0x4a, 0x24, 0x97, 0x57, 0x3a, 0x5f, 0x62, 0x8f, 0x15, 0x15, 0x7d, 0x0d, 0x6d, 0x0b,
+	0x2c, 0xa4, 0xb7, 0xef, 0x70, 0x64, 0x9e, 0x6c, 0xae, 0x66, 0x45, 0x77, 0x6d, 0x31, 0x30, 0x27,
+	0x41, 0x42, 0x21, 0xfe, 0x0e, 0xfc, 0xf3, 0xf5, 0xe1, 0x2d, 0xaf, 0x6d, 0x78, 0x1b, 0x3f, 0x58,
+	0x19, 0x62, 0x3e, 0x3a, 0x59, 0x44, 0xf7, 0xf8, 0xe8, 0x67, 0x68, 0x5b, 0xc2, 0xae, 0x17, 0x91,
+	0x17, 0xe0, 0xcd, 0x8c, 0xc7, 0x2a, 0xa8, 0xe5, 0xc3, 0x7d, 0x33, 0xcc, 0x5d, 0x67, 0xc5, 0x80,
+	0x7e, 0x81, 0xce, 0x37, 0x9e, 0x26, 0x31, 0xd7, 0x62, 0xa7, 0x4b, 0xff, 0xa3, 0xf7, 0x06, 0x1e,
+	0x6d, 0xf4, 0xd6, 0x0b, 0x3e, 0x98, 0x0b, 0xb5, 0x48, 0x8b, 0x8b, 0x34, 0x99, 0x2d, 0x4f, 0x7e,
+	0xd6, 0x60, 0x7f, 0xf8, 0x69, 0x22, 0xe6, 0xd7, 0xc9, 0xb9, 0x20, 0xc7, 0xe0, 0x61, 0xc4, 0xc8,
+	0x63, 0x3c, 0x59, 0x29, 0x7f, 0x5d, 0x52, 0x6e, 0xa1, 0x30, 0x75, 0x48, 0x0f, 0xea, 0x23, 0xa1,
+	0x49, 0x7e, 0xe2, 0x4d, 0xd0, 0xba, 0x9d, 0x75, 0xbd, 0x46, 0x1e, 0x83, 0x87, 0x49, 0x40, 0xf1,
+	0x4a, 0x7c, 0x50, 0xbc, 0x1a, 0x14, 0xa4, 0xa0, 0x6d, 0x76, 0x9f, 0x52, 0x38, 0xec, 0x3e, 0x65,
+	0xfb, 0x91, 0x82, 0xee, 0x20, 0xa5, 0x62, 0x2d, 0x52, 0xaa, 0xe6, 0x51, 0x87, 0x7c, 0x84, 0xa6,
+	0xbd, 0x18, 0x79, 0x62, 0x10, 0xff, 0xf8, 0xd1, 0x3d, 0xa8, 0x36, 0x2d, 0x71, 0x10, 0xfc, 0x5a,
+	0x86, 0xee, 0xdd, 0x32, 0x74, 0xff, 0x2c, 0x43, 0xf7, 0xc7, 0x2a, 0x74, 0xee, 0x56, 0xa1, 0xf3,
+	0x7b, 0x15, 0x3a, 0x91, 0x97, 0xff, 0x44, 0xde, 0xff, 0x0d, 0x00, 0x00, 0xff, 0xff, 0x6a, 0x72,
+	0x0e, 0xab, 0x53, 0x04, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -839,8 +822,8 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type DAServiceClient interface {
-	// Init initialises the client
-	Init(ctx context.Context, in *InitRequest, opts ...grpc.CallOption) (*InitResponse, error)
+	// Config initialises the client
+	Config(ctx context.Context, in *ConfigRequest, opts ...grpc.CallOption) (*ConfigResponse, error)
 	// Get returns Blob for each given ID, or an error.
 	Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
 	// GetIDs returns IDs of all Blobs located in DA at given height.
@@ -861,9 +844,9 @@ func NewDAServiceClient(cc *grpc.ClientConn) DAServiceClient {
 	return &dAServiceClient{cc}
 }
 
-func (c *dAServiceClient) Init(ctx context.Context, in *InitRequest, opts ...grpc.CallOption) (*InitResponse, error) {
-	out := new(InitResponse)
-	err := c.cc.Invoke(ctx, "/da.DAService/Init", in, out, opts...)
+func (c *dAServiceClient) Config(ctx context.Context, in *ConfigRequest, opts ...grpc.CallOption) (*ConfigResponse, error) {
+	out := new(ConfigResponse)
+	err := c.cc.Invoke(ctx, "/da.DAService/Config", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -917,8 +900,8 @@ func (c *dAServiceClient) Validate(ctx context.Context, in *ValidateRequest, opt
 
 // DAServiceServer is the server API for DAService service.
 type DAServiceServer interface {
-	// Init initialises the client
-	Init(context.Context, *InitRequest) (*InitResponse, error)
+	// Config initialises the client
+	Config(context.Context, *ConfigRequest) (*ConfigResponse, error)
 	// Get returns Blob for each given ID, or an error.
 	Get(context.Context, *GetRequest) (*GetResponse, error)
 	// GetIDs returns IDs of all Blobs located in DA at given height.
@@ -935,8 +918,8 @@ type DAServiceServer interface {
 type UnimplementedDAServiceServer struct {
 }
 
-func (*UnimplementedDAServiceServer) Init(ctx context.Context, req *InitRequest) (*InitResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Init not implemented")
+func (*UnimplementedDAServiceServer) Config(ctx context.Context, req *ConfigRequest) (*ConfigResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Config not implemented")
 }
 func (*UnimplementedDAServiceServer) Get(ctx context.Context, req *GetRequest) (*GetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
@@ -958,20 +941,20 @@ func RegisterDAServiceServer(s *grpc.Server, srv DAServiceServer) {
 	s.RegisterService(&_DAService_serviceDesc, srv)
 }
 
-func _DAService_Init_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(InitRequest)
+func _DAService_Config_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ConfigRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DAServiceServer).Init(ctx, in)
+		return srv.(DAServiceServer).Config(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/da.DAService/Init",
+		FullMethod: "/da.DAService/Config",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DAServiceServer).Init(ctx, req.(*InitRequest))
+		return srv.(DAServiceServer).Config(ctx, req.(*ConfigRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1071,8 +1054,8 @@ var _DAService_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*DAServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Init",
-			Handler:    _DAService_Init_Handler,
+			MethodName: "Config",
+			Handler:    _DAService_Config_Handler,
 		},
 		{
 			MethodName: "Get",
@@ -1219,7 +1202,7 @@ func (m *Proof) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *InitRequest) Marshal() (dAtA []byte, err error) {
+func (m *ConfigRequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1229,12 +1212,12 @@ func (m *InitRequest) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *InitRequest) MarshalTo(dAtA []byte) (int, error) {
+func (m *ConfigRequest) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *InitRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *ConfigRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1242,7 +1225,7 @@ func (m *InitRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *InitResponse) Marshal() (dAtA []byte, err error) {
+func (m *ConfigResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1252,30 +1235,18 @@ func (m *InitResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *InitResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *ConfigResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *InitResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *ConfigResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
 	if m.MaxBlobSize != 0 {
 		i = encodeVarintDa(dAtA, i, uint64(m.MaxBlobSize))
-		i--
-		dAtA[i] = 0x18
-	}
-	if len(m.Name) > 0 {
-		i -= len(m.Name)
-		copy(dAtA[i:], m.Name)
-		i = encodeVarintDa(dAtA, i, uint64(len(m.Name)))
-		i--
-		dAtA[i] = 0x12
-	}
-	if m.Version != 0 {
-		i = encodeVarintDa(dAtA, i, uint64(m.Version))
 		i--
 		dAtA[i] = 0x8
 	}
@@ -1733,7 +1704,7 @@ func (m *Proof) Size() (n int) {
 	return n
 }
 
-func (m *InitRequest) Size() (n int) {
+func (m *ConfigRequest) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1742,19 +1713,12 @@ func (m *InitRequest) Size() (n int) {
 	return n
 }
 
-func (m *InitResponse) Size() (n int) {
+func (m *ConfigResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
-	if m.Version != 0 {
-		n += 1 + sovDa(uint64(m.Version))
-	}
-	l = len(m.Name)
-	if l > 0 {
-		n += 1 + l + sovDa(uint64(l))
-	}
 	if m.MaxBlobSize != 0 {
 		n += 1 + sovDa(uint64(m.MaxBlobSize))
 	}
@@ -2259,7 +2223,7 @@ func (m *Proof) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *InitRequest) Unmarshal(dAtA []byte) error {
+func (m *ConfigRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2282,10 +2246,10 @@ func (m *InitRequest) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: InitRequest: wiretype end group for non-group")
+			return fmt.Errorf("proto: ConfigRequest: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: InitRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: ConfigRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:
@@ -2309,7 +2273,7 @@ func (m *InitRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *InitResponse) Unmarshal(dAtA []byte) error {
+func (m *ConfigResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2332,64 +2296,13 @@ func (m *InitResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: InitResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: ConfigResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: InitResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: ConfigResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Version", wireType)
-			}
-			m.Version = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowDa
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Version |= int64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Name", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowDa
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthDa
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthDa
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Name = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 3:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field MaxBlobSize", wireType)
 			}

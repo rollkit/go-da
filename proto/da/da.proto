@@ -3,8 +3,8 @@ package da;
 
 // DAService is the protobuf service definition for interaction with Data Availability layers.
 service DAService {
-    // Init initialises the client
-    rpc Init(InitRequest) returns (InitResponse) {}
+    // Config initialises the client
+    rpc Config(ConfigRequest) returns (ConfigResponse) {}
 
 	// Get returns Blob for each given ID, or an error.
 	rpc Get(GetRequest) returns (GetResponse) {}
@@ -42,15 +42,13 @@ message Proof {
 	bytes value = 1;
 }
 
-// InitRequest is the request type for the Init rpc method.
-message InitRequest {
+// ConfigRequest is the request type for the Config rpc method.
+message ConfigRequest {
 }
 
-// InitResponse is the response type for the Init rpc method.
-message InitResponse {
-    int64 version = 1;
-    string name = 2;
-    int64 max_blob_size = 3;
+// ConfigResponse is the response type for the Config rpc method.
+message ConfigResponse {
+    int64 max_blob_size = 1;
 }
 
 // GetRequest is the request type for the Get rpc method.
