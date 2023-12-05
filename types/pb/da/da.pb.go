@@ -822,7 +822,7 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type DAServiceClient interface {
-	// Config initialises the client
+	// Config returns the maximum blob size
 	Config(ctx context.Context, in *ConfigRequest, opts ...grpc.CallOption) (*ConfigResponse, error)
 	// Get returns Blob for each given ID, or an error.
 	Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
@@ -900,7 +900,7 @@ func (c *dAServiceClient) Validate(ctx context.Context, in *ValidateRequest, opt
 
 // DAServiceServer is the server API for DAService service.
 type DAServiceServer interface {
-	// Config initialises the client
+	// Config returns the maximum blob size
 	Config(context.Context, *ConfigRequest) (*ConfigResponse, error)
 	// Get returns Blob for each given ID, or an error.
 	Get(context.Context, *GetRequest) (*GetResponse, error)
