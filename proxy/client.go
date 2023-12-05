@@ -38,13 +38,13 @@ func (c *Client) Stop() error {
 }
 
 // Config returns the DA Config
-func (c *Client) Config() uint64 {
+func (c *Client) Config() (uint64, error) {
 	req := &pbda.ConfigRequest{}
 	resp, err := c.client.Config(context.TODO(), req)
 	if err != nil {
-		return 0
+		return 0, err
 	}
-	return resp.MaxBlobSize
+	return resp.MaxBlobSize, nil
 }
 
 // Get returns Blob for each given ID, or an error.
