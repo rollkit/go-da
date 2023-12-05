@@ -37,6 +37,16 @@ func (c *Client) Stop() error {
 	return c.conn.Close()
 }
 
+// Config returns the DA Config
+func (c *Client) Config() uint64 {
+	req := &pbda.ConfigRequest{}
+	resp, err := c.client.Config(context.TODO(), req)
+	if err != nil {
+		return 0
+	}
+	return resp.MaxBlobSize
+}
+
 // Get returns Blob for each given ID, or an error.
 func (c *Client) Get(ids []da.ID) ([]da.Blob, error) {
 	req := &pbda.GetRequest{

@@ -48,7 +48,7 @@ message ConfigRequest {
 
 // ConfigResponse is the response type for the Config rpc method.
 message ConfigResponse {
-    int64 max_blob_size = 1;
+    uint64 max_blob_size = 1;
 }
 
 // GetRequest is the request type for the Get rpc method.

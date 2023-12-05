@@ -40,6 +40,11 @@ func NewDummyDA() *DummyDA {
 
 var _ da.DA = &DummyDA{}
 
+// Config returns the max blob size in bytes.
+func (d *DummyDA) Config() uint64 {
+	return 1024
+}
+
 // Get returns Blobs for given IDs.
 func (d *DummyDA) Get(ids []da.ID) ([]da.Blob, error) {
 	d.mu.Lock()
