@@ -5,6 +5,7 @@ import (
 
 	"google.golang.org/grpc"
 
+	"github.com/celestiaorg/celestia-app/pkg/appconsts"
 	"github.com/rollkit/go-da"
 	pbda "github.com/rollkit/go-da/types/pb/da"
 )
@@ -25,7 +26,7 @@ type proxySrv struct {
 }
 
 func (p *proxySrv) Config(ctx context.Context, request *pbda.ConfigRequest) (*pbda.ConfigResponse, error) {
-	return &pbda.ConfigResponse{MaxBlobSize: 1024}, nil
+	return &pbda.ConfigResponse{MaxBlobSize: appconsts.DefaultMaxBytes}, nil
 }
 
 func (p *proxySrv) Get(ctx context.Context, request *pbda.GetRequest) (*pbda.GetResponse, error) {
