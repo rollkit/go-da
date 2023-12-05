@@ -42,7 +42,7 @@ var _ da.DA = &DummyDA{}
 
 // Config returns the max blob size in bytes.
 func (d *DummyDA) Config() uint64 {
-	return 1024
+	return 4096
 }
 
 // Get returns Blobs for given IDs.
