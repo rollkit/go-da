@@ -37,10 +37,10 @@ func (c *Client) Stop() error {
 	return c.conn.Close()
 }
 
-// Config returns the DA Config
-func (c *Client) Config() (uint64, error) {
-	req := &pbda.ConfigRequest{}
-	resp, err := c.client.Config(context.TODO(), req)
+// MaxBlobSize returns the DA MaxBlobSize
+func (c *Client) MaxBlobSize() (uint64, error) {
+	req := &pbda.MaxBlobSizeRequest{}
+	resp, err := c.client.MaxBlobSize(context.TODO(), req)
 	if err != nil {
 		return 0, err
 	}

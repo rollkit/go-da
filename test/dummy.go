@@ -17,11 +17,12 @@ import (
 // Data is stored in a map, where key is a serialized sequence number. This key is returned as ID.
 // Commitments are simply hashes, and proofs are ED25519 signatures.
 type DummyDA struct {
-	mu      *sync.Mutex // protects data and height
-	data    map[uint64][]kvp
-	height  uint64
-	privKey ed25519.PrivateKey
-	pubKey  ed25519.PublicKey
+	mu          *sync.Mutex // protects data and height
+	data        map[uint64][]kvp
+	maxBlobSize uint64
+	height      uint64
+	privKey     ed25519.PrivateKey
+	pubKey      ed25519.PublicKey
 }
 
 type kvp struct {
@@ -29,10 +30,11 @@ type kvp struct {
 }
 
 // NewDummyDA create new instance of DummyDA
-func NewDummyDA() *DummyDA {
+func NewDummyDA(maxBlobSize uint64) *DummyDA {
 	da := &DummyDA{
-		mu:   new(sync.Mutex),
-		data: make(map[uint64][]kvp),
+		mu:          new(sync.Mutex),
+		data:        make(map[uint64][]kvp),
+		maxBlobSize: maxBlobSize,
 	}
 	da.pubKey, da.privKey, _ = ed25519.GenerateKey(rand.Reader)
 	return da
@@ -40,9 +42,9 @@ func NewDummyDA() *DummyDA {
 
 var _ da.DA = &DummyDA{}
 
-// Config returns the max blob size in bytes.
-func (d *DummyDA) Config() (uint64, error) {
-	return 64 * 64 * 482, nil
+// MaxBlobSize returns the max blob size in bytes.
+func (d *DummyDA) MaxBlobSize() (uint64, error) {
+	return d.maxBlobSize, nil
 }
 
 // Get returns Blobs for given IDs.

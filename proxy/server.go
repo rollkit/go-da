@@ -9,35 +9,6 @@ import (
 	pbda "github.com/rollkit/go-da/types/pb/da"
 )
 
-// The following consts are copied from appconsts to avoid dependency hell
-const (
-	// NamespaceVersionSize is the size of a namespace version in bytes.
-	NamespaceVersionSize = 1
-
-	// NamespaceIDSize is the size of a namespace ID in bytes.
-	NamespaceIDSize = 28
-
-	// NamespaceSize is the size of a namespace (version + ID) in bytes.
-	NamespaceSize = NamespaceVersionSize + NamespaceIDSize
-
-	// ShareSize is the size of a share in bytes.
-	ShareSize = 512
-
-	// ShareInfoBytes is the number of bytes reserved for information. The info
-	// byte contains the share version and a sequence start idicator.
-	ShareInfoBytes = 1
-
-	// ContinuationSparseShareContentSize is the number of bytes usable for data
-	// in a continuation sparse share of a sequence.
-	ContinuationSparseShareContentSize = ShareSize - NamespaceSize - ShareInfoBytes
-
-	// DefaultGovMaxSquareSize is the default value for the governance modifiable
-	// max square size.
-	DefaultGovMaxSquareSize = 64
-
-	DefaultMaxBytes = DefaultGovMaxSquareSize * DefaultGovMaxSquareSize * ContinuationSparseShareContentSize
-)
-
 // NewServer creates new gRPC Server configured to serve DA proxy.
 func NewServer(d da.DA, opts ...grpc.ServerOption) *grpc.Server {
 	srv := grpc.NewServer(opts...)
@@ -53,8 +24,9 @@ type proxySrv struct {
 	target da.DA
 }
 
-func (p *proxySrv) Config(ctx context.Context, request *pbda.ConfigRequest) (*pbda.ConfigResponse, error) {
-	return &pbda.ConfigResponse{MaxBlobSize: DefaultMaxBytes}, nil
+func (p *proxySrv) MaxBlobSize(ctx context.Context, request *pbda.MaxBlobSizeRequest) (*pbda.MaxBlobSizeResponse, error) {
+	maxBlobSize, err := p.target.MaxBlobSize()
+	return &pbda.MaxBlobSizeResponse{MaxBlobSize: maxBlobSize}, err
 }
 
 func (p *proxySrv) Get(ctx context.Context, request *pbda.GetRequest) (*pbda.GetResponse, error) {

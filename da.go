@@ -2,8 +2,8 @@ package da
 
 // DA defines very generic interface for interaction with Data Availability layers.
 type DA interface {
-	// Config returns the max blob size
-	Config() (uint64, error)
+	// MaxBlobSize returns the max blob size
+	MaxBlobSize() (uint64, error)
 
 	// Get returns Blob for each given ID, or an error.
 	//

@@ -206,22 +206,22 @@ func (m *Proof) GetValue() []byte {
 	return nil
 }
 
-// ConfigRequest is the request type for the Config rpc method.
-type ConfigRequest struct {
+// MaxBlobSizeRequest is the request type for the MaxBlobSize rpc method.
+type MaxBlobSizeRequest struct {
 }
 
-func (m *ConfigRequest) Reset()         { *m = ConfigRequest{} }
-func (m *ConfigRequest) String() string { return proto.CompactTextString(m) }
-func (*ConfigRequest) ProtoMessage()    {}
-func (*ConfigRequest) Descriptor() ([]byte, []int) {
+func (m *MaxBlobSizeRequest) Reset()         { *m = MaxBlobSizeRequest{} }
+func (m *MaxBlobSizeRequest) String() string { return proto.CompactTextString(m) }
+func (*MaxBlobSizeRequest) ProtoMessage()    {}
+func (*MaxBlobSizeRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_feb508392bc12c0f, []int{4}
 }
-func (m *ConfigRequest) XXX_Unmarshal(b []byte) error {
+func (m *MaxBlobSizeRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *ConfigRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MaxBlobSizeRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_ConfigRequest.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MaxBlobSizeRequest.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -231,35 +231,35 @@ func (m *ConfigRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error
 		return b[:n], nil
 	}
 }
-func (m *ConfigRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ConfigRequest.Merge(m, src)
+func (m *MaxBlobSizeRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MaxBlobSizeRequest.Merge(m, src)
 }
-func (m *ConfigRequest) XXX_Size() int {
+func (m *MaxBlobSizeRequest) XXX_Size() int {
 	return m.Size()
 }
-func (m *ConfigRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_ConfigRequest.DiscardUnknown(m)
+func (m *MaxBlobSizeRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_MaxBlobSizeRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_ConfigRequest proto.InternalMessageInfo
+var xxx_messageInfo_MaxBlobSizeRequest proto.InternalMessageInfo
 
-// ConfigResponse is the response type for the Config rpc method.
-type ConfigResponse struct {
+// MaxBlobSizeResponse is the response type for the MaxBlobSize rpc method.
+type MaxBlobSizeResponse struct {
 	MaxBlobSize uint64 `protobuf:"varint,1,opt,name=max_blob_size,json=maxBlobSize,proto3" json:"max_blob_size,omitempty"`
 }
 
-func (m *ConfigResponse) Reset()         { *m = ConfigResponse{} }
-func (m *ConfigResponse) String() string { return proto.CompactTextString(m) }
-func (*ConfigResponse) ProtoMessage()    {}
-func (*ConfigResponse) Descriptor() ([]byte, []int) {
+func (m *MaxBlobSizeResponse) Reset()         { *m = MaxBlobSizeResponse{} }
+func (m *MaxBlobSizeResponse) String() string { return proto.CompactTextString(m) }
+func (*MaxBlobSizeResponse) ProtoMessage()    {}
+func (*MaxBlobSizeResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_feb508392bc12c0f, []int{5}
 }
-func (m *ConfigResponse) XXX_Unmarshal(b []byte) error {
+func (m *MaxBlobSizeResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *ConfigResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MaxBlobSizeResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_ConfigResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MaxBlobSizeResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -269,19 +269,19 @@ func (m *ConfigResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, erro
 		return b[:n], nil
 	}
 }
-func (m *ConfigResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ConfigResponse.Merge(m, src)
+func (m *MaxBlobSizeResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MaxBlobSizeResponse.Merge(m, src)
 }
-func (m *ConfigResponse) XXX_Size() int {
+func (m *MaxBlobSizeResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *ConfigResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_ConfigResponse.DiscardUnknown(m)
+func (m *MaxBlobSizeResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MaxBlobSizeResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_ConfigResponse proto.InternalMessageInfo
+var xxx_messageInfo_MaxBlobSizeResponse proto.InternalMessageInfo
 
-func (m *ConfigResponse) GetMaxBlobSize() uint64 {
+func (m *MaxBlobSizeResponse) GetMaxBlobSize() uint64 {
 	if m != nil {
 		return m.MaxBlobSize
 	}
@@ -759,8 +759,8 @@ func init() {
 	proto.RegisterType((*ID)(nil), "da.ID")
 	proto.RegisterType((*Commitment)(nil), "da.Commitment")
 	proto.RegisterType((*Proof)(nil), "da.Proof")
-	proto.RegisterType((*ConfigRequest)(nil), "da.ConfigRequest")
-	proto.RegisterType((*ConfigResponse)(nil), "da.ConfigResponse")
+	proto.RegisterType((*MaxBlobSizeRequest)(nil), "da.MaxBlobSizeRequest")
+	proto.RegisterType((*MaxBlobSizeResponse)(nil), "da.MaxBlobSizeResponse")
 	proto.RegisterType((*GetRequest)(nil), "da.GetRequest")
 	proto.RegisterType((*GetResponse)(nil), "da.GetResponse")
 	proto.RegisterType((*GetIDsRequest)(nil), "da.GetIDsRequest")
@@ -776,38 +776,38 @@ func init() {
 func init() { proto.RegisterFile("da/da.proto", fileDescriptor_feb508392bc12c0f) }
 
 var fileDescriptor_feb508392bc12c0f = []byte{
-	// 485 bytes of a gzipped FileDescriptorProto
+	// 482 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x54, 0xc1, 0x6e, 0xd3, 0x40,
-	0x10, 0xb5, 0x93, 0xc6, 0xa4, 0x63, 0x92, 0xc0, 0x52, 0x21, 0x2b, 0x02, 0xab, 0xec, 0x01, 0x22,
-	0x04, 0x29, 0x2d, 0x48, 0x9c, 0x49, 0x23, 0x45, 0x39, 0x80, 0x90, 0x23, 0x71, 0xad, 0xd6, 0xf5,
-	0xb6, 0xb5, 0x64, 0x67, 0x43, 0x76, 0x53, 0x55, 0xfd, 0x0a, 0xbe, 0x87, 0x2f, 0xe0, 0xd8, 0x23,
-	0x47, 0x94, 0xfc, 0x08, 0x5a, 0xcf, 0x6e, 0x62, 0x23, 0x45, 0xa1, 0xc7, 0x99, 0x79, 0xef, 0x79,
-	0x76, 0xde, 0x93, 0xc1, 0x4f, 0xd8, 0x51, 0xc2, 0xfa, 0xb3, 0xb9, 0x50, 0x82, 0xd4, 0x12, 0x46,
-	0x9f, 0xc1, 0xde, 0x20, 0x13, 0x31, 0x39, 0x80, 0xc6, 0x35, 0xcb, 0x16, 0x3c, 0x70, 0x0f, 0xdd,
-	0xde, 0xc3, 0x08, 0x0b, 0xda, 0x85, 0xda, 0x78, 0xb8, 0x65, 0x46, 0x01, 0x4e, 0x45, 0x9e, 0xa7,
-	0x2a, 0xe7, 0x53, 0xb5, 0x05, 0xf3, 0x1c, 0x1a, 0x5f, 0xe7, 0x42, 0x5c, 0x6c, 0x19, 0x77, 0xa0,
-	0x75, 0x2a, 0xa6, 0x17, 0xe9, 0x65, 0xc4, 0xbf, 0x2f, 0xb8, 0x54, 0xf4, 0x03, 0xb4, 0x6d, 0x43,
-	0xce, 0xc4, 0x54, 0x72, 0x42, 0xa1, 0x95, 0xb3, 0x9b, 0xb3, 0x38, 0x13, 0xf1, 0x99, 0x4c, 0x6f,
-	0x51, 0x60, 0x2f, 0xf2, 0x73, 0x76, 0xa3, 0xf7, 0x9e, 0xa4, 0xb7, 0x9c, 0xbe, 0x04, 0x18, 0x71,
-	0x65, 0x34, 0x48, 0x00, 0xf5, 0x34, 0x91, 0x81, 0x7b, 0x58, 0xef, 0xf9, 0x27, 0x5e, 0x3f, 0x61,
-	0xfd, 0xf1, 0x30, 0xd2, 0x2d, 0xfa, 0x16, 0xfc, 0x02, 0x67, 0xa4, 0x43, 0x68, 0x68, 0x59, 0x0b,
-	0x6d, 0x6a, 0xa8, 0xd6, 0x8c, 0xb0, 0x4d, 0x5f, 0x41, 0x6b, 0xc4, 0xd5, 0x78, 0x28, 0xad, 0xf2,
-	0x53, 0xf0, 0xae, 0x78, 0x7a, 0x79, 0xa5, 0xcc, 0x12, 0xa6, 0xa2, 0xaf, 0xa1, 0x6d, 0x81, 0x46,
-	0x7a, 0xfb, 0x0e, 0x47, 0xfa, 0xc9, 0xfa, 0x6a, 0x56, 0x74, 0xd7, 0x16, 0x03, 0x7d, 0x12, 0x24,
-	0x18, 0xf1, 0x77, 0xe0, 0x9f, 0xaf, 0x0f, 0x6f, 0x79, 0x6d, 0xcd, 0xdb, 0xf8, 0x11, 0x95, 0x21,
-	0xfa, 0xa3, 0x93, 0x45, 0x7c, 0x8f, 0x8f, 0x7e, 0x86, 0xb6, 0x25, 0xec, 0x7a, 0x11, 0x79, 0x01,
-	0xde, 0x4c, 0x7b, 0x2c, 0x83, 0x5a, 0x31, 0xdc, 0xd7, 0xc3, 0xc2, 0xf5, 0xc8, 0x0c, 0xe8, 0x17,
-	0xe8, 0x7c, 0x63, 0x59, 0x9a, 0x30, 0xc5, 0x77, 0xba, 0xf4, 0x3f, 0x7a, 0x6f, 0xe0, 0xd1, 0x46,
-	0x6f, 0xbd, 0xe0, 0x83, 0x39, 0x97, 0x8b, 0xcc, 0x5c, 0xa4, 0x19, 0xd9, 0xf2, 0xe4, 0x67, 0x0d,
-	0xf6, 0x87, 0x9f, 0x26, 0x7c, 0x7e, 0x9d, 0x9e, 0x73, 0x72, 0x0c, 0x1e, 0x46, 0x8c, 0x3c, 0xc6,
-	0x93, 0x95, 0xf2, 0xd7, 0x25, 0xe5, 0x16, 0x0a, 0x53, 0x87, 0xf4, 0xa0, 0x3e, 0xe2, 0x8a, 0x14,
-	0x27, 0xde, 0x04, 0xad, 0xdb, 0x59, 0xd7, 0x6b, 0xe4, 0x31, 0x78, 0x98, 0x04, 0x14, 0xaf, 0xc4,
-	0x07, 0xc5, 0xab, 0x41, 0x41, 0x0a, 0xda, 0x66, 0xf7, 0x29, 0x85, 0xc3, 0xee, 0x53, 0xb6, 0x1f,
-	0x29, 0xe8, 0x0e, 0x52, 0x2a, 0xd6, 0x22, 0xa5, 0x6a, 0x1e, 0x75, 0xc8, 0x47, 0x68, 0xda, 0x8b,
-	0x91, 0x27, 0x1a, 0xf1, 0x8f, 0x1f, 0xdd, 0x83, 0x6a, 0xd3, 0x12, 0x07, 0xc1, 0xaf, 0x65, 0xe8,
-	0xde, 0x2d, 0x43, 0xf7, 0xcf, 0x32, 0x74, 0x7f, 0xac, 0x42, 0xe7, 0x6e, 0x15, 0x3a, 0xbf, 0x57,
-	0xa1, 0x13, 0x7b, 0xc5, 0x4f, 0xe4, 0xfd, 0xdf, 0x00, 0x00, 0x00, 0xff, 0xff, 0x04, 0x2c, 0x8c,
-	0x2f, 0x53, 0x04, 0x00, 0x00,
+	0x10, 0xb5, 0x93, 0xc6, 0xa4, 0x63, 0x92, 0xc2, 0x36, 0x2a, 0x96, 0x05, 0x56, 0xd9, 0x03, 0x44,
+	0x08, 0x52, 0x28, 0x07, 0xc4, 0x0d, 0x42, 0xa4, 0x28, 0x87, 0x22, 0xb4, 0x91, 0xb8, 0x56, 0xeb,
+	0x7a, 0xa1, 0x96, 0xec, 0x6e, 0xc8, 0x6e, 0xaa, 0xaa, 0x5f, 0xc1, 0x67, 0xc1, 0xad, 0x47, 0x8e,
+	0x28, 0xf9, 0x11, 0xb4, 0xde, 0xdd, 0x38, 0xa6, 0xb2, 0x02, 0xc7, 0x9d, 0x79, 0xef, 0xcd, 0x78,
+	0xde, 0x93, 0xc1, 0x4f, 0xe8, 0x51, 0x42, 0x07, 0xb3, 0x39, 0x97, 0x1c, 0x35, 0x12, 0x8a, 0x1f,
+	0xc2, 0xce, 0x30, 0xe3, 0x31, 0xea, 0x41, 0xeb, 0x92, 0x66, 0x0b, 0x16, 0xb8, 0x87, 0x6e, 0xff,
+	0x2e, 0xd1, 0x0f, 0x1c, 0x42, 0x63, 0x32, 0xaa, 0xe9, 0x61, 0x80, 0x0f, 0x3c, 0xcf, 0x53, 0x99,
+	0xb3, 0x0b, 0x59, 0x83, 0x79, 0x04, 0xad, 0x4f, 0x73, 0xce, 0xbf, 0xd4, 0xb4, 0x7b, 0x80, 0x4e,
+	0xe8, 0x95, 0x9a, 0x3f, 0x4d, 0xaf, 0x19, 0x61, 0xdf, 0x16, 0x4c, 0x48, 0xfc, 0x16, 0xf6, 0x2b,
+	0x55, 0x31, 0xe3, 0x17, 0x82, 0x21, 0x0c, 0x9d, 0x9c, 0x5e, 0x9d, 0xc6, 0x19, 0x8f, 0x4f, 0x45,
+	0x7a, 0xad, 0xa5, 0x76, 0x88, 0x9f, 0x97, 0x58, 0xfc, 0x04, 0x60, 0xcc, 0xa4, 0x11, 0x42, 0x01,
+	0x34, 0xd3, 0x44, 0x04, 0xee, 0x61, 0xb3, 0xef, 0x1f, 0x7b, 0x83, 0x84, 0x0e, 0x26, 0x23, 0xa2,
+	0x4a, 0xf8, 0x05, 0xf8, 0x05, 0xce, 0x48, 0x47, 0xd0, 0x52, 0xb2, 0x16, 0xda, 0x56, 0x50, 0xa5,
+	0x49, 0x74, 0x19, 0x3f, 0x85, 0xce, 0x98, 0xc9, 0xc9, 0x48, 0x58, 0xe5, 0x03, 0xf0, 0xce, 0x59,
+	0xfa, 0xf5, 0x5c, 0x9a, 0x25, 0xcc, 0x0b, 0x3f, 0x83, 0xae, 0x05, 0x1a, 0xe9, 0xfa, 0x1d, 0x8e,
+	0xa0, 0xa3, 0xef, 0x67, 0x45, 0xb7, 0x6d, 0x31, 0x84, 0xae, 0x25, 0x18, 0xf1, 0x97, 0xe0, 0x9f,
+	0xad, 0x2d, 0xb0, 0xbc, 0xae, 0xe2, 0x95, 0xce, 0x90, 0x4d, 0x88, 0x1a, 0x3a, 0x5d, 0xc4, 0xff,
+	0x31, 0xf4, 0x04, 0xba, 0x96, 0xb0, 0xed, 0x8b, 0xd0, 0x63, 0xf0, 0x66, 0xca, 0x6d, 0x11, 0x34,
+	0x8a, 0xe6, 0xae, 0x6a, 0x16, 0xfe, 0x13, 0xd3, 0xc0, 0x1f, 0x61, 0xef, 0x33, 0xcd, 0xd2, 0x84,
+	0x4a, 0xb6, 0xd5, 0xa5, 0x7f, 0xd1, 0x7b, 0x0e, 0xf7, 0x4a, 0xbd, 0xf5, 0x82, 0x77, 0xe6, 0x4c,
+	0x2c, 0x32, 0x73, 0x91, 0x36, 0xb1, 0xcf, 0xe3, 0x9f, 0x0d, 0xd8, 0x1d, 0xbd, 0x9f, 0xb2, 0xf9,
+	0x65, 0x7a, 0xc6, 0xd0, 0x3b, 0xf0, 0x37, 0x72, 0x86, 0x0e, 0x94, 0xfa, 0xed, 0x38, 0x86, 0x0f,
+	0x6e, 0xd5, 0xf5, 0x1c, 0xec, 0xa0, 0x3e, 0x34, 0xc7, 0x4c, 0xa2, 0xe2, 0xe2, 0x65, 0xee, 0xc2,
+	0xbd, 0xf5, 0x7b, 0x8d, 0x7c, 0x05, 0x9e, 0x0e, 0x06, 0xba, 0x6f, 0x9a, 0x65, 0x9a, 0x42, 0xb4,
+	0x59, 0xda, 0xa4, 0x68, 0x17, 0x35, 0xa5, 0x92, 0x15, 0x4d, 0xa9, 0xa6, 0x41, 0x53, 0xb4, 0x59,
+	0x9a, 0x52, 0x71, 0x5a, 0x53, 0xaa, 0x5e, 0x62, 0x07, 0xbd, 0x81, 0xb6, 0x3d, 0x20, 0xda, 0x57,
+	0x88, 0xbf, 0xec, 0x09, 0x7b, 0xd5, 0xa2, 0x25, 0x0e, 0x83, 0x1f, 0xcb, 0xc8, 0xbd, 0x59, 0x46,
+	0xee, 0xef, 0x65, 0xe4, 0x7e, 0x5f, 0x45, 0xce, 0xcd, 0x2a, 0x72, 0x7e, 0xad, 0x22, 0x27, 0xf6,
+	0x8a, 0xbf, 0xcb, 0xeb, 0x3f, 0x01, 0x00, 0x00, 0xff, 0xff, 0x34, 0x5e, 0x28, 0xfc, 0x6c, 0x04,
+	0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -822,8 +822,8 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type DAServiceClient interface {
-	// Config returns the maximum blob size
-	Config(ctx context.Context, in *ConfigRequest, opts ...grpc.CallOption) (*ConfigResponse, error)
+	// MaxBlobSize returns the maximum blob size
+	MaxBlobSize(ctx context.Context, in *MaxBlobSizeRequest, opts ...grpc.CallOption) (*MaxBlobSizeResponse, error)
 	// Get returns Blob for each given ID, or an error.
 	Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
 	// GetIDs returns IDs of all Blobs located in DA at given height.
@@ -844,9 +844,9 @@ func NewDAServiceClient(cc *grpc.ClientConn) DAServiceClient {
 	return &dAServiceClient{cc}
 }
 
-func (c *dAServiceClient) Config(ctx context.Context, in *ConfigRequest, opts ...grpc.CallOption) (*ConfigResponse, error) {
-	out := new(ConfigResponse)
-	err := c.cc.Invoke(ctx, "/da.DAService/Config", in, out, opts...)
+func (c *dAServiceClient) MaxBlobSize(ctx context.Context, in *MaxBlobSizeRequest, opts ...grpc.CallOption) (*MaxBlobSizeResponse, error) {
+	out := new(MaxBlobSizeResponse)
+	err := c.cc.Invoke(ctx, "/da.DAService/MaxBlobSize", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -900,8 +900,8 @@ func (c *dAServiceClient) Validate(ctx context.Context, in *ValidateRequest, opt
 
 // DAServiceServer is the server API for DAService service.
 type DAServiceServer interface {
-	// Config returns the maximum blob size
-	Config(context.Context, *ConfigRequest) (*ConfigResponse, error)
+	// MaxBlobSize returns the maximum blob size
+	MaxBlobSize(context.Context, *MaxBlobSizeRequest) (*MaxBlobSizeResponse, error)
 	// Get returns Blob for each given ID, or an error.
 	Get(context.Context, *GetRequest) (*GetResponse, error)
 	// GetIDs returns IDs of all Blobs located in DA at given height.
@@ -918,8 +918,8 @@ type DAServiceServer interface {
 type UnimplementedDAServiceServer struct {
 }
 
-func (*UnimplementedDAServiceServer) Config(ctx context.Context, req *ConfigRequest) (*ConfigResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Config not implemented")
+func (*UnimplementedDAServiceServer) MaxBlobSize(ctx context.Context, req *MaxBlobSizeRequest) (*MaxBlobSizeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MaxBlobSize not implemented")
 }
 func (*UnimplementedDAServiceServer) Get(ctx context.Context, req *GetRequest) (*GetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
@@ -941,20 +941,20 @@ func RegisterDAServiceServer(s *grpc.Server, srv DAServiceServer) {
 	s.RegisterService(&_DAService_serviceDesc, srv)
 }
 
-func _DAService_Config_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ConfigRequest)
+func _DAService_MaxBlobSize_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MaxBlobSizeRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DAServiceServer).Config(ctx, in)
+		return srv.(DAServiceServer).MaxBlobSize(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/da.DAService/Config",
+		FullMethod: "/da.DAService/MaxBlobSize",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DAServiceServer).Config(ctx, req.(*ConfigRequest))
+		return srv.(DAServiceServer).MaxBlobSize(ctx, req.(*MaxBlobSizeRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1054,8 +1054,8 @@ var _DAService_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*DAServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Config",
-			Handler:    _DAService_Config_Handler,
+			MethodName: "MaxBlobSize",
+			Handler:    _DAService_MaxBlobSize_Handler,
 		},
 		{
 			MethodName: "Get",
@@ -1202,7 +1202,7 @@ func (m *Proof) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *ConfigRequest) Marshal() (dAtA []byte, err error) {
+func (m *MaxBlobSizeRequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1212,12 +1212,12 @@ func (m *ConfigRequest) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *ConfigRequest) MarshalTo(dAtA []byte) (int, error) {
+func (m *MaxBlobSizeRequest) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *ConfigRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MaxBlobSizeRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1225,7 +1225,7 @@ func (m *ConfigRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *ConfigResponse) Marshal() (dAtA []byte, err error) {
+func (m *MaxBlobSizeResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1235,12 +1235,12 @@ func (m *ConfigResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *ConfigResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *MaxBlobSizeResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *ConfigResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MaxBlobSizeResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1704,7 +1704,7 @@ func (m *Proof) Size() (n int) {
 	return n
 }
 
-func (m *ConfigRequest) Size() (n int) {
+func (m *MaxBlobSizeRequest) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1713,7 +1713,7 @@ func (m *ConfigRequest) Size() (n int) {
 	return n
 }
 
-func (m *ConfigResponse) Size() (n int) {
+func (m *MaxBlobSizeResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -2223,7 +2223,7 @@ func (m *Proof) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *ConfigRequest) Unmarshal(dAtA []byte) error {
+func (m *MaxBlobSizeRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2246,10 +2246,10 @@ func (m *ConfigRequest) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: ConfigRequest: wiretype end group for non-group")
+			return fmt.Errorf("proto: MaxBlobSizeRequest: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: ConfigRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MaxBlobSizeRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:
@@ -2273,7 +2273,7 @@ func (m *ConfigRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *ConfigResponse) Unmarshal(dAtA []byte) error {
+func (m *MaxBlobSizeResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2296,10 +2296,10 @@ func (m *ConfigResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: ConfigResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: MaxBlobSizeResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: ConfigResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MaxBlobSizeResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
