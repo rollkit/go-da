@@ -12,6 +12,35 @@ import (
 	"github.com/rollkit/go-da"
 )
 
+// The following consts are copied from appconsts to avoid dependency hell
+const (
+	// NamespaceVersionSize is the size of a namespace version in bytes.
+	NamespaceVersionSize = 1
+
+	// NamespaceIDSize is the size of a namespace ID in bytes.
+	NamespaceIDSize = 28
+
+	// NamespaceSize is the size of a namespace (version + ID) in bytes.
+	NamespaceSize = NamespaceVersionSize + NamespaceIDSize
+
+	// ShareSize is the size of a share in bytes.
+	ShareSize = 512
+
+	// ShareInfoBytes is the number of bytes reserved for information. The info
+	// byte contains the share version and a sequence start idicator.
+	ShareInfoBytes = 1
+
+	// ContinuationSparseShareContentSize is the number of bytes usable for data
+	// in a continuation sparse share of a sequence.
+	ContinuationSparseShareContentSize = ShareSize - NamespaceSize - ShareInfoBytes
+
+	// DefaultGovMaxSquareSize is the default value for the governance modifiable
+	// max square size.
+	DefaultGovMaxSquareSize = 64
+
+	DefaultMaxBytes = DefaultGovMaxSquareSize * DefaultGovMaxSquareSize * ContinuationSparseShareContentSize
+)
+
 // DummyDA is a simple implementation of in-memory DA. Not production ready! Intended only for testing!
 //
 // Data is stored in a map, where key is a serialized sequence number. This key is returned as ID.
@@ -30,11 +59,14 @@ type kvp struct {
 }
 
 // NewDummyDA create new instance of DummyDA
-func NewDummyDA(maxBlobSize uint64) *DummyDA {
+func NewDummyDA(opts ...func(*DummyDA) *DummyDA) *DummyDA {
 	da := &DummyDA{
 		mu:          new(sync.Mutex),
 		data:        make(map[uint64][]kvp),
-		maxBlobSize: maxBlobSize,
+		maxBlobSize: DefaultMaxBytes,
+	}
+	for _, f := range opts {
+		da = f(da)
 	}
 	da.pubKey, da.privKey, _ = ed25519.GenerateKey(rand.Reader)
 	return da
