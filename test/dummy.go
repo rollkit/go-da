@@ -12,34 +12,7 @@ import (
 	"github.com/rollkit/go-da"
 )
 
-// The following consts are copied from appconsts to avoid dependency hell
-const (
-	// NamespaceVersionSize is the size of a namespace version in bytes.
-	NamespaceVersionSize = 1
-
-	// NamespaceIDSize is the size of a namespace ID in bytes.
-	NamespaceIDSize = 28
-
-	// NamespaceSize is the size of a namespace (version + ID) in bytes.
-	NamespaceSize = NamespaceVersionSize + NamespaceIDSize
-
-	// ShareSize is the size of a share in bytes.
-	ShareSize = 512
-
-	// ShareInfoBytes is the number of bytes reserved for information. The info
-	// byte contains the share version and a sequence start idicator.
-	ShareInfoBytes = 1
-
-	// ContinuationSparseShareContentSize is the number of bytes usable for data
-	// in a continuation sparse share of a sequence.
-	ContinuationSparseShareContentSize = ShareSize - NamespaceSize - ShareInfoBytes
-
-	// DefaultGovMaxSquareSize is the default value for the governance modifiable
-	// max square size.
-	DefaultGovMaxSquareSize = 64
-
-	DefaultMaxBytes = DefaultGovMaxSquareSize * DefaultGovMaxSquareSize * ContinuationSparseShareContentSize
-)
+const DefaultMaxBlobSize = 64 * 64 * 482
 
 // DummyDA is a simple implementation of in-memory DA. Not production ready! Intended only for testing!
 //
@@ -63,7 +36,7 @@ func NewDummyDA(opts ...func(*DummyDA) *DummyDA) *DummyDA {
 	da := &DummyDA{
 		mu:          new(sync.Mutex),
 		data:        make(map[uint64][]kvp),
-		maxBlobSize: DefaultMaxBytes,
+		maxBlobSize: DefaultMaxBlobSize,
 	}
 	for _, f := range opts {
 		da = f(da)
