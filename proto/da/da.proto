@@ -3,6 +3,9 @@ package da;
 
 // DAService is the protobuf service definition for interaction with Data Availability layers.
 service DAService {
+    // MaxBlobSize returns the maximum blob size
+    rpc MaxBlobSize(MaxBlobSizeRequest) returns (MaxBlobSizeResponse) {}
+
 	// Get returns Blob for each given ID, or an error.
 	rpc Get(GetRequest) returns (GetResponse) {}
 
@@ -37,6 +40,15 @@ message Commitment {
 // Proof should contain serialized proof of inclusion (publication) of Blob in Data Availability layer.
 message Proof {
 	bytes value = 1;
+}
+
+// MaxBlobSizeRequest is the request type for the MaxBlobSize rpc method.
+message MaxBlobSizeRequest {
+}
+
+// MaxBlobSizeResponse is the response type for the MaxBlobSize rpc method.
+message MaxBlobSizeResponse {
+    uint64 max_blob_size = 1;
 }
 
 // GetRequest is the request type for the Get rpc method.

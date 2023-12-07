@@ -206,6 +206,88 @@ func (m *Proof) GetValue() []byte {
 	return nil
 }
 
+// MaxBlobSizeRequest is the request type for the MaxBlobSize rpc method.
+type MaxBlobSizeRequest struct {
+}
+
+func (m *MaxBlobSizeRequest) Reset()         { *m = MaxBlobSizeRequest{} }
+func (m *MaxBlobSizeRequest) String() string { return proto.CompactTextString(m) }
+func (*MaxBlobSizeRequest) ProtoMessage()    {}
+func (*MaxBlobSizeRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_feb508392bc12c0f, []int{4}
+}
+func (m *MaxBlobSizeRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MaxBlobSizeRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MaxBlobSizeRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MaxBlobSizeRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MaxBlobSizeRequest.Merge(m, src)
+}
+func (m *MaxBlobSizeRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *MaxBlobSizeRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_MaxBlobSizeRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MaxBlobSizeRequest proto.InternalMessageInfo
+
+// MaxBlobSizeResponse is the response type for the MaxBlobSize rpc method.
+type MaxBlobSizeResponse struct {
+	MaxBlobSize uint64 `protobuf:"varint,1,opt,name=max_blob_size,json=maxBlobSize,proto3" json:"max_blob_size,omitempty"`
+}
+
+func (m *MaxBlobSizeResponse) Reset()         { *m = MaxBlobSizeResponse{} }
+func (m *MaxBlobSizeResponse) String() string { return proto.CompactTextString(m) }
+func (*MaxBlobSizeResponse) ProtoMessage()    {}
+func (*MaxBlobSizeResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_feb508392bc12c0f, []int{5}
+}
+func (m *MaxBlobSizeResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MaxBlobSizeResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MaxBlobSizeResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MaxBlobSizeResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MaxBlobSizeResponse.Merge(m, src)
+}
+func (m *MaxBlobSizeResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MaxBlobSizeResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MaxBlobSizeResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MaxBlobSizeResponse proto.InternalMessageInfo
+
+func (m *MaxBlobSizeResponse) GetMaxBlobSize() uint64 {
+	if m != nil {
+		return m.MaxBlobSize
+	}
+	return 0
+}
+
 // GetRequest is the request type for the Get rpc method.
 type GetRequest struct {
 	Ids []*ID `protobuf:"bytes,1,rep,name=ids,proto3" json:"ids,omitempty"`
@@ -215,7 +297,7 @@ func (m *GetRequest) Reset()         { *m = GetRequest{} }
 func (m *GetRequest) String() string { return proto.CompactTextString(m) }
 func (*GetRequest) ProtoMessage()    {}
 func (*GetRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_feb508392bc12c0f, []int{4}
+	return fileDescriptor_feb508392bc12c0f, []int{6}
 }
 func (m *GetRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -260,7 +342,7 @@ func (m *GetResponse) Reset()         { *m = GetResponse{} }
 func (m *GetResponse) String() string { return proto.CompactTextString(m) }
 func (*GetResponse) ProtoMessage()    {}
 func (*GetResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_feb508392bc12c0f, []int{5}
+	return fileDescriptor_feb508392bc12c0f, []int{7}
 }
 func (m *GetResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -305,7 +387,7 @@ func (m *GetIDsRequest) Reset()         { *m = GetIDsRequest{} }
 func (m *GetIDsRequest) String() string { return proto.CompactTextString(m) }
 func (*GetIDsRequest) ProtoMessage()    {}
 func (*GetIDsRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_feb508392bc12c0f, []int{6}
+	return fileDescriptor_feb508392bc12c0f, []int{8}
 }
 func (m *GetIDsRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -350,7 +432,7 @@ func (m *GetIDsResponse) Reset()         { *m = GetIDsResponse{} }
 func (m *GetIDsResponse) String() string { return proto.CompactTextString(m) }
 func (*GetIDsResponse) ProtoMessage()    {}
 func (*GetIDsResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_feb508392bc12c0f, []int{7}
+	return fileDescriptor_feb508392bc12c0f, []int{9}
 }
 func (m *GetIDsResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -395,7 +477,7 @@ func (m *CommitRequest) Reset()         { *m = CommitRequest{} }
 func (m *CommitRequest) String() string { return proto.CompactTextString(m) }
 func (*CommitRequest) ProtoMessage()    {}
 func (*CommitRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_feb508392bc12c0f, []int{8}
+	return fileDescriptor_feb508392bc12c0f, []int{10}
 }
 func (m *CommitRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -440,7 +522,7 @@ func (m *CommitResponse) Reset()         { *m = CommitResponse{} }
 func (m *CommitResponse) String() string { return proto.CompactTextString(m) }
 func (*CommitResponse) ProtoMessage()    {}
 func (*CommitResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_feb508392bc12c0f, []int{9}
+	return fileDescriptor_feb508392bc12c0f, []int{11}
 }
 func (m *CommitResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -485,7 +567,7 @@ func (m *SubmitRequest) Reset()         { *m = SubmitRequest{} }
 func (m *SubmitRequest) String() string { return proto.CompactTextString(m) }
 func (*SubmitRequest) ProtoMessage()    {}
 func (*SubmitRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_feb508392bc12c0f, []int{10}
+	return fileDescriptor_feb508392bc12c0f, []int{12}
 }
 func (m *SubmitRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -531,7 +613,7 @@ func (m *SubmitResponse) Reset()         { *m = SubmitResponse{} }
 func (m *SubmitResponse) String() string { return proto.CompactTextString(m) }
 func (*SubmitResponse) ProtoMessage()    {}
 func (*SubmitResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_feb508392bc12c0f, []int{11}
+	return fileDescriptor_feb508392bc12c0f, []int{13}
 }
 func (m *SubmitResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -584,7 +666,7 @@ func (m *ValidateRequest) Reset()         { *m = ValidateRequest{} }
 func (m *ValidateRequest) String() string { return proto.CompactTextString(m) }
 func (*ValidateRequest) ProtoMessage()    {}
 func (*ValidateRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_feb508392bc12c0f, []int{12}
+	return fileDescriptor_feb508392bc12c0f, []int{14}
 }
 func (m *ValidateRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -636,7 +718,7 @@ func (m *ValidateResponse) Reset()         { *m = ValidateResponse{} }
 func (m *ValidateResponse) String() string { return proto.CompactTextString(m) }
 func (*ValidateResponse) ProtoMessage()    {}
 func (*ValidateResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_feb508392bc12c0f, []int{13}
+	return fileDescriptor_feb508392bc12c0f, []int{15}
 }
 func (m *ValidateResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -677,6 +759,8 @@ func init() {
 	proto.RegisterType((*ID)(nil), "da.ID")
 	proto.RegisterType((*Commitment)(nil), "da.Commitment")
 	proto.RegisterType((*Proof)(nil), "da.Proof")
+	proto.RegisterType((*MaxBlobSizeRequest)(nil), "da.MaxBlobSizeRequest")
+	proto.RegisterType((*MaxBlobSizeResponse)(nil), "da.MaxBlobSizeResponse")
 	proto.RegisterType((*GetRequest)(nil), "da.GetRequest")
 	proto.RegisterType((*GetResponse)(nil), "da.GetResponse")
 	proto.RegisterType((*GetIDsRequest)(nil), "da.GetIDsRequest")
@@ -692,34 +776,38 @@ func init() {
 func init() { proto.RegisterFile("da/da.proto", fileDescriptor_feb508392bc12c0f) }
 
 var fileDescriptor_feb508392bc12c0f = []byte{
-	// 423 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x53, 0xc1, 0x0e, 0xd2, 0x40,
-	0x10, 0x6d, 0x0b, 0x54, 0x98, 0x4a, 0xd1, 0x95, 0x98, 0xa6, 0xd1, 0x06, 0xf7, 0xa0, 0xc4, 0x28,
-	0x28, 0x1e, 0x3c, 0x8b, 0x4d, 0x08, 0x07, 0x8d, 0x59, 0x12, 0xef, 0x2d, 0x5d, 0xa5, 0x49, 0x61,
-	0xb1, 0xdd, 0xf2, 0x0b, 0x5e, 0xfd, 0x2c, 0x8f, 0x1c, 0x3d, 0x1a, 0xf8, 0x11, 0xb3, 0xdd, 0x2e,
-	0xa5, 0x26, 0x0d, 0x7a, 0x9c, 0x99, 0xf7, 0xde, 0xce, 0xbc, 0xd7, 0x82, 0x15, 0x05, 0xd3, 0x28,
-	0x98, 0xec, 0x53, 0xc6, 0x19, 0x32, 0xa2, 0x00, 0x3f, 0x82, 0xf6, 0x3c, 0x61, 0x21, 0x1a, 0x42,
-	0xe7, 0x10, 0x24, 0x39, 0x75, 0xf4, 0x91, 0x3e, 0xbe, 0x4b, 0x64, 0x81, 0x5d, 0x30, 0x96, 0x7e,
-	0xc3, 0x0c, 0x03, 0xbc, 0x67, 0xdb, 0x6d, 0xcc, 0xb7, 0x74, 0xc7, 0x1b, 0x30, 0x8f, 0xa1, 0xf3,
-	0x29, 0x65, 0xec, 0x4b, 0xc3, 0xf8, 0x29, 0xc0, 0x82, 0x72, 0x42, 0xbf, 0xe5, 0x34, 0xe3, 0xc8,
-	0x81, 0x56, 0x1c, 0x65, 0x8e, 0x3e, 0x6a, 0x8d, 0xad, 0x99, 0x39, 0x89, 0x82, 0xc9, 0xd2, 0x27,
-	0xa2, 0x85, 0x5f, 0x82, 0x55, 0xe0, 0xb2, 0x3d, 0xdb, 0x65, 0x14, 0x79, 0xd0, 0x09, 0x13, 0x16,
-	0x2a, 0x68, 0x57, 0x40, 0xc5, 0x11, 0x44, 0xb6, 0xf1, 0x33, 0xe8, 0x2f, 0x28, 0x5f, 0xfa, 0x99,
-	0x52, 0x7e, 0x08, 0xe6, 0x86, 0xc6, 0x5f, 0x37, 0xbc, 0x78, 0xbe, 0x4d, 0xca, 0x0a, 0x3f, 0x07,
-	0x5b, 0x01, 0x4b, 0xe9, 0xe6, 0x1d, 0xa6, 0xd0, 0x97, 0xe7, 0x2a, 0xd1, 0x5b, 0x5b, 0xcc, 0xc1,
-	0x56, 0x84, 0x52, 0xfc, 0x15, 0x58, 0xeb, 0x8b, 0x63, 0x8a, 0x67, 0x0b, 0x5e, 0x65, 0x24, 0xb9,
-	0x86, 0x88, 0x47, 0x57, 0x79, 0xf8, 0x1f, 0x8f, 0x7e, 0x00, 0x5b, 0x11, 0x6e, 0x5d, 0x84, 0x9e,
-	0x80, 0xb9, 0x17, 0xe1, 0x64, 0x8e, 0x51, 0x0c, 0x7b, 0x62, 0x58, 0xc4, 0x45, 0xca, 0x01, 0xfe,
-	0x08, 0x83, 0xcf, 0x41, 0x12, 0x47, 0x01, 0xa7, 0x37, 0x53, 0xfa, 0x17, 0xbd, 0x17, 0x70, 0xaf,
-	0xd2, 0xbb, 0x2c, 0x78, 0x27, 0xa5, 0x59, 0x9e, 0x94, 0x8e, 0x74, 0x89, 0x2a, 0x67, 0xdf, 0x0d,
-	0xe8, 0xf9, 0xef, 0x56, 0x34, 0x3d, 0xc4, 0x6b, 0x8a, 0xc6, 0xd0, 0x5a, 0x50, 0x8e, 0x0a, 0xbf,
-	0xaa, 0xaf, 0xc6, 0x1d, 0x5c, 0x6a, 0xa9, 0x87, 0x35, 0xf4, 0x1a, 0x4c, 0x19, 0x2b, 0xba, 0x5f,
-	0x0e, 0xab, 0x6f, 0xc1, 0x45, 0xd7, 0xad, 0x6b, 0x8a, 0xcc, 0x40, 0x52, 0x6a, 0x49, 0x4b, 0x4a,
-	0x3d, 0x4b, 0x49, 0x91, 0x56, 0x4b, 0x4a, 0x2d, 0x27, 0x49, 0xa9, 0x27, 0x81, 0x35, 0xf4, 0x16,
-	0xba, 0xea, 0x7c, 0xf4, 0x40, 0x20, 0xfe, 0x32, 0xd7, 0x1d, 0xd6, 0x9b, 0x8a, 0x38, 0x77, 0x7e,
-	0x9e, 0x3c, 0xfd, 0x78, 0xf2, 0xf4, 0xdf, 0x27, 0x4f, 0xff, 0x71, 0xf6, 0xb4, 0xe3, 0xd9, 0xd3,
-	0x7e, 0x9d, 0x3d, 0x2d, 0x34, 0x8b, 0x5f, 0xf9, 0xcd, 0x9f, 0x00, 0x00, 0x00, 0xff, 0xff, 0x88,
-	0x1d, 0xf1, 0x7e, 0xd9, 0x03, 0x00, 0x00,
+	// 482 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x54, 0xc1, 0x6e, 0xd3, 0x40,
+	0x10, 0xb5, 0x93, 0xc6, 0xa4, 0x63, 0x92, 0xc2, 0x36, 0x2a, 0x96, 0x05, 0x56, 0xd9, 0x03, 0x44,
+	0x08, 0x52, 0x28, 0x07, 0xc4, 0x0d, 0x42, 0xa4, 0x28, 0x87, 0x22, 0xb4, 0x91, 0xb8, 0x56, 0xeb,
+	0x7a, 0xa1, 0x96, 0xec, 0x6e, 0xc8, 0x6e, 0xaa, 0xaa, 0x5f, 0xc1, 0x67, 0xc1, 0xad, 0x47, 0x8e,
+	0x28, 0xf9, 0x11, 0xb4, 0xde, 0xdd, 0x38, 0xa6, 0xb2, 0x02, 0xc7, 0x9d, 0x79, 0xef, 0xcd, 0x78,
+	0xde, 0x93, 0xc1, 0x4f, 0xe8, 0x51, 0x42, 0x07, 0xb3, 0x39, 0x97, 0x1c, 0x35, 0x12, 0x8a, 0x1f,
+	0xc2, 0xce, 0x30, 0xe3, 0x31, 0xea, 0x41, 0xeb, 0x92, 0x66, 0x0b, 0x16, 0xb8, 0x87, 0x6e, 0xff,
+	0x2e, 0xd1, 0x0f, 0x1c, 0x42, 0x63, 0x32, 0xaa, 0xe9, 0x61, 0x80, 0x0f, 0x3c, 0xcf, 0x53, 0x99,
+	0xb3, 0x0b, 0x59, 0x83, 0x79, 0x04, 0xad, 0x4f, 0x73, 0xce, 0xbf, 0xd4, 0xb4, 0x7b, 0x80, 0x4e,
+	0xe8, 0x95, 0x9a, 0x3f, 0x4d, 0xaf, 0x19, 0x61, 0xdf, 0x16, 0x4c, 0x48, 0xfc, 0x16, 0xf6, 0x2b,
+	0x55, 0x31, 0xe3, 0x17, 0x82, 0x21, 0x0c, 0x9d, 0x9c, 0x5e, 0x9d, 0xc6, 0x19, 0x8f, 0x4f, 0x45,
+	0x7a, 0xad, 0xa5, 0x76, 0x88, 0x9f, 0x97, 0x58, 0xfc, 0x04, 0x60, 0xcc, 0xa4, 0x11, 0x42, 0x01,
+	0x34, 0xd3, 0x44, 0x04, 0xee, 0x61, 0xb3, 0xef, 0x1f, 0x7b, 0x83, 0x84, 0x0e, 0x26, 0x23, 0xa2,
+	0x4a, 0xf8, 0x05, 0xf8, 0x05, 0xce, 0x48, 0x47, 0xd0, 0x52, 0xb2, 0x16, 0xda, 0x56, 0x50, 0xa5,
+	0x49, 0x74, 0x19, 0x3f, 0x85, 0xce, 0x98, 0xc9, 0xc9, 0x48, 0x58, 0xe5, 0x03, 0xf0, 0xce, 0x59,
+	0xfa, 0xf5, 0x5c, 0x9a, 0x25, 0xcc, 0x0b, 0x3f, 0x83, 0xae, 0x05, 0x1a, 0xe9, 0xfa, 0x1d, 0x8e,
+	0xa0, 0xa3, 0xef, 0x67, 0x45, 0xb7, 0x6d, 0x31, 0x84, 0xae, 0x25, 0x18, 0xf1, 0x97, 0xe0, 0x9f,
+	0xad, 0x2d, 0xb0, 0xbc, 0xae, 0xe2, 0x95, 0xce, 0x90, 0x4d, 0x88, 0x1a, 0x3a, 0x5d, 0xc4, 0xff,
+	0x31, 0xf4, 0x04, 0xba, 0x96, 0xb0, 0xed, 0x8b, 0xd0, 0x63, 0xf0, 0x66, 0xca, 0x6d, 0x11, 0x34,
+	0x8a, 0xe6, 0xae, 0x6a, 0x16, 0xfe, 0x13, 0xd3, 0xc0, 0x1f, 0x61, 0xef, 0x33, 0xcd, 0xd2, 0x84,
+	0x4a, 0xb6, 0xd5, 0xa5, 0x7f, 0xd1, 0x7b, 0x0e, 0xf7, 0x4a, 0xbd, 0xf5, 0x82, 0x77, 0xe6, 0x4c,
+	0x2c, 0x32, 0x73, 0x91, 0x36, 0xb1, 0xcf, 0xe3, 0x9f, 0x0d, 0xd8, 0x1d, 0xbd, 0x9f, 0xb2, 0xf9,
+	0x65, 0x7a, 0xc6, 0xd0, 0x3b, 0xf0, 0x37, 0x72, 0x86, 0x0e, 0x94, 0xfa, 0xed, 0x38, 0x86, 0x0f,
+	0x6e, 0xd5, 0xf5, 0x1c, 0xec, 0xa0, 0x3e, 0x34, 0xc7, 0x4c, 0xa2, 0xe2, 0xe2, 0x65, 0xee, 0xc2,
+	0xbd, 0xf5, 0x7b, 0x8d, 0x7c, 0x05, 0x9e, 0x0e, 0x06, 0xba, 0x6f, 0x9a, 0x65, 0x9a, 0x42, 0xb4,
+	0x59, 0xda, 0xa4, 0x68, 0x17, 0x35, 0xa5, 0x92, 0x15, 0x4d, 0xa9, 0xa6, 0x41, 0x53, 0xb4, 0x59,
+	0x9a, 0x52, 0x71, 0x5a, 0x53, 0xaa, 0x5e, 0x62, 0x07, 0xbd, 0x81, 0xb6, 0x3d, 0x20, 0xda, 0x57,
+	0x88, 0xbf, 0xec, 0x09, 0x7b, 0xd5, 0xa2, 0x25, 0x0e, 0x83, 0x1f, 0xcb, 0xc8, 0xbd, 0x59, 0x46,
+	0xee, 0xef, 0x65, 0xe4, 0x7e, 0x5f, 0x45, 0xce, 0xcd, 0x2a, 0x72, 0x7e, 0xad, 0x22, 0x27, 0xf6,
+	0x8a, 0xbf, 0xcb, 0xeb, 0x3f, 0x01, 0x00, 0x00, 0xff, 0xff, 0x34, 0x5e, 0x28, 0xfc, 0x6c, 0x04,
+	0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -734,6 +822,8 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type DAServiceClient interface {
+	// MaxBlobSize returns the maximum blob size
+	MaxBlobSize(ctx context.Context, in *MaxBlobSizeRequest, opts ...grpc.CallOption) (*MaxBlobSizeResponse, error)
 	// Get returns Blob for each given ID, or an error.
 	Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
 	// GetIDs returns IDs of all Blobs located in DA at given height.
@@ -752,6 +842,15 @@ type dAServiceClient struct {
 
 func NewDAServiceClient(cc *grpc.ClientConn) DAServiceClient {
 	return &dAServiceClient{cc}
+}
+
+func (c *dAServiceClient) MaxBlobSize(ctx context.Context, in *MaxBlobSizeRequest, opts ...grpc.CallOption) (*MaxBlobSizeResponse, error) {
+	out := new(MaxBlobSizeResponse)
+	err := c.cc.Invoke(ctx, "/da.DAService/MaxBlobSize", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *dAServiceClient) Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error) {
@@ -801,6 +900,8 @@ func (c *dAServiceClient) Validate(ctx context.Context, in *ValidateRequest, opt
 
 // DAServiceServer is the server API for DAService service.
 type DAServiceServer interface {
+	// MaxBlobSize returns the maximum blob size
+	MaxBlobSize(context.Context, *MaxBlobSizeRequest) (*MaxBlobSizeResponse, error)
 	// Get returns Blob for each given ID, or an error.
 	Get(context.Context, *GetRequest) (*GetResponse, error)
 	// GetIDs returns IDs of all Blobs located in DA at given height.
@@ -817,6 +918,9 @@ type DAServiceServer interface {
 type UnimplementedDAServiceServer struct {
 }
 
+func (*UnimplementedDAServiceServer) MaxBlobSize(ctx context.Context, req *MaxBlobSizeRequest) (*MaxBlobSizeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MaxBlobSize not implemented")
+}
 func (*UnimplementedDAServiceServer) Get(ctx context.Context, req *GetRequest) (*GetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
@@ -835,6 +939,24 @@ func (*UnimplementedDAServiceServer) Validate(ctx context.Context, req *Validate
 
 func RegisterDAServiceServer(s *grpc.Server, srv DAServiceServer) {
 	s.RegisterService(&_DAService_serviceDesc, srv)
+}
+
+func _DAService_MaxBlobSize_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MaxBlobSizeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DAServiceServer).MaxBlobSize(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/da.DAService/MaxBlobSize",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DAServiceServer).MaxBlobSize(ctx, req.(*MaxBlobSizeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _DAService_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -931,6 +1053,10 @@ var _DAService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "da.DAService",
 	HandlerType: (*DAServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "MaxBlobSize",
+			Handler:    _DAService_MaxBlobSize_Handler,
+		},
 		{
 			MethodName: "Get",
 			Handler:    _DAService_Get_Handler,
@@ -1072,6 +1198,57 @@ func (m *Proof) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i = encodeVarintDa(dAtA, i, uint64(len(m.Value)))
 		i--
 		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MaxBlobSizeRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MaxBlobSizeRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MaxBlobSizeRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *MaxBlobSizeResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MaxBlobSizeResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MaxBlobSizeResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.MaxBlobSize != 0 {
+		i = encodeVarintDa(dAtA, i, uint64(m.MaxBlobSize))
+		i--
+		dAtA[i] = 0x8
 	}
 	return len(dAtA) - i, nil
 }
@@ -1523,6 +1700,27 @@ func (m *Proof) Size() (n int) {
 	l = len(m.Value)
 	if l > 0 {
 		n += 1 + l + sovDa(uint64(l))
+	}
+	return n
+}
+
+func (m *MaxBlobSizeRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *MaxBlobSizeResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.MaxBlobSize != 0 {
+		n += 1 + sovDa(uint64(m.MaxBlobSize))
 	}
 	return n
 }
@@ -2004,6 +2202,125 @@ func (m *Proof) Unmarshal(dAtA []byte) error {
 				m.Value = []byte{}
 			}
 			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipDa(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthDa
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MaxBlobSizeRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowDa
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MaxBlobSizeRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MaxBlobSizeRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipDa(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthDa
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MaxBlobSizeResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowDa
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MaxBlobSizeResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MaxBlobSizeResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field MaxBlobSize", wireType)
+			}
+			m.MaxBlobSize = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowDa
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.MaxBlobSize |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipDa(dAtA[iNdEx:])

@@ -37,6 +37,16 @@ func (c *Client) Stop() error {
 	return c.conn.Close()
 }
 
+// MaxBlobSize returns the DA MaxBlobSize
+func (c *Client) MaxBlobSize() (uint64, error) {
+	req := &pbda.MaxBlobSizeRequest{}
+	resp, err := c.client.MaxBlobSize(context.TODO(), req)
+	if err != nil {
+		return 0, err
+	}
+	return resp.MaxBlobSize, nil
+}
+
 // Get returns Blob for each given ID, or an error.
 func (c *Client) Get(ids []da.ID) ([]da.Blob, error) {
 	req := &pbda.GetRequest{

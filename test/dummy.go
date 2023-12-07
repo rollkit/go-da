@@ -12,16 +12,20 @@ import (
 	"github.com/rollkit/go-da"
 )
 
+// DefaultMaxBlobSize is the default max blob size
+const DefaultMaxBlobSize = 64 * 64 * 482
+
 // DummyDA is a simple implementation of in-memory DA. Not production ready! Intended only for testing!
 //
 // Data is stored in a map, where key is a serialized sequence number. This key is returned as ID.
 // Commitments are simply hashes, and proofs are ED25519 signatures.
 type DummyDA struct {
-	mu      *sync.Mutex // protects data and height
-	data    map[uint64][]kvp
-	height  uint64
-	privKey ed25519.PrivateKey
-	pubKey  ed25519.PublicKey
+	mu          *sync.Mutex // protects data and height
+	data        map[uint64][]kvp
+	maxBlobSize uint64
+	height      uint64
+	privKey     ed25519.PrivateKey
+	pubKey      ed25519.PublicKey
 }
 
 type kvp struct {
@@ -29,16 +33,25 @@ type kvp struct {
 }
 
 // NewDummyDA create new instance of DummyDA
-func NewDummyDA() *DummyDA {
+func NewDummyDA(opts ...func(*DummyDA) *DummyDA) *DummyDA {
 	da := &DummyDA{
-		mu:   new(sync.Mutex),
-		data: make(map[uint64][]kvp),
+		mu:          new(sync.Mutex),
+		data:        make(map[uint64][]kvp),
+		maxBlobSize: DefaultMaxBlobSize,
+	}
+	for _, f := range opts {
+		da = f(da)
 	}
 	da.pubKey, da.privKey, _ = ed25519.GenerateKey(rand.Reader)
 	return da
 }
 
 var _ da.DA = &DummyDA{}
+
+// MaxBlobSize returns the max blob size in bytes.
+func (d *DummyDA) MaxBlobSize() (uint64, error) {
+	return d.maxBlobSize, nil
+}
 
 // Get returns Blobs for given IDs.
 func (d *DummyDA) Get(ids []da.ID) ([]da.Blob, error) {

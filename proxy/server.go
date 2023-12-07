@@ -24,6 +24,11 @@ type proxySrv struct {
 	target da.DA
 }
 
+func (p *proxySrv) MaxBlobSize(ctx context.Context, request *pbda.MaxBlobSizeRequest) (*pbda.MaxBlobSizeResponse, error) {
+	maxBlobSize, err := p.target.MaxBlobSize()
+	return &pbda.MaxBlobSizeResponse{MaxBlobSize: maxBlobSize}, err
+}
+
 func (p *proxySrv) Get(ctx context.Context, request *pbda.GetRequest) (*pbda.GetResponse, error) {
 	ids := idsPB2DA(request.Ids)
 	blobs, err := p.target.Get(ids)
