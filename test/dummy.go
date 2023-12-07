@@ -12,6 +12,7 @@ import (
 	"github.com/rollkit/go-da"
 )
 
+// DefaultMaxBlobSize is the default max blob size
 const DefaultMaxBlobSize = 64 * 64 * 482
 
 // DummyDA is a simple implementation of in-memory DA. Not production ready! Intended only for testing!
