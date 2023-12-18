@@ -89,7 +89,7 @@ message SubmitOptions {
 // SubmitRequest is the request type for the Submit rpc method.
 message SubmitRequest {
 	repeated Blob blobs = 1;
-	SubmitOptions options = 2;
+	optional SubmitOptions options = 2;
 }
 
 // SubmitResponse is the response type for the Submit rpc method.
