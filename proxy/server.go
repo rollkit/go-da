@@ -56,8 +56,9 @@ func (p *proxySrv) Commit(ctx context.Context, request *pbda.CommitRequest) (*pb
 
 func (p *proxySrv) Submit(ctx context.Context, request *pbda.SubmitRequest) (*pbda.SubmitResponse, error) {
 	blobs := blobsPB2DA(request.Blobs)
+	options := optionsPB2DA(request.GetOptions())
 
-	ids, proofs, err := p.target.Submit(blobs, da.DefaultSubmitOptions())
+	ids, proofs, err := p.target.Submit(blobs, options)
 	if err != nil {
 		return nil, err
 	}
