@@ -35,22 +35,28 @@ type Blob = da.Blob
 // ID is a type alias
 type ID = da.ID
 
+// SubmitOptions is a type alias
+type SubmitOptions = da.SubmitOptions
+
+// DefaultSubmitOptions contains the default fee and gas
+var DefaultSubmitOptions = da.DefaultSubmitOptions()
+
 // BasicDATest tests round trip of messages to DA and back.
 func BasicDATest(t *testing.T, da da.DA) {
 	msg1 := []byte("message 1")
 	msg2 := []byte("message 2")
 
-	id1, proof1, err := da.Submit([]Blob{msg1})
+	id1, proof1, err := da.Submit([]Blob{msg1}, DefaultSubmitOptions)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, id1)
 	assert.NotEmpty(t, proof1)
 
-	id2, proof2, err := da.Submit([]Blob{msg2})
+	id2, proof2, err := da.Submit([]Blob{msg2}, DefaultSubmitOptions)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, id2)
 	assert.NotEmpty(t, proof2)
 
-	id3, proof3, err := da.Submit([]Blob{msg1})
+	id3, proof3, err := da.Submit([]Blob{msg1}, DefaultSubmitOptions)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, id3)
 	assert.NotEmpty(t, proof3)
@@ -110,7 +116,7 @@ func CheckErrors(t *testing.T, da da.DA) {
 func GetIDsTest(t *testing.T, da da.DA) {
 	msgs := [][]byte{[]byte("msg1"), []byte("msg2"), []byte("msg3")}
 
-	ids, proofs, err := da.Submit(msgs)
+	ids, proofs, err := da.Submit(msgs, DefaultSubmitOptions)
 	assert.NoError(t, err)
 	assert.Len(t, ids, len(msgs))
 	assert.Len(t, proofs, len(msgs))
@@ -162,7 +168,7 @@ func ConcurrentReadWriteTest(t *testing.T, da da.DA) {
 	go func() {
 		defer wg.Done()
 		for i := uint64(0); i < 100; i++ {
-			_, _, err := da.Submit([][]byte{[]byte("test")})
+			_, _, err := da.Submit([][]byte{[]byte("test")}, DefaultSubmitOptions)
 			assert.NoError(t, err)
 		}
 	}()
