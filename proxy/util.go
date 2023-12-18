@@ -21,6 +21,16 @@ func blobsPB2DA(pb []*pbda.Blob) []da.Blob {
 	return blobs
 }
 
+func optionsPB2DA(pb *pbda.SubmitOptions) *da.SubmitOptions {
+	if pb != nil {
+		return &da.SubmitOptions{
+			Fee: pb.Fee,
+			Gas: pb.Gas,
+		}
+	}
+	return da.DefaultSubmitOptions()
+}
+
 func idsPB2DA(pb []*pbda.ID) []da.ID {
 	ids := make([]da.ID, len(pb))
 	for i := range ids {
