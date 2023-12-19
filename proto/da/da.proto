@@ -82,9 +82,12 @@ message CommitResponse {
 }
 
 // SubmitOptions is the options type for the Submit method.
+// Either fee + gas or price can be specified
+// If both are specified, price takes precedence.
 message SubmitOptions {
     int64 fee = 1;
     uint64 gas = 2;
+    double price = 3;
 }
 
 // SubmitRequest is the request type for the Submit rpc method.
