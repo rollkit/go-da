@@ -3,8 +3,9 @@ package da
 // SubmitOptions contains the information about fee and gas price in order to configure the
 // Submit request.
 type SubmitOptions struct {
-	Fee int64
-	Gas uint64
+	Fee         int64
+	Gas         uint64
+	MinGasPrice float64
 }
 
 // DA defines very generic interface for interaction with Data Availability layers.
