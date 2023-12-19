@@ -24,8 +24,9 @@ func blobsPB2DA(pb []*pbda.Blob) []da.Blob {
 func optionsDA2PB(options *da.SubmitOptions) *pbda.SubmitOptions {
 	if options != nil {
 		return &pbda.SubmitOptions{
-			Fee: options.Fee,
-			Gas: options.Gas,
+			Fee:   options.Fee,
+			Gas:   options.Gas,
+			Price: options.MinGasPrice,
 		}
 	}
 	return &pbda.SubmitOptions{Fee: -1}
@@ -34,8 +35,9 @@ func optionsDA2PB(options *da.SubmitOptions) *pbda.SubmitOptions {
 func optionsPB2DA(pb *pbda.SubmitOptions) *da.SubmitOptions {
 	if pb != nil {
 		return &da.SubmitOptions{
-			Fee: pb.Fee,
-			Gas: pb.Gas,
+			Fee:         pb.Fee,
+			Gas:         pb.Gas,
+			MinGasPrice: pb.Price,
 		}
 	}
 	return da.DefaultSubmitOptions()
