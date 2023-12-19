@@ -28,6 +28,7 @@ type DA interface {
 	//
 	// This method is synchronous. Upon successful submission to Data Availability layer, it returns ID identifying blob
 	// in DA and Proof of inclusion.
+	// If options is nil, default options are used.
 	Submit(blobs []Blob, options *SubmitOptions) ([]ID, []Proof, error)
 
 	// Validate validates Commitments against the corresponding Proofs. This should be possible without retrieving the Blobs.
