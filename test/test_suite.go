@@ -2,6 +2,7 @@ package test
 
 import (
 	"bytes"
+	"context"
 	"sync"
 	"testing"
 	"time"
@@ -40,17 +41,18 @@ func BasicDATest(t *testing.T, da da.DA) {
 	msg1 := []byte("message 1")
 	msg2 := []byte("message 2")
 
-	id1, proof1, err := da.Submit([]Blob{msg1}, -1)
+	ctx := context.TODO()
+	id1, proof1, err := da.Submit(ctx, []Blob{msg1}, -1)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, id1)
 	assert.NotEmpty(t, proof1)
 
-	id2, proof2, err := da.Submit([]Blob{msg2}, -1)
+	id2, proof2, err := da.Submit(ctx, []Blob{msg2}, -1)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, id2)
 	assert.NotEmpty(t, proof2)
 
-	id3, proof3, err := da.Submit([]Blob{msg1}, -1)
+	id3, proof3, err := da.Submit(ctx, []Blob{msg1}, -1)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, id3)
 	assert.NotEmpty(t, proof3)
@@ -58,40 +60,40 @@ func BasicDATest(t *testing.T, da da.DA) {
 	assert.NotEqual(t, id1, id2)
 	assert.NotEqual(t, id1, id3)
 
-	ret, err := da.Get(id1)
+	ret, err := da.Get(ctx, id1)
 	assert.NoError(t, err)
 	assert.Equal(t, []Blob{msg1}, ret)
 
-	commitment1, err := da.Commit([]Blob{msg1})
+	commitment1, err := da.Commit(ctx, []Blob{msg1})
 	assert.NoError(t, err)
 	assert.NotEmpty(t, commitment1)
 
-	commitment2, err := da.Commit([]Blob{msg2})
+	commitment2, err := da.Commit(ctx, []Blob{msg2})
 	assert.NoError(t, err)
 	assert.NotEmpty(t, commitment2)
 
-	oks, err := da.Validate(id1, proof1)
+	oks, err := da.Validate(ctx, id1, proof1)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, oks)
 	for _, ok := range oks {
 		assert.True(t, ok)
 	}
 
-	oks, err = da.Validate(id2, proof2)
+	oks, err = da.Validate(ctx, id2, proof2)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, oks)
 	for _, ok := range oks {
 		assert.True(t, ok)
 	}
 
-	oks, err = da.Validate(id1, proof2)
+	oks, err = da.Validate(ctx, id1, proof2)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, oks)
 	for _, ok := range oks {
 		assert.False(t, ok)
 	}
 
-	oks, err = da.Validate(id2, proof1)
+	oks, err = da.Validate(ctx, id2, proof1)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, oks)
 	for _, ok := range oks {
@@ -101,7 +103,8 @@ func BasicDATest(t *testing.T, da da.DA) {
 
 // CheckErrors ensures that errors are handled properly by DA.
 func CheckErrors(t *testing.T, da da.DA) {
-	blob, err := da.Get([]ID{[]byte("invalid")})
+	ctx := context.TODO()
+	blob, err := da.Get(ctx, []ID{[]byte("invalid")})
 	assert.Error(t, err)
 	assert.Empty(t, blob)
 }
@@ -110,7 +113,8 @@ func CheckErrors(t *testing.T, da da.DA) {
 func GetIDsTest(t *testing.T, da da.DA) {
 	msgs := [][]byte{[]byte("msg1"), []byte("msg2"), []byte("msg3")}
 
-	ids, proofs, err := da.Submit(msgs, -1)
+	ctx := context.TODO()
+	ids, proofs, err := da.Submit(ctx, msgs, -1)
 	assert.NoError(t, err)
 	assert.Len(t, ids, len(msgs))
 	assert.Len(t, proofs, len(msgs))
@@ -122,12 +126,12 @@ func GetIDsTest(t *testing.T, da da.DA) {
 	// As we're the only user, we don't need to handle external data (that could be submitted in real world).
 	// There is no notion of height, so we need to scan the DA to get test data back.
 	for i := uint64(1); !found && !time.Now().After(end); i++ {
-		ret, err := da.GetIDs(i)
+		ret, err := da.GetIDs(ctx, i)
 		if err != nil {
 			t.Error("failed to get IDs:", err)
 		}
 		if len(ret) > 0 {
-			blobs, err := da.Get(ret)
+			blobs, err := da.Get(ctx, ret)
 			assert.NoError(t, err)
 
 			// Submit ensures atomicity of batch, so it makes sense to compare actual blobs (bodies) only when lengths
@@ -151,10 +155,12 @@ func ConcurrentReadWriteTest(t *testing.T, da da.DA) {
 	var wg sync.WaitGroup
 	wg.Add(2)
 
+	ctx := context.TODO()
+
 	go func() {
 		defer wg.Done()
 		for i := uint64(1); i <= 100; i++ {
-			_, err := da.GetIDs(i)
+			_, err := da.GetIDs(ctx, i)
 			assert.NoError(t, err)
 		}
 	}()
@@ -162,7 +168,7 @@ func ConcurrentReadWriteTest(t *testing.T, da da.DA) {
 	go func() {
 		defer wg.Done()
 		for i := uint64(1); i <= 100; i++ {
-			_, _, err := da.Submit([][]byte{[]byte("test")}, -1)
+			_, _, err := da.Submit(ctx, [][]byte{[]byte("test")}, -1)
 			assert.NoError(t, err)
 		}
 	}()

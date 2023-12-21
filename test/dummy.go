@@ -2,6 +2,7 @@ package test
 
 import (
 	"bytes"
+	"context"
 	"crypto/ed25519"
 	"crypto/rand"
 	"crypto/sha256"
@@ -49,12 +50,12 @@ func NewDummyDA(opts ...func(*DummyDA) *DummyDA) *DummyDA {
 var _ da.DA = &DummyDA{}
 
 // MaxBlobSize returns the max blob size in bytes.
-func (d *DummyDA) MaxBlobSize() (uint64, error) {
+func (d *DummyDA) MaxBlobSize(ctx context.Context) (uint64, error) {
 	return d.maxBlobSize, nil
 }
 
 // Get returns Blobs for given IDs.
-func (d *DummyDA) Get(ids []da.ID) ([]da.Blob, error) {
+func (d *DummyDA) Get(ctx context.Context, ids []da.ID) ([]da.Blob, error) {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	blobs := make([]da.Blob, len(ids))
@@ -78,7 +79,7 @@ func (d *DummyDA) Get(ids []da.ID) ([]da.Blob, error) {
 }
 
 // GetIDs returns IDs of Blobs at given DA height.
-func (d *DummyDA) GetIDs(height uint64) ([]da.ID, error) {
+func (d *DummyDA) GetIDs(ctx context.Context, height uint64) ([]da.ID, error) {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	kvps := d.data[height]
@@ -90,7 +91,7 @@ func (d *DummyDA) GetIDs(height uint64) ([]da.ID, error) {
 }
 
 // Commit returns cryptographic Commitments for given blobs.
-func (d *DummyDA) Commit(blobs []da.Blob) ([]da.Commitment, error) {
+func (d *DummyDA) Commit(ctx context.Context, blobs []da.Blob) ([]da.Commitment, error) {
 	commits := make([]da.Commitment, len(blobs))
 	for i, blob := range blobs {
 		commits[i] = d.getHash(blob)
@@ -99,7 +100,7 @@ func (d *DummyDA) Commit(blobs []da.Blob) ([]da.Commitment, error) {
 }
 
 // Submit stores blobs in DA layer.
-func (d *DummyDA) Submit(blobs []da.Blob, gasPrice float64) ([]da.ID, []da.Proof, error) {
+func (d *DummyDA) Submit(ctx context.Context, blobs []da.Blob, gasPrice float64) ([]da.ID, []da.Proof, error) {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	ids := make([]da.ID, len(blobs))
@@ -116,7 +117,7 @@ func (d *DummyDA) Submit(blobs []da.Blob, gasPrice float64) ([]da.ID, []da.Proof
 }
 
 // Validate checks the Proofs for given IDs.
-func (d *DummyDA) Validate(ids []da.ID, proofs []da.Proof) ([]bool, error) {
+func (d *DummyDA) Validate(ctx context.Context, ids []da.ID, proofs []da.Proof) ([]bool, error) {
 	if len(ids) != len(proofs) {
 		return nil, errors.New("number of IDs doesn't equal to number of proofs")
 	}

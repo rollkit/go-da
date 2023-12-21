@@ -38,9 +38,9 @@ func (c *Client) Stop() error {
 }
 
 // MaxBlobSize returns the DA MaxBlobSize
-func (c *Client) MaxBlobSize() (uint64, error) {
+func (c *Client) MaxBlobSize(ctx context.Context) (uint64, error) {
 	req := &pbda.MaxBlobSizeRequest{}
-	resp, err := c.client.MaxBlobSize(context.TODO(), req)
+	resp, err := c.client.MaxBlobSize(ctx, req)
 	if err != nil {
 		return 0, err
 	}
@@ -48,14 +48,14 @@ func (c *Client) MaxBlobSize() (uint64, error) {
 }
 
 // Get returns Blob for each given ID, or an error.
-func (c *Client) Get(ids []da.ID) ([]da.Blob, error) {
+func (c *Client) Get(ctx context.Context, ids []da.ID) ([]da.Blob, error) {
 	req := &pbda.GetRequest{
 		Ids: make([]*pbda.ID, len(ids)),
 	}
 	for i := range ids {
 		req.Ids[i] = &pbda.ID{Value: ids[i]}
 	}
-	resp, err := c.client.Get(context.TODO(), req)
+	resp, err := c.client.Get(ctx, req)
 	if err != nil {
 		return nil, err
 	}
@@ -64,9 +64,9 @@ func (c *Client) Get(ids []da.ID) ([]da.Blob, error) {
 }
 
 // GetIDs returns IDs of all Blobs located in DA at given height.
-func (c *Client) GetIDs(height uint64) ([]da.ID, error) {
+func (c *Client) GetIDs(ctx context.Context, height uint64) ([]da.ID, error) {
 	req := &pbda.GetIDsRequest{Height: height}
-	resp, err := c.client.GetIDs(context.TODO(), req)
+	resp, err := c.client.GetIDs(ctx, req)
 	if err != nil {
 		return nil, err
 	}
@@ -75,12 +75,12 @@ func (c *Client) GetIDs(height uint64) ([]da.ID, error) {
 }
 
 // Commit creates a Commitment for each given Blob.
-func (c *Client) Commit(blobs []da.Blob) ([]da.Commitment, error) {
+func (c *Client) Commit(ctx context.Context, blobs []da.Blob) ([]da.Commitment, error) {
 	req := &pbda.CommitRequest{
 		Blobs: blobsDA2PB(blobs),
 	}
 
-	resp, err := c.client.Commit(context.TODO(), req)
+	resp, err := c.client.Commit(ctx, req)
 	if err != nil {
 		return nil, err
 	}
@@ -89,13 +89,13 @@ func (c *Client) Commit(blobs []da.Blob) ([]da.Commitment, error) {
 }
 
 // Submit submits the Blobs to Data Availability layer.
-func (c *Client) Submit(blobs []da.Blob, gasPrice float64) ([]da.ID, []da.Proof, error) {
+func (c *Client) Submit(ctx context.Context, blobs []da.Blob, gasPrice float64) ([]da.ID, []da.Proof, error) {
 	req := &pbda.SubmitRequest{
 		Blobs:    blobsDA2PB(blobs),
 		GasPrice: gasPrice,
 	}
 
-	resp, err := c.client.Submit(context.TODO(), req)
+	resp, err := c.client.Submit(ctx, req)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -111,11 +111,11 @@ func (c *Client) Submit(blobs []da.Blob, gasPrice float64) ([]da.ID, []da.Proof,
 }
 
 // Validate validates Commitments against the corresponding Proofs. This should be possible without retrieving the Blobs.
-func (c *Client) Validate(ids []da.ID, proofs []da.Proof) ([]bool, error) {
+func (c *Client) Validate(ctx context.Context, ids []da.ID, proofs []da.Proof) ([]bool, error) {
 	req := &pbda.ValidateRequest{
 		Ids:    idsDA2PB(ids),
 		Proofs: proofsDA2PB(proofs),
 	}
-	resp, err := c.client.Validate(context.TODO(), req)
+	resp, err := c.client.Validate(ctx, req)
 	return resp.Results, err
 }

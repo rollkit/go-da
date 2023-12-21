@@ -25,18 +25,18 @@ type proxySrv struct {
 }
 
 func (p *proxySrv) MaxBlobSize(ctx context.Context, request *pbda.MaxBlobSizeRequest) (*pbda.MaxBlobSizeResponse, error) {
-	maxBlobSize, err := p.target.MaxBlobSize()
+	maxBlobSize, err := p.target.MaxBlobSize(ctx)
 	return &pbda.MaxBlobSizeResponse{MaxBlobSize: maxBlobSize}, err
 }
 
 func (p *proxySrv) Get(ctx context.Context, request *pbda.GetRequest) (*pbda.GetResponse, error) {
 	ids := idsPB2DA(request.Ids)
-	blobs, err := p.target.Get(ids)
+	blobs, err := p.target.Get(ctx, ids)
 	return &pbda.GetResponse{Blobs: blobsDA2PB(blobs)}, err
 }
 
 func (p *proxySrv) GetIDs(ctx context.Context, request *pbda.GetIDsRequest) (*pbda.GetIDsResponse, error) {
-	ids, err := p.target.GetIDs(request.Height)
+	ids, err := p.target.GetIDs(ctx, request.Height)
 	if err != nil {
 		return nil, err
 	}
@@ -46,7 +46,7 @@ func (p *proxySrv) GetIDs(ctx context.Context, request *pbda.GetIDsRequest) (*pb
 
 func (p *proxySrv) Commit(ctx context.Context, request *pbda.CommitRequest) (*pbda.CommitResponse, error) {
 	blobs := blobsPB2DA(request.Blobs)
-	commits, err := p.target.Commit(blobs)
+	commits, err := p.target.Commit(ctx, blobs)
 	if err != nil {
 		return nil, err
 	}
@@ -57,7 +57,7 @@ func (p *proxySrv) Commit(ctx context.Context, request *pbda.CommitRequest) (*pb
 func (p *proxySrv) Submit(ctx context.Context, request *pbda.SubmitRequest) (*pbda.SubmitResponse, error) {
 	blobs := blobsPB2DA(request.Blobs)
 
-	ids, proofs, err := p.target.Submit(blobs, request.GasPrice)
+	ids, proofs, err := p.target.Submit(ctx, blobs, request.GasPrice)
 	if err != nil {
 		return nil, err
 	}
@@ -79,7 +79,7 @@ func (p *proxySrv) Validate(ctx context.Context, request *pbda.ValidateRequest) 
 	ids := idsPB2DA(request.Ids)
 	proofs := proofsPB2DA(request.Proofs)
 	//TODO implement me
-	validity, err := p.target.Validate(ids, proofs)
+	validity, err := p.target.Validate(ctx, ids, proofs)
 	if err != nil {
 		return nil, err
 	}
