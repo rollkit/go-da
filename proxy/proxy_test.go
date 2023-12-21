@@ -1,6 +1,7 @@
 package proxy_test
 
 import (
+	"context"
 	"net"
 	"testing"
 
@@ -22,7 +23,9 @@ func TestProxy(t *testing.T) {
 	}()
 
 	client := proxy.NewClient()
-	err = client.Start(lis.Addr().String(), grpc.WithTransportCredentials(insecure.NewCredentials()))
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	err = client.Start(ctx, lis.Addr().String(), grpc.WithTransportCredentials(insecure.NewCredentials()))
 	require.NoError(t, err)
 	test.RunDATestSuite(t, client)
 }
