@@ -40,17 +40,17 @@ func BasicDATest(t *testing.T, da da.DA) {
 	msg1 := []byte("message 1")
 	msg2 := []byte("message 2")
 
-	id1, proof1, err := da.Submit([]Blob{msg1})
+	id1, proof1, err := da.Submit([]Blob{msg1}, nil)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, id1)
 	assert.NotEmpty(t, proof1)
 
-	id2, proof2, err := da.Submit([]Blob{msg2})
+	id2, proof2, err := da.Submit([]Blob{msg2}, nil)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, id2)
 	assert.NotEmpty(t, proof2)
 
-	id3, proof3, err := da.Submit([]Blob{msg1})
+	id3, proof3, err := da.Submit([]Blob{msg1}, nil)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, id3)
 	assert.NotEmpty(t, proof3)
@@ -110,7 +110,7 @@ func CheckErrors(t *testing.T, da da.DA) {
 func GetIDsTest(t *testing.T, da da.DA) {
 	msgs := [][]byte{[]byte("msg1"), []byte("msg2"), []byte("msg3")}
 
-	ids, proofs, err := da.Submit(msgs)
+	ids, proofs, err := da.Submit(msgs, nil)
 	assert.NoError(t, err)
 	assert.Len(t, ids, len(msgs))
 	assert.Len(t, proofs, len(msgs))
@@ -153,7 +153,7 @@ func ConcurrentReadWriteTest(t *testing.T, da da.DA) {
 
 	go func() {
 		defer wg.Done()
-		for i := uint64(0); i < 100; i++ {
+		for i := uint64(1); i <= 100; i++ {
 			_, err := da.GetIDs(i)
 			assert.NoError(t, err)
 		}
@@ -161,8 +161,8 @@ func ConcurrentReadWriteTest(t *testing.T, da da.DA) {
 
 	go func() {
 		defer wg.Done()
-		for i := uint64(0); i < 100; i++ {
-			_, _, err := da.Submit([][]byte{[]byte("test")})
+		for i := uint64(1); i <= 100; i++ {
+			_, _, err := da.Submit([][]byte{[]byte("test")}, nil)
 			assert.NoError(t, err)
 		}
 	}()

@@ -81,9 +81,16 @@ message CommitResponse {
 	repeated Commitment commitments = 1;
 }
 
+// SubmitOptions is the options type for the Submit method.
+message SubmitOptions {
+    int64 fee = 1;
+    uint64 gas = 2;
+}
+
 // SubmitRequest is the request type for the Submit rpc method.
 message SubmitRequest {
 	repeated Blob blobs = 1;
+	SubmitOptions options = 2;
 }
 
 // SubmitResponse is the response type for the Submit rpc method.
