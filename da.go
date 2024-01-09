@@ -1,12 +1,5 @@
 package da
 
-// SubmitOptions contains the information about fee and gas price in order to configure the
-// Submit request.
-type SubmitOptions struct {
-	Fee int64
-	Gas uint64
-}
-
 // DA defines very generic interface for interaction with Data Availability layers.
 type DA interface {
 	// MaxBlobSize returns the max blob size
@@ -46,11 +39,3 @@ type Commitment = []byte
 
 // Proof should contain serialized proof of inclusion (publication) of Blob in Data Availability layer.
 type Proof = []byte
-
-// DefaultSubmitOptions creates a default fee and gas price values.
-func DefaultSubmitOptions() *SubmitOptions {
-	return &SubmitOptions{
-		Fee: -1,
-		Gas: 0,
-	}
-}
