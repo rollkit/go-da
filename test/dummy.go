@@ -99,7 +99,7 @@ func (d *DummyDA) Commit(blobs []da.Blob) ([]da.Commitment, error) {
 }
 
 // Submit stores blobs in DA layer.
-func (d *DummyDA) Submit(blobs []da.Blob, options *da.SubmitOptions) ([]da.ID, []da.Proof, error) {
+func (d *DummyDA) Submit(blobs []da.Blob, gasPrice float64) ([]da.ID, []da.Proof, error) {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	ids := make([]da.ID, len(blobs))

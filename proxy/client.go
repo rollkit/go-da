@@ -89,10 +89,10 @@ func (c *Client) Commit(blobs []da.Blob) ([]da.Commitment, error) {
 }
 
 // Submit submits the Blobs to Data Availability layer.
-func (c *Client) Submit(blobs []da.Blob, options *da.SubmitOptions) ([]da.ID, []da.Proof, error) {
+func (c *Client) Submit(blobs []da.Blob, gasPrice float64) ([]da.ID, []da.Proof, error) {
 	req := &pbda.SubmitRequest{
-		Blobs:   blobsDA2PB(blobs),
-		Options: optionsDA2PB(options),
+		Blobs:    blobsDA2PB(blobs),
+		GasPrice: gasPrice,
 	}
 
 	resp, err := c.client.Submit(context.TODO(), req)
