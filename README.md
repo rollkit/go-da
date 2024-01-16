@@ -8,11 +8,11 @@ service. This is a key feature of modular blockchains as they can switch the
 implementations without having to change the interface.
 
 <!-- markdownlint-disable MD013 -->
-[![build-and-test](https://github.com/rollkit/go-da/actions/workflows/ci_release.yml/badge.svg)](https://github.com/rollkit/celestia-da/actions/workflows/ci_release.yml)
-[![golangci-lint](https://github.com/rollkit/go-da/actions/workflows/lint.yml/badge.svg)](https://github.com/rollkit/celestia-da/actions/workflows/lint.yml)
-[![Go Report Card](https://goreportcard.com/badge/github.com/rollkit/go-da)](https://goreportcard.com/report/github.com/rollkit/celestia-da)
-[![codecov](https://codecov.io/gh/rollkit/go-da/branch/main/graph/badge.svg?token=CWGA4RLDS9)](https://codecov.io/gh/rollkit/celestia-da)
-[![GoDoc](https://godoc.org/github.com/rollkit/go-da?status.svg)](https://godoc.org/github.com/rollkit/celestia-da)
+[![build-and-test](https://github.com/rollkit/go-da/actions/workflows/ci_release.yml/badge.svg)](https://github.com/rollkit/go-da/actions/workflows/ci_release.yml)
+[![golangci-lint](https://github.com/rollkit/go-da/actions/workflows/lint.yml/badge.svg)](https://github.com/rollkit/go-da/actions/workflows/lint.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/rollkit/go-da)](https://goreportcard.com/report/github.com/rollkit/go-da)
+[![codecov](https://codecov.io/gh/rollkit/go-da/branch/main/graph/badge.svg?token=CWGA4RLDS9)](https://codecov.io/gh/rollkit/go-da)
+[![GoDoc](https://godoc.org/github.com/rollkit/go-da?status.svg)](https://godoc.org/github.com/rollkit/go-da)
 <!-- markdownlint-enable MD013 -->
 
 ## DA Interface
