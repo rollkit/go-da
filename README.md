@@ -2,11 +2,6 @@
 
 go-da defines a generic Data Availability interface for modular blockchains.
 
-Note that the rollup clients _do not_ need to depend on any implementation,
-they can just make sure that the DA interface is satisfied and start using the
-service. This is a key feature of modular blockchains as they can switch the
-implementations without having to change the interface.
-
 <!-- markdownlint-disable MD013 -->
 [![build-and-test](https://github.com/rollkit/go-da/actions/workflows/ci_release.yml/badge.svg)](https://github.com/rollkit/go-da/actions/workflows/ci_release.yml)
 [![golangci-lint](https://github.com/rollkit/go-da/actions/workflows/lint.yml/badge.svg)](https://github.com/rollkit/go-da/actions/workflows/lint.yml)
@@ -27,8 +22,15 @@ implementations without having to change the interface.
 
 ## Implementations
 
-See [celestia-da](https://github.com/rollkit/celestia-da) for the Celestia
-implementation.
+The following implementations are available:
+
+* [celestia-da](https://github.com/rollkit/celestia-da) implements Celestia as DA.
+* [avail-da](https://github.com/rollkit/avail-da) implements Polygon Avail as DA.
+
+In addition the following helper implementations are available:
+
+* [DummyDA](https://github.com/rollkit/go-da/blob/main/test/dummy.go) implements a Mock DA useful for testing.
+* [Proxy](https://github.com/rollkit/go-da/tree/main/proxy) implements a proxy server that forwards requests to a gRPC server. The proxy client can be used directly to interact with the DA service.
 
 ## Helpful commands
 
