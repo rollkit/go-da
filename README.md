@@ -29,8 +29,11 @@ The following implementations are available:
 
 In addition the following helper implementations are available:
 
-* [DummyDA](https://github.com/rollkit/go-da/blob/main/test/dummy.go) implements a Mock DA useful for testing.
-* [Proxy](https://github.com/rollkit/go-da/tree/main/proxy) implements a proxy server that forwards requests to a gRPC server. The proxy client can be used directly to interact with the DA service.
+* [DummyDA](https://github.com/rollkit/go-da/blob/main/test/dummy.go) implements
+a Mock DA useful for testing.
+* [Proxy](https://github.com/rollkit/go-da/tree/main/proxy) implements a proxy
+server that forwards requests to a gRPC server. The proxy client
+can be used directly to interact with the DA service.
 
 ## Helpful commands
 
