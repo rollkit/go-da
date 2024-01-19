@@ -57,7 +57,10 @@ func (p *proxySrv) Commit(ctx context.Context, request *pbda.CommitRequest) (*pb
 func (p *proxySrv) Submit(ctx context.Context, request *pbda.SubmitRequest) (*pbda.SubmitResponse, error) {
 	blobs := blobsPB2DA(request.Blobs)
 
-	ids, proofs, err := p.target.Submit(ctx, blobs, request.GasPrice)
+	ids, proofs, err := p.target.Submit(ctx, blobs, &da.SubmitOptions{
+		GasPrice:  request.GasPrice,
+		Namespace: request.Namespace.GetValue(),
+	})
 	if err != nil {
 		return nil, err
 	}
