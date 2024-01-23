@@ -28,31 +28,32 @@ func RunDATestSuite(t *testing.T, d da.DA) {
 	})
 }
 
-// TODO(tzdybal): how to get rid of those aliases?
-
-// Blob is a type alias
-type Blob = da.Blob
-
-// ID is a type alias
-type ID = da.ID
-
 // BasicDATest tests round trip of messages to DA and back.
-func BasicDATest(t *testing.T, da da.DA) {
+func BasicDATest(t *testing.T, d da.DA) {
 	msg1 := []byte("message 1")
 	msg2 := []byte("message 2")
 
 	ctx := context.TODO()
-	id1, proof1, err := da.Submit(ctx, []Blob{msg1}, -1)
+	id1, proof1, err := d.Submit(ctx, []da.Blob{msg1}, &da.SubmitOptions{
+		GasPrice:  0,
+		Namespace: []byte{9, 8, 7, 6, 5, 4, 3, 2, 1, 0},
+	})
 	assert.NoError(t, err)
 	assert.NotEmpty(t, id1)
 	assert.NotEmpty(t, proof1)
 
-	id2, proof2, err := da.Submit(ctx, []Blob{msg2}, -1)
+	id2, proof2, err := d.Submit(ctx, []da.Blob{msg2}, &da.SubmitOptions{
+		GasPrice:  0,
+		Namespace: []byte{9, 8, 7, 6, 5, 4, 3, 2, 1, 0},
+	})
 	assert.NoError(t, err)
 	assert.NotEmpty(t, id2)
 	assert.NotEmpty(t, proof2)
 
-	id3, proof3, err := da.Submit(ctx, []Blob{msg1}, -1)
+	id3, proof3, err := d.Submit(ctx, []da.Blob{msg1}, &da.SubmitOptions{
+		GasPrice:  0,
+		Namespace: []byte{9, 8, 7, 6, 5, 4, 3, 2, 1, 0},
+	})
 	assert.NoError(t, err)
 	assert.NotEmpty(t, id3)
 	assert.NotEmpty(t, proof3)
@@ -60,40 +61,40 @@ func BasicDATest(t *testing.T, da da.DA) {
 	assert.NotEqual(t, id1, id2)
 	assert.NotEqual(t, id1, id3)
 
-	ret, err := da.Get(ctx, id1)
+	ret, err := d.Get(ctx, id1)
 	assert.NoError(t, err)
-	assert.Equal(t, []Blob{msg1}, ret)
+	assert.Equal(t, []da.Blob{msg1}, ret)
 
-	commitment1, err := da.Commit(ctx, []Blob{msg1})
+	commitment1, err := d.Commit(ctx, []da.Blob{msg1})
 	assert.NoError(t, err)
 	assert.NotEmpty(t, commitment1)
 
-	commitment2, err := da.Commit(ctx, []Blob{msg2})
+	commitment2, err := d.Commit(ctx, []da.Blob{msg2})
 	assert.NoError(t, err)
 	assert.NotEmpty(t, commitment2)
 
-	oks, err := da.Validate(ctx, id1, proof1)
+	oks, err := d.Validate(ctx, id1, proof1)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, oks)
 	for _, ok := range oks {
 		assert.True(t, ok)
 	}
 
-	oks, err = da.Validate(ctx, id2, proof2)
+	oks, err = d.Validate(ctx, id2, proof2)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, oks)
 	for _, ok := range oks {
 		assert.True(t, ok)
 	}
 
-	oks, err = da.Validate(ctx, id1, proof2)
+	oks, err = d.Validate(ctx, id1, proof2)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, oks)
 	for _, ok := range oks {
 		assert.False(t, ok)
 	}
 
-	oks, err = da.Validate(ctx, id2, proof1)
+	oks, err = d.Validate(ctx, id2, proof1)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, oks)
 	for _, ok := range oks {
@@ -102,19 +103,22 @@ func BasicDATest(t *testing.T, da da.DA) {
 }
 
 // CheckErrors ensures that errors are handled properly by DA.
-func CheckErrors(t *testing.T, da da.DA) {
+func CheckErrors(t *testing.T, d da.DA) {
 	ctx := context.TODO()
-	blob, err := da.Get(ctx, []ID{[]byte("invalid")})
+	blob, err := d.Get(ctx, []da.ID{[]byte("invalid")})
 	assert.Error(t, err)
 	assert.Empty(t, blob)
 }
 
 // GetIDsTest tests iteration over DA
-func GetIDsTest(t *testing.T, da da.DA) {
+func GetIDsTest(t *testing.T, d da.DA) {
 	msgs := [][]byte{[]byte("msg1"), []byte("msg2"), []byte("msg3")}
 
 	ctx := context.TODO()
-	ids, proofs, err := da.Submit(ctx, msgs, -1)
+	ids, proofs, err := d.Submit(ctx, msgs, &da.SubmitOptions{
+		GasPrice:  0,
+		Namespace: []byte{9, 8, 7, 6, 5, 4, 3, 2, 1, 0},
+	})
 	assert.NoError(t, err)
 	assert.Len(t, ids, len(msgs))
 	assert.Len(t, proofs, len(msgs))
@@ -126,12 +130,12 @@ func GetIDsTest(t *testing.T, da da.DA) {
 	// As we're the only user, we don't need to handle external data (that could be submitted in real world).
 	// There is no notion of height, so we need to scan the DA to get test data back.
 	for i := uint64(1); !found && !time.Now().After(end); i++ {
-		ret, err := da.GetIDs(ctx, i)
+		ret, err := d.GetIDs(ctx, i)
 		if err != nil {
 			t.Error("failed to get IDs:", err)
 		}
 		if len(ret) > 0 {
-			blobs, err := da.Get(ctx, ret)
+			blobs, err := d.Get(ctx, ret)
 			assert.NoError(t, err)
 
 			// Submit ensures atomicity of batch, so it makes sense to compare actual blobs (bodies) only when lengths
@@ -151,7 +155,7 @@ func GetIDsTest(t *testing.T, da da.DA) {
 }
 
 // ConcurrentReadWriteTest tests the use of mutex lock in DummyDA by calling separate methods that use `d.data` and making sure there's no race conditions
-func ConcurrentReadWriteTest(t *testing.T, da da.DA) {
+func ConcurrentReadWriteTest(t *testing.T, d da.DA) {
 	var wg sync.WaitGroup
 	wg.Add(2)
 
@@ -160,7 +164,7 @@ func ConcurrentReadWriteTest(t *testing.T, da da.DA) {
 	go func() {
 		defer wg.Done()
 		for i := uint64(1); i <= 100; i++ {
-			_, err := da.GetIDs(ctx, i)
+			_, err := d.GetIDs(ctx, i)
 			assert.NoError(t, err)
 		}
 	}()
@@ -168,7 +172,10 @@ func ConcurrentReadWriteTest(t *testing.T, da da.DA) {
 	go func() {
 		defer wg.Done()
 		for i := uint64(1); i <= 100; i++ {
-			_, _, err := da.Submit(ctx, [][]byte{[]byte("test")}, -1)
+			_, _, err := d.Submit(ctx, [][]byte{[]byte("test")}, &da.SubmitOptions{
+				GasPrice:  0,
+				Namespace: []byte{9, 8, 7, 6, 5, 4, 3, 2, 1, 0},
+			})
 			assert.NoError(t, err)
 		}
 	}()

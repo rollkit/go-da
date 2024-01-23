@@ -22,6 +22,11 @@ service DAService {
 	rpc Validate(ValidateRequest) returns (ValidateResponse) {}
 }
 
+// Namespace is the location for the blob to be submitted to, if supported by the DA layer.
+message Namespace {
+	bytes value = 1;
+}
+
 // Blob is the data submitted/received from DA interface.
 message Blob {
 	bytes value = 1;
@@ -85,6 +90,7 @@ message CommitResponse {
 message SubmitRequest {
 	repeated Blob blobs = 1;
 	double gas_price = 2;
+	Namespace namespace = 3;
 }
 
 // SubmitResponse is the response type for the Submit rpc method.
