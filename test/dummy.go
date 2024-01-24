@@ -79,7 +79,7 @@ func (d *DummyDA) Get(ctx context.Context, ids []da.ID) ([]da.Blob, error) {
 }
 
 // GetIDs returns IDs of Blobs at given DA height.
-func (d *DummyDA) GetIDs(ctx context.Context, height uint64) ([]da.ID, error) {
+func (d *DummyDA) GetIDs(ctx context.Context, height uint64, _ da.Namespace) ([]da.ID, error) {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	kvps := d.data[height]
@@ -91,7 +91,7 @@ func (d *DummyDA) GetIDs(ctx context.Context, height uint64) ([]da.ID, error) {
 }
 
 // Commit returns cryptographic Commitments for given blobs.
-func (d *DummyDA) Commit(ctx context.Context, blobs []da.Blob) ([]da.Commitment, error) {
+func (d *DummyDA) Commit(ctx context.Context, blobs []da.Blob, _ da.Namespace) ([]da.Commitment, error) {
 	commits := make([]da.Commitment, len(blobs))
 	for i, blob := range blobs {
 		commits[i] = d.getHash(blob)

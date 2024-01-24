@@ -24,7 +24,9 @@ type proxySrv struct {
 	target da.DA
 }
 
-func (p *proxySrv) MaxBlobSize(ctx context.Context, request *pbda.MaxBlobSizeRequest) (*pbda.MaxBlobSizeResponse, error) {
+func (p *proxySrv) MaxBlobSize(
+	ctx context.Context, request *pbda.MaxBlobSizeRequest,
+) (*pbda.MaxBlobSizeResponse, error) {
 	maxBlobSize, err := p.target.MaxBlobSize(ctx)
 	return &pbda.MaxBlobSizeResponse{MaxBlobSize: maxBlobSize}, err
 }
@@ -36,7 +38,7 @@ func (p *proxySrv) Get(ctx context.Context, request *pbda.GetRequest) (*pbda.Get
 }
 
 func (p *proxySrv) GetIDs(ctx context.Context, request *pbda.GetIDsRequest) (*pbda.GetIDsResponse, error) {
-	ids, err := p.target.GetIDs(ctx, request.Height)
+	ids, err := p.target.GetIDs(ctx, request.Height, request.Namespace.GetValue())
 	if err != nil {
 		return nil, err
 	}
@@ -46,7 +48,7 @@ func (p *proxySrv) GetIDs(ctx context.Context, request *pbda.GetIDsRequest) (*pb
 
 func (p *proxySrv) Commit(ctx context.Context, request *pbda.CommitRequest) (*pbda.CommitResponse, error) {
 	blobs := blobsPB2DA(request.Blobs)
-	commits, err := p.target.Commit(ctx, blobs)
+	commits, err := p.target.Commit(ctx, blobs, request.Namespace.GetValue())
 	if err != nil {
 		return nil, err
 	}

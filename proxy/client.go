@@ -64,8 +64,8 @@ func (c *Client) Get(ctx context.Context, ids []da.ID) ([]da.Blob, error) {
 }
 
 // GetIDs returns IDs of all Blobs located in DA at given height.
-func (c *Client) GetIDs(ctx context.Context, height uint64) ([]da.ID, error) {
-	req := &pbda.GetIDsRequest{Height: height}
+func (c *Client) GetIDs(ctx context.Context, height uint64, namespace da.Namespace) ([]da.ID, error) {
+	req := &pbda.GetIDsRequest{Height: height, Namespace: &pbda.Namespace{Value: namespace}}
 	resp, err := c.client.GetIDs(ctx, req)
 	if err != nil {
 		return nil, err
@@ -75,9 +75,10 @@ func (c *Client) GetIDs(ctx context.Context, height uint64) ([]da.ID, error) {
 }
 
 // Commit creates a Commitment for each given Blob.
-func (c *Client) Commit(ctx context.Context, blobs []da.Blob) ([]da.Commitment, error) {
+func (c *Client) Commit(ctx context.Context, blobs []da.Blob, namespace da.Namespace) ([]da.Commitment, error) {
 	req := &pbda.CommitRequest{
-		Blobs: blobsDA2PB(blobs),
+		Blobs:     blobsDA2PB(blobs),
+		Namespace: &pbda.Namespace{Value: namespace},
 	}
 
 	resp, err := c.client.Commit(ctx, req)

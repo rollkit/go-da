@@ -69,6 +69,7 @@ message GetResponse {
 // GetIDsRequest is the request type for the GetIDs rpc method.
 message GetIDsRequest {
 	uint64 height = 1;
+	Namespace namespace = 2;
 }
 
 // GetIDsResponse is the response type for the GetIDs rpc method.
@@ -79,6 +80,7 @@ message GetIDsResponse {
 // CommitRequest is the request type for the Commit rpc method.
 message CommitRequest {
 	repeated Blob blobs = 1;
+	Namespace namespace = 2;
 }
 
 // CommitResponse is the response type for the Commit rpc method.

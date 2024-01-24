@@ -65,11 +65,11 @@ func BasicDATest(t *testing.T, d da.DA) {
 	assert.NoError(t, err)
 	assert.Equal(t, []da.Blob{msg1}, ret)
 
-	commitment1, err := d.Commit(ctx, []da.Blob{msg1})
+	commitment1, err := d.Commit(ctx, []da.Blob{msg1}, []byte{})
 	assert.NoError(t, err)
 	assert.NotEmpty(t, commitment1)
 
-	commitment2, err := d.Commit(ctx, []da.Blob{msg2})
+	commitment2, err := d.Commit(ctx, []da.Blob{msg2}, []byte{})
 	assert.NoError(t, err)
 	assert.NotEmpty(t, commitment2)
 
@@ -130,7 +130,7 @@ func GetIDsTest(t *testing.T, d da.DA) {
 	// As we're the only user, we don't need to handle external data (that could be submitted in real world).
 	// There is no notion of height, so we need to scan the DA to get test data back.
 	for i := uint64(1); !found && !time.Now().After(end); i++ {
-		ret, err := d.GetIDs(ctx, i)
+		ret, err := d.GetIDs(ctx, i, []byte{})
 		if err != nil {
 			t.Error("failed to get IDs:", err)
 		}
@@ -164,7 +164,7 @@ func ConcurrentReadWriteTest(t *testing.T, d da.DA) {
 	go func() {
 		defer wg.Done()
 		for i := uint64(1); i <= 100; i++ {
-			_, err := d.GetIDs(ctx, i)
+			_, err := d.GetIDs(ctx, i, []byte{})
 			assert.NoError(t, err)
 		}
 	}()

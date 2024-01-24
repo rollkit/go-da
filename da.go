@@ -14,10 +14,10 @@ type DA interface {
 	Get(ctx context.Context, ids []ID) ([]Blob, error)
 
 	// GetIDs returns IDs of all Blobs located in DA at given height.
-	GetIDs(ctx context.Context, height uint64) ([]ID, error)
+	GetIDs(ctx context.Context, height uint64, namespace Namespace) ([]ID, error)
 
 	// Commit creates a Commitment for each given Blob.
-	Commit(ctx context.Context, blobs []Blob) ([]Commitment, error)
+	Commit(ctx context.Context, blobs []Blob, namespace Namespace) ([]Commitment, error)
 
 	// Submit submits the Blobs to Data Availability layer.
 	//
