@@ -12,13 +12,14 @@ go-da defines a generic Data Availability interface for modular blockchains.
 
 ## DA Interface
 
-| Method      | Params                        | Return       |
-| ----------- |-------------------------------| -------------|
-| `MaxBlobSize` |                               | `uint64`       |
-| `Get`         | `ids []ID`                      | `[]Blobs`      |
-| `GetIDs`      | `height uint64`                 | `[]ID`         |
-| `Commit`      | `blobs []Blob`                  | `[]Commitment` |
-| `Validate`    | `ids []Blob, proofs []Proof`    | `[]bool`       |
+| Method        | Params                                                   | Return          |
+| ------------- | -------------------------------------------------------- | --------------- |
+| `MaxBlobSize` |                                                          | `uint64`        |
+| `Get`         | `ids []ID, namespace Namespace`                          | `[]Blobs`       |
+| `GetIDs`      | `height uint64, namespace Namespace`                     | `[]ID`          |
+| `Commit`      | `blobs []Blob, namespace Namespace`                      | `[]Commitment`  |
+| `Validate`    | `ids []Blob, proofs []Proof, namespace Namespace`        | `[]bool`        |
+| `Submit`      | `blobs []Blob, gasPrice float64, namespace Namespace`    | `[]ID, []Proof` |
 
 ## Implementations
 

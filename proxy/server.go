@@ -33,7 +33,7 @@ func (p *proxySrv) MaxBlobSize(
 
 func (p *proxySrv) Get(ctx context.Context, request *pbda.GetRequest) (*pbda.GetResponse, error) {
 	ids := idsPB2DA(request.Ids)
-	blobs, err := p.target.Get(ctx, ids)
+	blobs, err := p.target.Get(ctx, ids, request.Namespace.GetValue())
 	return &pbda.GetResponse{Blobs: blobsDA2PB(blobs)}, err
 }
 
@@ -81,7 +81,7 @@ func (p *proxySrv) Validate(ctx context.Context, request *pbda.ValidateRequest) 
 	ids := idsPB2DA(request.Ids)
 	proofs := proofsPB2DA(request.Proofs)
 	//TODO implement me
-	validity, err := p.target.Validate(ctx, ids, proofs)
+	validity, err := p.target.Validate(ctx, ids, proofs, request.Namespace.GetValue())
 	if err != nil {
 		return nil, err
 	}

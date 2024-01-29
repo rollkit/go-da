@@ -11,7 +11,7 @@ type DA interface {
 	//
 	// Error should be returned if ID is not formatted properly, there is no Blob for given ID or any other client-level
 	// error occurred (dropped connection, timeout, etc).
-	Get(ctx context.Context, ids []ID) ([]Blob, error)
+	Get(ctx context.Context, ids []ID, namespace Namespace) ([]Blob, error)
 
 	// GetIDs returns IDs of all Blobs located in DA at given height.
 	GetIDs(ctx context.Context, height uint64, namespace Namespace) ([]ID, error)
@@ -27,7 +27,7 @@ type DA interface {
 	Submit(ctx context.Context, blobs []Blob, gasPrice float64, namespace Namespace) ([]ID, []Proof, error)
 
 	// Validate validates Commitments against the corresponding Proofs. This should be possible without retrieving the Blobs.
-	Validate(ctx context.Context, ids []ID, proofs []Proof) ([]bool, error)
+	Validate(ctx context.Context, ids []ID, proofs []Proof, namespace Namespace) ([]bool, error)
 }
 
 // Namespace is an optional parameter used to set the location a blob should be

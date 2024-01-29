@@ -59,6 +59,7 @@ message MaxBlobSizeResponse {
 // GetRequest is the request type for the Get rpc method.
 message GetRequest {
 	repeated ID ids = 1;
+	Namespace namespace = 2;
 }
 
 // GetResponse is the response type for the Get rpc method.
@@ -105,6 +106,7 @@ message SubmitResponse {
 message ValidateRequest {
 	repeated ID ids = 1;
 	repeated Proof proofs = 2;
+	Namespace namespace = 3;
 }
 
 // ValidateResponse is the response type for the Validate rpc method.

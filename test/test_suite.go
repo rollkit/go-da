@@ -12,6 +12,8 @@ import (
 	"github.com/rollkit/go-da"
 )
 
+var testNamespace = da.Namespace([]byte("test"))
+
 // RunDATestSuite runs all tests against given DA
 func RunDATestSuite(t *testing.T, d da.DA) {
 	t.Run("Basic DA test", func(t *testing.T) {
@@ -34,17 +36,17 @@ func BasicDATest(t *testing.T, d da.DA) {
 	msg2 := []byte("message 2")
 
 	ctx := context.TODO()
-	id1, proof1, err := d.Submit(ctx, []da.Blob{msg1}, 0, []byte{9, 8, 7, 6, 5, 4, 3, 2, 1, 0})
+	id1, proof1, err := d.Submit(ctx, []da.Blob{msg1}, 0, testNamespace)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, id1)
 	assert.NotEmpty(t, proof1)
 
-	id2, proof2, err := d.Submit(ctx, []da.Blob{msg2}, 0, []byte{9, 8, 7, 6, 5, 4, 3, 2, 1, 0})
+	id2, proof2, err := d.Submit(ctx, []da.Blob{msg2}, 0, testNamespace)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, id2)
 	assert.NotEmpty(t, proof2)
 
-	id3, proof3, err := d.Submit(ctx, []da.Blob{msg1}, 0, []byte{9, 8, 7, 6, 5, 4, 3, 2, 1, 0})
+	id3, proof3, err := d.Submit(ctx, []da.Blob{msg1}, 0, testNamespace)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, id3)
 	assert.NotEmpty(t, proof3)
@@ -52,7 +54,7 @@ func BasicDATest(t *testing.T, d da.DA) {
 	assert.NotEqual(t, id1, id2)
 	assert.NotEqual(t, id1, id3)
 
-	ret, err := d.Get(ctx, id1)
+	ret, err := d.Get(ctx, id1, testNamespace)
 	assert.NoError(t, err)
 	assert.Equal(t, []da.Blob{msg1}, ret)
 
@@ -64,28 +66,28 @@ func BasicDATest(t *testing.T, d da.DA) {
 	assert.NoError(t, err)
 	assert.NotEmpty(t, commitment2)
 
-	oks, err := d.Validate(ctx, id1, proof1)
+	oks, err := d.Validate(ctx, id1, proof1, testNamespace)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, oks)
 	for _, ok := range oks {
 		assert.True(t, ok)
 	}
 
-	oks, err = d.Validate(ctx, id2, proof2)
+	oks, err = d.Validate(ctx, id2, proof2, testNamespace)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, oks)
 	for _, ok := range oks {
 		assert.True(t, ok)
 	}
 
-	oks, err = d.Validate(ctx, id1, proof2)
+	oks, err = d.Validate(ctx, id1, proof2, testNamespace)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, oks)
 	for _, ok := range oks {
 		assert.False(t, ok)
 	}
 
-	oks, err = d.Validate(ctx, id2, proof1)
+	oks, err = d.Validate(ctx, id2, proof1, testNamespace)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, oks)
 	for _, ok := range oks {
@@ -96,7 +98,7 @@ func BasicDATest(t *testing.T, d da.DA) {
 // CheckErrors ensures that errors are handled properly by DA.
 func CheckErrors(t *testing.T, d da.DA) {
 	ctx := context.TODO()
-	blob, err := d.Get(ctx, []da.ID{[]byte("invalid")})
+	blob, err := d.Get(ctx, []da.ID{[]byte("invalid")}, testNamespace)
 	assert.Error(t, err)
 	assert.Empty(t, blob)
 }
@@ -123,7 +125,7 @@ func GetIDsTest(t *testing.T, d da.DA) {
 			t.Error("failed to get IDs:", err)
 		}
 		if len(ret) > 0 {
-			blobs, err := d.Get(ctx, ret)
+			blobs, err := d.Get(ctx, ret, testNamespace)
 			assert.NoError(t, err)
 
 			// Submit ensures atomicity of batch, so it makes sense to compare actual blobs (bodies) only when lengths

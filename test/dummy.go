@@ -55,7 +55,7 @@ func (d *DummyDA) MaxBlobSize(ctx context.Context) (uint64, error) {
 }
 
 // Get returns Blobs for given IDs.
-func (d *DummyDA) Get(ctx context.Context, ids []da.ID) ([]da.Blob, error) {
+func (d *DummyDA) Get(ctx context.Context, ids []da.ID, _ da.Namespace) ([]da.Blob, error) {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	blobs := make([]da.Blob, len(ids))
@@ -117,7 +117,7 @@ func (d *DummyDA) Submit(ctx context.Context, blobs []da.Blob, gasPrice float64,
 }
 
 // Validate checks the Proofs for given IDs.
-func (d *DummyDA) Validate(ctx context.Context, ids []da.ID, proofs []da.Proof) ([]bool, error) {
+func (d *DummyDA) Validate(ctx context.Context, ids []da.ID, proofs []da.Proof, _ da.Namespace) ([]bool, error) {
 	if len(ids) != len(proofs) {
 		return nil, errors.New("number of IDs doesn't equal to number of proofs")
 	}
