@@ -24,16 +24,10 @@ type DA interface {
 	// This method is synchronous. Upon successful submission to Data Availability layer, it returns ID identifying blob
 	// in DA and Proof of inclusion.
 	// If options is nil, default options are used.
-	Submit(ctx context.Context, blobs []Blob, opts *SubmitOptions) ([]ID, []Proof, error)
+	Submit(ctx context.Context, blobs []Blob, gasPrice float64, namespace Namespace) ([]ID, []Proof, error)
 
 	// Validate validates Commitments against the corresponding Proofs. This should be possible without retrieving the Blobs.
 	Validate(ctx context.Context, ids []ID, proofs []Proof) ([]bool, error)
-}
-
-// SubmitOptions are the parameters used for blob submission.
-type SubmitOptions struct {
-	GasPrice  float64
-	Namespace Namespace
 }
 
 // Namespace is an optional parameter used to set the location a blob should be

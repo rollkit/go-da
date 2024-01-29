@@ -100,7 +100,7 @@ func (d *DummyDA) Commit(ctx context.Context, blobs []da.Blob, _ da.Namespace) (
 }
 
 // Submit stores blobs in DA layer.
-func (d *DummyDA) Submit(ctx context.Context, blobs []da.Blob, opts *da.SubmitOptions) ([]da.ID, []da.Proof, error) {
+func (d *DummyDA) Submit(ctx context.Context, blobs []da.Blob, gasPrice float64, namespace da.Namespace) ([]da.ID, []da.Proof, error) {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	ids := make([]da.ID, len(blobs))
