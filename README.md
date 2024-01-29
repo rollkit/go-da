@@ -21,6 +21,10 @@ go-da defines a generic Data Availability interface for modular blockchains.
 | `Validate`    | `ids []Blob, proofs []Proof, namespace Namespace`        | `[]bool`        |
 | `Submit`      | `blobs []Blob, gasPrice float64, namespace Namespace`    | `[]ID, []Proof` |
 
+NOTE: The `Namespace` parameter in the interface methods is optional and used
+only on DA layers that support the functionality, for example Celestia
+namespaces and Avail AppIDs.
+
 ## Implementations
 
 The following implementations are available:
