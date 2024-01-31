@@ -12,6 +12,8 @@ import (
 	"github.com/rollkit/go-da"
 )
 
+var testNamespace = da.Namespace([]byte("test"))
+
 // RunDATestSuite runs all tests against given DA
 func RunDATestSuite(t *testing.T, d da.DA) {
 	t.Run("Basic DA test", func(t *testing.T) {
@@ -34,26 +36,17 @@ func BasicDATest(t *testing.T, d da.DA) {
 	msg2 := []byte("message 2")
 
 	ctx := context.TODO()
-	id1, proof1, err := d.Submit(ctx, []da.Blob{msg1}, &da.SubmitOptions{
-		GasPrice:  0,
-		Namespace: []byte{9, 8, 7, 6, 5, 4, 3, 2, 1, 0},
-	})
+	id1, proof1, err := d.Submit(ctx, []da.Blob{msg1}, 0, testNamespace)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, id1)
 	assert.NotEmpty(t, proof1)
 
-	id2, proof2, err := d.Submit(ctx, []da.Blob{msg2}, &da.SubmitOptions{
-		GasPrice:  0,
-		Namespace: []byte{9, 8, 7, 6, 5, 4, 3, 2, 1, 0},
-	})
+	id2, proof2, err := d.Submit(ctx, []da.Blob{msg2}, 0, testNamespace)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, id2)
 	assert.NotEmpty(t, proof2)
 
-	id3, proof3, err := d.Submit(ctx, []da.Blob{msg1}, &da.SubmitOptions{
-		GasPrice:  0,
-		Namespace: []byte{9, 8, 7, 6, 5, 4, 3, 2, 1, 0},
-	})
+	id3, proof3, err := d.Submit(ctx, []da.Blob{msg1}, 0, testNamespace)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, id3)
 	assert.NotEmpty(t, proof3)
@@ -61,40 +54,40 @@ func BasicDATest(t *testing.T, d da.DA) {
 	assert.NotEqual(t, id1, id2)
 	assert.NotEqual(t, id1, id3)
 
-	ret, err := d.Get(ctx, id1)
+	ret, err := d.Get(ctx, id1, testNamespace)
 	assert.NoError(t, err)
 	assert.Equal(t, []da.Blob{msg1}, ret)
 
-	commitment1, err := d.Commit(ctx, []da.Blob{msg1})
+	commitment1, err := d.Commit(ctx, []da.Blob{msg1}, []byte{})
 	assert.NoError(t, err)
 	assert.NotEmpty(t, commitment1)
 
-	commitment2, err := d.Commit(ctx, []da.Blob{msg2})
+	commitment2, err := d.Commit(ctx, []da.Blob{msg2}, []byte{})
 	assert.NoError(t, err)
 	assert.NotEmpty(t, commitment2)
 
-	oks, err := d.Validate(ctx, id1, proof1)
+	oks, err := d.Validate(ctx, id1, proof1, testNamespace)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, oks)
 	for _, ok := range oks {
 		assert.True(t, ok)
 	}
 
-	oks, err = d.Validate(ctx, id2, proof2)
+	oks, err = d.Validate(ctx, id2, proof2, testNamespace)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, oks)
 	for _, ok := range oks {
 		assert.True(t, ok)
 	}
 
-	oks, err = d.Validate(ctx, id1, proof2)
+	oks, err = d.Validate(ctx, id1, proof2, testNamespace)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, oks)
 	for _, ok := range oks {
 		assert.False(t, ok)
 	}
 
-	oks, err = d.Validate(ctx, id2, proof1)
+	oks, err = d.Validate(ctx, id2, proof1, testNamespace)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, oks)
 	for _, ok := range oks {
@@ -105,7 +98,7 @@ func BasicDATest(t *testing.T, d da.DA) {
 // CheckErrors ensures that errors are handled properly by DA.
 func CheckErrors(t *testing.T, d da.DA) {
 	ctx := context.TODO()
-	blob, err := d.Get(ctx, []da.ID{[]byte("invalid")})
+	blob, err := d.Get(ctx, []da.ID{[]byte("invalid")}, testNamespace)
 	assert.Error(t, err)
 	assert.Empty(t, blob)
 }
@@ -115,10 +108,7 @@ func GetIDsTest(t *testing.T, d da.DA) {
 	msgs := [][]byte{[]byte("msg1"), []byte("msg2"), []byte("msg3")}
 
 	ctx := context.TODO()
-	ids, proofs, err := d.Submit(ctx, msgs, &da.SubmitOptions{
-		GasPrice:  0,
-		Namespace: []byte{9, 8, 7, 6, 5, 4, 3, 2, 1, 0},
-	})
+	ids, proofs, err := d.Submit(ctx, msgs, 0, []byte{9, 8, 7, 6, 5, 4, 3, 2, 1, 0})
 	assert.NoError(t, err)
 	assert.Len(t, ids, len(msgs))
 	assert.Len(t, proofs, len(msgs))
@@ -130,12 +120,12 @@ func GetIDsTest(t *testing.T, d da.DA) {
 	// As we're the only user, we don't need to handle external data (that could be submitted in real world).
 	// There is no notion of height, so we need to scan the DA to get test data back.
 	for i := uint64(1); !found && !time.Now().After(end); i++ {
-		ret, err := d.GetIDs(ctx, i)
+		ret, err := d.GetIDs(ctx, i, []byte{})
 		if err != nil {
 			t.Error("failed to get IDs:", err)
 		}
 		if len(ret) > 0 {
-			blobs, err := d.Get(ctx, ret)
+			blobs, err := d.Get(ctx, ret, testNamespace)
 			assert.NoError(t, err)
 
 			// Submit ensures atomicity of batch, so it makes sense to compare actual blobs (bodies) only when lengths
@@ -164,7 +154,7 @@ func ConcurrentReadWriteTest(t *testing.T, d da.DA) {
 	go func() {
 		defer wg.Done()
 		for i := uint64(1); i <= 100; i++ {
-			_, err := d.GetIDs(ctx, i)
+			_, err := d.GetIDs(ctx, i, []byte{})
 			assert.NoError(t, err)
 		}
 	}()
@@ -172,10 +162,7 @@ func ConcurrentReadWriteTest(t *testing.T, d da.DA) {
 	go func() {
 		defer wg.Done()
 		for i := uint64(1); i <= 100; i++ {
-			_, _, err := d.Submit(ctx, [][]byte{[]byte("test")}, &da.SubmitOptions{
-				GasPrice:  0,
-				Namespace: []byte{9, 8, 7, 6, 5, 4, 3, 2, 1, 0},
-			})
+			_, _, err := d.Submit(ctx, [][]byte{[]byte("test")}, 0, []byte{9, 8, 7, 6, 5, 4, 3, 2, 1, 0})
 			assert.NoError(t, err)
 		}
 	}()

@@ -48,9 +48,10 @@ func (c *Client) MaxBlobSize(ctx context.Context) (uint64, error) {
 }
 
 // Get returns Blob for each given ID, or an error.
-func (c *Client) Get(ctx context.Context, ids []da.ID) ([]da.Blob, error) {
+func (c *Client) Get(ctx context.Context, ids []da.ID, namespace da.Namespace) ([]da.Blob, error) {
 	req := &pbda.GetRequest{
-		Ids: make([]*pbda.ID, len(ids)),
+		Ids:       make([]*pbda.ID, len(ids)),
+		Namespace: &pbda.Namespace{Value: namespace},
 	}
 	for i := range ids {
 		req.Ids[i] = &pbda.ID{Value: ids[i]}
@@ -64,8 +65,8 @@ func (c *Client) Get(ctx context.Context, ids []da.ID) ([]da.Blob, error) {
 }
 
 // GetIDs returns IDs of all Blobs located in DA at given height.
-func (c *Client) GetIDs(ctx context.Context, height uint64) ([]da.ID, error) {
-	req := &pbda.GetIDsRequest{Height: height}
+func (c *Client) GetIDs(ctx context.Context, height uint64, namespace da.Namespace) ([]da.ID, error) {
+	req := &pbda.GetIDsRequest{Height: height, Namespace: &pbda.Namespace{Value: namespace}}
 	resp, err := c.client.GetIDs(ctx, req)
 	if err != nil {
 		return nil, err
@@ -75,9 +76,10 @@ func (c *Client) GetIDs(ctx context.Context, height uint64) ([]da.ID, error) {
 }
 
 // Commit creates a Commitment for each given Blob.
-func (c *Client) Commit(ctx context.Context, blobs []da.Blob) ([]da.Commitment, error) {
+func (c *Client) Commit(ctx context.Context, blobs []da.Blob, namespace da.Namespace) ([]da.Commitment, error) {
 	req := &pbda.CommitRequest{
-		Blobs: blobsDA2PB(blobs),
+		Blobs:     blobsDA2PB(blobs),
+		Namespace: &pbda.Namespace{Value: namespace},
 	}
 
 	resp, err := c.client.Commit(ctx, req)
@@ -89,11 +91,11 @@ func (c *Client) Commit(ctx context.Context, blobs []da.Blob) ([]da.Commitment, 
 }
 
 // Submit submits the Blobs to Data Availability layer.
-func (c *Client) Submit(ctx context.Context, blobs []da.Blob, opts *da.SubmitOptions) ([]da.ID, []da.Proof, error) {
+func (c *Client) Submit(ctx context.Context, blobs []da.Blob, gasPrice float64, namespace da.Namespace) ([]da.ID, []da.Proof, error) {
 	req := &pbda.SubmitRequest{
 		Blobs:     blobsDA2PB(blobs),
-		GasPrice:  opts.GasPrice,
-		Namespace: &pbda.Namespace{Value: opts.Namespace},
+		GasPrice:  gasPrice,
+		Namespace: &pbda.Namespace{Value: namespace},
 	}
 
 	resp, err := c.client.Submit(ctx, req)
@@ -112,10 +114,11 @@ func (c *Client) Submit(ctx context.Context, blobs []da.Blob, opts *da.SubmitOpt
 }
 
 // Validate validates Commitments against the corresponding Proofs. This should be possible without retrieving the Blobs.
-func (c *Client) Validate(ctx context.Context, ids []da.ID, proofs []da.Proof) ([]bool, error) {
+func (c *Client) Validate(ctx context.Context, ids []da.ID, proofs []da.Proof, namespace da.Namespace) ([]bool, error) {
 	req := &pbda.ValidateRequest{
-		Ids:    idsDA2PB(ids),
-		Proofs: proofsDA2PB(proofs),
+		Ids:       idsDA2PB(ids),
+		Proofs:    proofsDA2PB(proofs),
+		Namespace: &pbda.Namespace{Value: namespace},
 	}
 	resp, err := c.client.Validate(ctx, req)
 	return resp.Results, err

@@ -55,7 +55,7 @@ func (d *DummyDA) MaxBlobSize(ctx context.Context) (uint64, error) {
 }
 
 // Get returns Blobs for given IDs.
-func (d *DummyDA) Get(ctx context.Context, ids []da.ID) ([]da.Blob, error) {
+func (d *DummyDA) Get(ctx context.Context, ids []da.ID, _ da.Namespace) ([]da.Blob, error) {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	blobs := make([]da.Blob, len(ids))
@@ -79,7 +79,7 @@ func (d *DummyDA) Get(ctx context.Context, ids []da.ID) ([]da.Blob, error) {
 }
 
 // GetIDs returns IDs of Blobs at given DA height.
-func (d *DummyDA) GetIDs(ctx context.Context, height uint64) ([]da.ID, error) {
+func (d *DummyDA) GetIDs(ctx context.Context, height uint64, _ da.Namespace) ([]da.ID, error) {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	kvps := d.data[height]
@@ -91,7 +91,7 @@ func (d *DummyDA) GetIDs(ctx context.Context, height uint64) ([]da.ID, error) {
 }
 
 // Commit returns cryptographic Commitments for given blobs.
-func (d *DummyDA) Commit(ctx context.Context, blobs []da.Blob) ([]da.Commitment, error) {
+func (d *DummyDA) Commit(ctx context.Context, blobs []da.Blob, _ da.Namespace) ([]da.Commitment, error) {
 	commits := make([]da.Commitment, len(blobs))
 	for i, blob := range blobs {
 		commits[i] = d.getHash(blob)
@@ -100,7 +100,7 @@ func (d *DummyDA) Commit(ctx context.Context, blobs []da.Blob) ([]da.Commitment,
 }
 
 // Submit stores blobs in DA layer.
-func (d *DummyDA) Submit(ctx context.Context, blobs []da.Blob, opts *da.SubmitOptions) ([]da.ID, []da.Proof, error) {
+func (d *DummyDA) Submit(ctx context.Context, blobs []da.Blob, gasPrice float64, namespace da.Namespace) ([]da.ID, []da.Proof, error) {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	ids := make([]da.ID, len(blobs))
@@ -117,7 +117,7 @@ func (d *DummyDA) Submit(ctx context.Context, blobs []da.Blob, opts *da.SubmitOp
 }
 
 // Validate checks the Proofs for given IDs.
-func (d *DummyDA) Validate(ctx context.Context, ids []da.ID, proofs []da.Proof) ([]bool, error) {
+func (d *DummyDA) Validate(ctx context.Context, ids []da.ID, proofs []da.Proof, _ da.Namespace) ([]bool, error) {
 	if len(ids) != len(proofs) {
 		return nil, errors.New("number of IDs doesn't equal to number of proofs")
 	}
