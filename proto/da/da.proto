@@ -12,6 +12,9 @@ service DAService {
 	// GetIDs returns IDs of all Blobs located in DA at given height.
 	rpc GetIDs(GetIDsRequest) returns (GetIDsResponse) {}
 
+	// GetProofs returns inclusion Proofs for all Blobs located in DA at given height.
+    rpc GetProofs(GetProofsRequest) returns (GetProofsResponse) {}
+
 	// Commit creates a Commitment for each given Blob.
 	rpc Commit(CommitRequest) returns (CommitResponse) {}
 
@@ -78,6 +81,17 @@ message GetIDsResponse {
 	repeated ID ids = 1;
 }
 
+// GetProofsRequest is the request type for the GetProofs rpc method.
+message GetProofsRequest {
+	uint64 height = 1;
+	Namespace namespace = 2;
+}
+
+// GetProofsResponse is the response type for the GetProofs rpc method.
+message GetProofsResponse {
+    repeated Proof proofs = 1;
+}
+
 // CommitRequest is the request type for the Commit rpc method.
 message CommitRequest {
 	repeated Blob blobs = 1;
@@ -99,7 +113,6 @@ message SubmitRequest {
 // SubmitResponse is the response type for the Submit rpc method.
 message SubmitResponse {
 	repeated ID ids = 1;
-	repeated Proof proofs = 2;
 }
 
 // ValidateRequest is the request type for the Validate rpc method.

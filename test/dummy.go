@@ -90,6 +90,18 @@ func (d *DummyDA) GetIDs(ctx context.Context, height uint64, _ da.Namespace) ([]
 	return ids, nil
 }
 
+// GetProofs returns inclusion Proofs for all Blobs located in DA at given height.
+func (d *DummyDA) GetProofs(ctx context.Context, height uint64, _ da.Namespace) ([]da.ID, error) {
+	d.mu.Lock()
+	defer d.mu.Unlock()
+	kvps := d.data[height]
+	proofs := make([]da.Proof, len(kvps))
+	for i, kv := range kvps {
+		proofs[i] = d.getProof(kv.key, kv.value)
+	}
+	return proofs, nil
+}
+
 // Commit returns cryptographic Commitments for given blobs.
 func (d *DummyDA) Commit(ctx context.Context, blobs []da.Blob, _ da.Namespace) ([]da.Commitment, error) {
 	commits := make([]da.Commitment, len(blobs))
@@ -100,20 +112,18 @@ func (d *DummyDA) Commit(ctx context.Context, blobs []da.Blob, _ da.Namespace) (
 }
 
 // Submit stores blobs in DA layer.
-func (d *DummyDA) Submit(ctx context.Context, blobs []da.Blob, gasPrice float64, namespace da.Namespace) ([]da.ID, []da.Proof, error) {
+func (d *DummyDA) Submit(ctx context.Context, blobs []da.Blob, gasPrice float64, namespace da.Namespace) ([]da.ID, error) {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	ids := make([]da.ID, len(blobs))
-	proofs := make([]da.Proof, len(blobs))
 	d.height += 1
 	for i, blob := range blobs {
 		ids[i] = append(d.nextID(), d.getHash(blob)...)
-		proofs[i] = d.getProof(ids[i], blob)
 
 		d.data[d.height] = append(d.data[d.height], kvp{ids[i], blob})
 	}
 
-	return ids, proofs, nil
+	return ids, nil
 }
 
 // Validate checks the Proofs for given IDs.

@@ -36,20 +36,17 @@ func BasicDATest(t *testing.T, d da.DA) {
 	msg2 := []byte("message 2")
 
 	ctx := context.TODO()
-	id1, proof1, err := d.Submit(ctx, []da.Blob{msg1}, 0, testNamespace)
+	id1, err := d.Submit(ctx, []da.Blob{msg1}, 0, testNamespace)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, id1)
-	assert.NotEmpty(t, proof1)
 
-	id2, proof2, err := d.Submit(ctx, []da.Blob{msg2}, 0, testNamespace)
+	id2, err := d.Submit(ctx, []da.Blob{msg2}, 0, testNamespace)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, id2)
-	assert.NotEmpty(t, proof2)
 
-	id3, proof3, err := d.Submit(ctx, []da.Blob{msg1}, 0, testNamespace)
+	id3, err := d.Submit(ctx, []da.Blob{msg1}, 0, testNamespace)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, id3)
-	assert.NotEmpty(t, proof3)
 
 	assert.NotEqual(t, id1, id2)
 	assert.NotEqual(t, id1, id3)
@@ -66,6 +63,9 @@ func BasicDATest(t *testing.T, d da.DA) {
 	assert.NoError(t, err)
 	assert.NotEmpty(t, commitment2)
 
+	proof1, err := d.GetProofs(ctx, 1, testNamespace)
+	assert.NoError(t, err)
+	assert.NotEmpty(t, proof1)
 	oks, err := d.Validate(ctx, id1, proof1, testNamespace)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, oks)
@@ -73,6 +73,9 @@ func BasicDATest(t *testing.T, d da.DA) {
 		assert.True(t, ok)
 	}
 
+	proof2, err := d.GetProofs(ctx, 2, testNamespace)
+	assert.NoError(t, err)
+	assert.NotEmpty(t, proof2)
 	oks, err = d.Validate(ctx, id2, proof2, testNamespace)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, oks)
@@ -108,10 +111,9 @@ func GetIDsTest(t *testing.T, d da.DA) {
 	msgs := [][]byte{[]byte("msg1"), []byte("msg2"), []byte("msg3")}
 
 	ctx := context.TODO()
-	ids, proofs, err := d.Submit(ctx, msgs, 0, []byte{9, 8, 7, 6, 5, 4, 3, 2, 1, 0})
+	ids, err := d.Submit(ctx, msgs, 0, testNamespace)
 	assert.NoError(t, err)
 	assert.Len(t, ids, len(msgs))
-	assert.Len(t, proofs, len(msgs))
 
 	found := false
 	end := time.Now().Add(1 * time.Second)
@@ -162,7 +164,7 @@ func ConcurrentReadWriteTest(t *testing.T, d da.DA) {
 	go func() {
 		defer wg.Done()
 		for i := uint64(1); i <= 100; i++ {
-			_, _, err := d.Submit(ctx, [][]byte{[]byte("test")}, 0, []byte{9, 8, 7, 6, 5, 4, 3, 2, 1, 0})
+			_, err := d.Submit(ctx, [][]byte{[]byte("test")}, 0, testNamespace)
 			assert.NoError(t, err)
 		}
 	}()

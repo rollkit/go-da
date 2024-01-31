@@ -56,22 +56,29 @@ func (p *proxySrv) Commit(ctx context.Context, request *pbda.CommitRequest) (*pb
 	return &pbda.CommitResponse{Commitments: commitsDA2PB(commits)}, nil
 }
 
+func (p *proxySrv) GetProofs(ctx context.Context, request *pbda.GetProofsRequest) (*pbda.GetProofsResponse, error) {
+	proofs, err := p.target.GetProofs(ctx, request.Height, request.Namespace.GetValue())
+	if err != nil {
+		return nil, err
+	}
+
+	return &pbda.GetProofsResponse{Proofs: proofsDA2PB(proofs)}, nil
+}
+
 func (p *proxySrv) Submit(ctx context.Context, request *pbda.SubmitRequest) (*pbda.SubmitResponse, error) {
 	blobs := blobsPB2DA(request.Blobs)
 
-	ids, proofs, err := p.target.Submit(ctx, blobs, request.GasPrice, request.Namespace.GetValue())
+	ids, err := p.target.Submit(ctx, blobs, request.GasPrice, request.Namespace.GetValue())
 	if err != nil {
 		return nil, err
 	}
 
 	resp := &pbda.SubmitResponse{
-		Ids:    make([]*pbda.ID, len(ids)),
-		Proofs: make([]*pbda.Proof, len(proofs)),
+		Ids: make([]*pbda.ID, len(ids)),
 	}
 
 	for i := range ids {
 		resp.Ids[i] = &pbda.ID{Value: ids[i]}
-		resp.Proofs[i] = &pbda.Proof{Value: proofs[i]}
 	}
 
 	return resp, nil
