@@ -17,11 +17,10 @@ go-da defines a generic Data Availability interface for modular blockchains.
 | `MaxBlobSize` |                                                          | `uint64`        |
 | `Get`         | `ids []ID, namespace Namespace`                          | `[]Blobs`       |
 | `GetIDs`      | `height uint64, namespace Namespace`                     | `[]ID`          |
-| `GetProofs`      | `height uint64, namespace Namespace`                     | `[]Proof`          |
+| `GetProofs`      | `ids []id, namespace Namespace`                     | `[]Proof`          |
 | `Commit`      | `blobs []Blob, namespace Namespace`                      | `[]Commitment`  |
 | `Validate`    | `ids []Blob, proofs []Proof, namespace Namespace`        | `[]bool`        |
 | `Submit`      | `blobs []Blob, gasPrice float64, namespace Namespace`    | `[]ID` |
->>>>>>> 7e98847 (feat!: adding Namespace to remaining endpoints (#35))
 
 NOTE: The `Namespace` parameter in the interface methods is optional and used
 only on DA layers that support the functionality, for example Celestia

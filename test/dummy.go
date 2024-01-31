@@ -91,13 +91,17 @@ func (d *DummyDA) GetIDs(ctx context.Context, height uint64, _ da.Namespace) ([]
 }
 
 // GetProofs returns inclusion Proofs for all Blobs located in DA at given height.
-func (d *DummyDA) GetProofs(ctx context.Context, height uint64, _ da.Namespace) ([]da.ID, error) {
+func (d *DummyDA) GetProofs(ctx context.Context, ids []da.ID, _ da.Namespace) ([]da.Proof, error) {
+	blobs, err := d.Get(ctx, ids, nil)
+
 	d.mu.Lock()
 	defer d.mu.Unlock()
-	kvps := d.data[height]
-	proofs := make([]da.Proof, len(kvps))
-	for i, kv := range kvps {
-		proofs[i] = d.getProof(kv.key, kv.value)
+	if err != nil {
+		return nil, err
+	}
+	proofs := make([]da.Proof, len(blobs))
+	for i, blob := range blobs {
+		proofs[i] = d.getProof(ids[i], blob)
 	}
 	return proofs, nil
 }

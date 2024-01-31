@@ -17,7 +17,7 @@ type DA interface {
 	GetIDs(ctx context.Context, height uint64, namespace Namespace) ([]ID, error)
 
 	// GetProofs returns inclusion Proofs for all Blobs located in DA at given height.
-	GetProofs(ctx context.Context, height uint64, namespace Namespace) ([]Proof, error)
+	GetProofs(ctx context.Context, ids []ID, namespace Namespace) ([]Proof, error)
 
 	// Commit creates a Commitment for each given Blob.
 	Commit(ctx context.Context, blobs []Blob, namespace Namespace) ([]Commitment, error)

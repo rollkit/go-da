@@ -57,7 +57,8 @@ func (p *proxySrv) Commit(ctx context.Context, request *pbda.CommitRequest) (*pb
 }
 
 func (p *proxySrv) GetProofs(ctx context.Context, request *pbda.GetProofsRequest) (*pbda.GetProofsResponse, error) {
-	proofs, err := p.target.GetProofs(ctx, request.Height, request.Namespace.GetValue())
+	ids := idsPB2DA(request.Ids)
+	proofs, err := p.target.GetProofs(ctx, ids, request.Namespace.GetValue())
 	if err != nil {
 		return nil, err
 	}

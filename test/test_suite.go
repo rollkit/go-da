@@ -63,38 +63,15 @@ func BasicDATest(t *testing.T, d da.DA) {
 	assert.NoError(t, err)
 	assert.NotEmpty(t, commitment2)
 
-	proof1, err := d.GetProofs(ctx, 1, testNamespace)
+	ids := [][]byte{id1[0], id2[0], id3[0]}
+	proofs, err := d.GetProofs(ctx, ids, testNamespace)
 	assert.NoError(t, err)
-	assert.NotEmpty(t, proof1)
-	oks, err := d.Validate(ctx, id1, proof1, testNamespace)
-	assert.NoError(t, err)
-	assert.NotEmpty(t, oks)
-	for _, ok := range oks {
-		assert.True(t, ok)
-	}
-
-	proof2, err := d.GetProofs(ctx, 2, testNamespace)
-	assert.NoError(t, err)
-	assert.NotEmpty(t, proof2)
-	oks, err = d.Validate(ctx, id2, proof2, testNamespace)
+	assert.NotEmpty(t, proofs)
+	oks, err := d.Validate(ctx, ids, proofs, testNamespace)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, oks)
 	for _, ok := range oks {
 		assert.True(t, ok)
-	}
-
-	oks, err = d.Validate(ctx, id1, proof2, testNamespace)
-	assert.NoError(t, err)
-	assert.NotEmpty(t, oks)
-	for _, ok := range oks {
-		assert.False(t, ok)
-	}
-
-	oks, err = d.Validate(ctx, id2, proof1, testNamespace)
-	assert.NoError(t, err)
-	assert.NotEmpty(t, oks)
-	for _, ok := range oks {
-		assert.False(t, ok)
 	}
 }
 

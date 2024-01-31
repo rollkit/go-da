@@ -76,8 +76,11 @@ func (c *Client) GetIDs(ctx context.Context, height uint64, namespace da.Namespa
 }
 
 // GetProofs returns inclusion Proofs for all Blobs located in DA at given height.
-func (c *Client) GetProofs(ctx context.Context, height uint64, namespace da.Namespace) ([]da.Proof, error) {
-	req := &pbda.GetProofsRequest{Height: height, Namespace: &pbda.Namespace{Value: namespace}}
+func (c *Client) GetProofs(ctx context.Context, ids []da.ID, namespace da.Namespace) ([]da.Proof, error) {
+	req := &pbda.GetProofsRequest{Ids: make([]*pbda.ID, len(ids)), Namespace: &pbda.Namespace{Value: namespace}}
+	for i := range ids {
+		req.Ids[i] = &pbda.ID{Value: ids[i]}
+	}
 	resp, err := c.client.GetProofs(ctx, req)
 	if err != nil {
 		return nil, err
