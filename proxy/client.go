@@ -75,6 +75,20 @@ func (c *Client) GetIDs(ctx context.Context, height uint64, namespace da.Namespa
 	return idsPB2DA(resp.Ids), nil
 }
 
+// GetProofs returns inclusion Proofs for all Blobs located in DA at given height.
+func (c *Client) GetProofs(ctx context.Context, ids []da.ID, namespace da.Namespace) ([]da.Proof, error) {
+	req := &pbda.GetProofsRequest{Ids: make([]*pbda.ID, len(ids)), Namespace: &pbda.Namespace{Value: namespace}}
+	for i := range ids {
+		req.Ids[i] = &pbda.ID{Value: ids[i]}
+	}
+	resp, err := c.client.GetProofs(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	return proofsPB2DA(resp.Proofs), nil
+}
+
 // Commit creates a Commitment for each given Blob.
 func (c *Client) Commit(ctx context.Context, blobs []da.Blob, namespace da.Namespace) ([]da.Commitment, error) {
 	req := &pbda.CommitRequest{
@@ -91,7 +105,7 @@ func (c *Client) Commit(ctx context.Context, blobs []da.Blob, namespace da.Names
 }
 
 // Submit submits the Blobs to Data Availability layer.
-func (c *Client) Submit(ctx context.Context, blobs []da.Blob, gasPrice float64, namespace da.Namespace) ([]da.ID, []da.Proof, error) {
+func (c *Client) Submit(ctx context.Context, blobs []da.Blob, gasPrice float64, namespace da.Namespace) ([]da.ID, error) {
 	req := &pbda.SubmitRequest{
 		Blobs:     blobsDA2PB(blobs),
 		GasPrice:  gasPrice,
@@ -100,17 +114,15 @@ func (c *Client) Submit(ctx context.Context, blobs []da.Blob, gasPrice float64, 
 
 	resp, err := c.client.Submit(ctx, req)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	ids := make([]da.ID, len(resp.Ids))
-	proofs := make([]da.Proof, len(resp.Proofs))
 	for i := range resp.Ids {
 		ids[i] = resp.Ids[i].Value
-		proofs[i] = resp.Proofs[i].Value
 	}
 
-	return ids, proofs, nil
+	return ids, nil
 }
 
 // Validate validates Commitments against the corresponding Proofs. This should be possible without retrieving the Blobs.
