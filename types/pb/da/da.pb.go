@@ -432,24 +432,24 @@ func (m *GetResponse) GetBlobs() []*Blob {
 	return nil
 }
 
-// GetIDsRequest is the request type for the GetIDs rpc method.
-type GetIDsRequest struct {
+// GetIdsRequest is the request type for the GetIds rpc method.
+type GetIdsRequest struct {
 	Height    uint64     `protobuf:"varint,1,opt,name=height,proto3" json:"height,omitempty"`
 	Namespace *Namespace `protobuf:"bytes,2,opt,name=namespace,proto3" json:"namespace,omitempty"`
 }
 
-func (m *GetIDsRequest) Reset()         { *m = GetIDsRequest{} }
-func (m *GetIDsRequest) String() string { return proto.CompactTextString(m) }
-func (*GetIDsRequest) ProtoMessage()    {}
-func (*GetIDsRequest) Descriptor() ([]byte, []int) {
+func (m *GetIdsRequest) Reset()         { *m = GetIdsRequest{} }
+func (m *GetIdsRequest) String() string { return proto.CompactTextString(m) }
+func (*GetIdsRequest) ProtoMessage()    {}
+func (*GetIdsRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_feb508392bc12c0f, []int{9}
 }
-func (m *GetIDsRequest) XXX_Unmarshal(b []byte) error {
+func (m *GetIdsRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *GetIDsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *GetIdsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_GetIDsRequest.Marshal(b, m, deterministic)
+		return xxx_messageInfo_GetIdsRequest.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -459,49 +459,49 @@ func (m *GetIDsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error
 		return b[:n], nil
 	}
 }
-func (m *GetIDsRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetIDsRequest.Merge(m, src)
+func (m *GetIdsRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetIdsRequest.Merge(m, src)
 }
-func (m *GetIDsRequest) XXX_Size() int {
+func (m *GetIdsRequest) XXX_Size() int {
 	return m.Size()
 }
-func (m *GetIDsRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetIDsRequest.DiscardUnknown(m)
+func (m *GetIdsRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetIdsRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_GetIDsRequest proto.InternalMessageInfo
+var xxx_messageInfo_GetIdsRequest proto.InternalMessageInfo
 
-func (m *GetIDsRequest) GetHeight() uint64 {
+func (m *GetIdsRequest) GetHeight() uint64 {
 	if m != nil {
 		return m.Height
 	}
 	return 0
 }
 
-func (m *GetIDsRequest) GetNamespace() *Namespace {
+func (m *GetIdsRequest) GetNamespace() *Namespace {
 	if m != nil {
 		return m.Namespace
 	}
 	return nil
 }
 
-// GetIDsResponse is the response type for the GetIDs rpc method.
-type GetIDsResponse struct {
+// GetIdsResponse is the response type for the GetIds rpc method.
+type GetIdsResponse struct {
 	Ids []*ID `protobuf:"bytes,1,rep,name=ids,proto3" json:"ids,omitempty"`
 }
 
-func (m *GetIDsResponse) Reset()         { *m = GetIDsResponse{} }
-func (m *GetIDsResponse) String() string { return proto.CompactTextString(m) }
-func (*GetIDsResponse) ProtoMessage()    {}
-func (*GetIDsResponse) Descriptor() ([]byte, []int) {
+func (m *GetIdsResponse) Reset()         { *m = GetIdsResponse{} }
+func (m *GetIdsResponse) String() string { return proto.CompactTextString(m) }
+func (*GetIdsResponse) ProtoMessage()    {}
+func (*GetIdsResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_feb508392bc12c0f, []int{10}
 }
-func (m *GetIDsResponse) XXX_Unmarshal(b []byte) error {
+func (m *GetIdsResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *GetIDsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *GetIdsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_GetIDsResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_GetIdsResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -511,19 +511,19 @@ func (m *GetIDsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, erro
 		return b[:n], nil
 	}
 }
-func (m *GetIDsResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetIDsResponse.Merge(m, src)
+func (m *GetIdsResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetIdsResponse.Merge(m, src)
 }
-func (m *GetIDsResponse) XXX_Size() int {
+func (m *GetIdsResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *GetIDsResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetIDsResponse.DiscardUnknown(m)
+func (m *GetIdsResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetIdsResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_GetIDsResponse proto.InternalMessageInfo
+var xxx_messageInfo_GetIdsResponse proto.InternalMessageInfo
 
-func (m *GetIDsResponse) GetIds() []*ID {
+func (m *GetIdsResponse) GetIds() []*ID {
 	if m != nil {
 		return m.Ids
 	}
@@ -948,8 +948,8 @@ func init() {
 	proto.RegisterType((*MaxBlobSizeResponse)(nil), "da.MaxBlobSizeResponse")
 	proto.RegisterType((*GetRequest)(nil), "da.GetRequest")
 	proto.RegisterType((*GetResponse)(nil), "da.GetResponse")
-	proto.RegisterType((*GetIDsRequest)(nil), "da.GetIDsRequest")
-	proto.RegisterType((*GetIDsResponse)(nil), "da.GetIDsResponse")
+	proto.RegisterType((*GetIdsRequest)(nil), "da.GetIdsRequest")
+	proto.RegisterType((*GetIdsResponse)(nil), "da.GetIdsResponse")
 	proto.RegisterType((*GetProofsRequest)(nil), "da.GetProofsRequest")
 	proto.RegisterType((*GetProofsResponse)(nil), "da.GetProofsResponse")
 	proto.RegisterType((*CommitRequest)(nil), "da.CommitRequest")
@@ -980,27 +980,27 @@ var fileDescriptor_feb508392bc12c0f = []byte{
 	0x28, 0xf8, 0x1e, 0xab, 0x1b, 0x8d, 0x42, 0xd3, 0x6a, 0x97, 0x5a, 0x1e, 0x69, 0xf5, 0xbb, 0xae,
 	0x08, 0xa1, 0x47, 0x60, 0x4e, 0xf5, 0x60, 0xea, 0xf9, 0x86, 0xd1, 0xb4, 0xda, 0x15, 0x91, 0x8f,
 	0xa7, 0xe5, 0x26, 0x79, 0xfc, 0x04, 0xac, 0x08, 0x54, 0xe9, 0x70, 0xa0, 0x28, 0x34, 0x68, 0xdc,
-	0xb2, 0xe8, 0x13, 0x02, 0x5c, 0x19, 0xc6, 0x9f, 0xa0, 0xd2, 0xa3, 0xbc, 0xdf, 0x65, 0x5a, 0xc6,
-	0x21, 0x94, 0x4e, 0xa9, 0x3f, 0x3e, 0xe5, 0x4a, 0xb1, 0x7a, 0x6d, 0x27, 0xe2, 0x21, 0x54, 0x35,
-	0xaa, 0xd2, 0x91, 0xf9, 0x75, 0xf8, 0x0b, 0xec, 0xf5, 0x28, 0x8f, 0x06, 0xcf, 0x6e, 0x78, 0x16,
-	0x2f, 0x61, 0x7f, 0x0d, 0x5a, 0x29, 0x39, 0x82, 0xd2, 0x2c, 0x8a, 0x28, 0x78, 0x53, 0xb4, 0x47,
-	0x35, 0xae, 0x4a, 0xe0, 0xaf, 0x50, 0x91, 0x66, 0xd1, 0x7a, 0x36, 0x4c, 0x71, 0x3b, 0x55, 0x1d,
-	0xa8, 0x6a, 0x74, 0x25, 0xe9, 0x19, 0x58, 0x27, 0xb1, 0x39, 0x35, 0x49, 0x55, 0x00, 0x24, 0x9e,
-	0x75, 0xd7, 0x4b, 0xf0, 0x0f, 0xa8, 0x0c, 0x16, 0xa3, 0x2d, 0x14, 0xde, 0x03, 0x73, 0x4c, 0xd8,
-	0x70, 0x36, 0xf7, 0x95, 0x42, 0xc3, 0x2d, 0x8f, 0x09, 0x3b, 0x16, 0xef, 0xb4, 0xfc, 0xc2, 0xe6,
-	0xdd, 0x6a, 0xea, 0x8d, 0xbb, 0xfd, 0x09, 0xbb, 0x9f, 0xc9, 0xc4, 0xf7, 0x08, 0xa7, 0x9b, 0x57,
-	0x9b, 0x2c, 0x26, 0x9f, 0xb1, 0x98, 0xed, 0x84, 0x3e, 0x86, 0xbd, 0x84, 0x3c, 0x96, 0x7a, 0x6b,
-	0x4e, 0xd9, 0x62, 0xa2, 0xa6, 0x5c, 0x76, 0xf5, 0xb3, 0xfd, 0xab, 0x00, 0x66, 0xf7, 0xdd, 0x80,
-	0xce, 0xcf, 0xc4, 0x44, 0xde, 0x82, 0xb5, 0x76, 0xd5, 0xe8, 0x50, 0x90, 0x5c, 0x3f, 0x7e, 0xfb,
-	0xee, 0xb5, 0xb8, 0xe4, 0xc1, 0x39, 0xd4, 0x84, 0x42, 0x8f, 0x72, 0x14, 0x6d, 0x31, 0xb9, 0x72,
-	0x7b, 0x37, 0x7e, 0xc7, 0x95, 0xcf, 0xa1, 0x24, 0x8f, 0x05, 0xed, 0xab, 0x64, 0x72, 0x8e, 0x36,
-	0x5a, 0x0f, 0xc5, 0x2d, 0x6f, 0xc0, 0x8c, 0x8d, 0x8d, 0x6a, 0xaa, 0x24, 0x75, 0x42, 0xf6, 0x9d,
-	0x2b, 0xd1, 0x75, 0x3a, 0xe9, 0x2a, 0x49, 0x97, 0x32, 0xba, 0xa4, 0x4b, 0xbb, 0x53, 0xb6, 0xc8,
-	0x95, 0xcb, 0x96, 0x94, 0xf3, 0x64, 0x4b, 0xda, 0x11, 0x38, 0x87, 0x5e, 0x41, 0x59, 0x0f, 0x1f,
-	0x1d, 0x88, 0x8a, 0x2b, 0x3e, 0xb0, 0x6b, 0xe9, 0xa0, 0x6e, 0xec, 0xd4, 0xff, 0x2c, 0x1d, 0xe3,
-	0x72, 0xe9, 0x18, 0xff, 0x96, 0x8e, 0xf1, 0x7b, 0xe5, 0xe4, 0x2e, 0x57, 0x4e, 0xee, 0xef, 0xca,
-	0xc9, 0x8d, 0x4a, 0xd1, 0xaf, 0xe2, 0xc5, 0xff, 0x00, 0x00, 0x00, 0xff, 0xff, 0x4d, 0x76, 0xfd,
-	0x5b, 0x39, 0x06, 0x00, 0x00,
+	0xb2, 0xe8, 0x13, 0x02, 0x5c, 0x19, 0xc6, 0x9f, 0xa0, 0xd2, 0xa3, 0xbc, 0xef, 0x31, 0x2d, 0xe3,
+	0x10, 0x4a, 0xa7, 0xd4, 0x1f, 0x9f, 0x72, 0xa5, 0x58, 0xbd, 0xb6, 0x13, 0xf1, 0x10, 0xaa, 0x1a,
+	0x55, 0xe9, 0xc8, 0xfc, 0x3a, 0xfc, 0x05, 0xf6, 0x7a, 0x94, 0x47, 0x83, 0x67, 0x37, 0x3c, 0x8b,
+	0x97, 0xb0, 0xbf, 0x06, 0xad, 0x94, 0x1c, 0x41, 0x69, 0x16, 0x45, 0x14, 0xbc, 0x29, 0xda, 0xa3,
+	0x1a, 0x57, 0x25, 0xf0, 0x57, 0xa8, 0x48, 0xb3, 0x68, 0x3d, 0x1b, 0xa6, 0xb8, 0x9d, 0xaa, 0x0e,
+	0x54, 0x35, 0xba, 0x92, 0xf4, 0x0c, 0xac, 0x93, 0xd8, 0x9c, 0x9a, 0xa4, 0x2a, 0x00, 0x12, 0xcf,
+	0xba, 0xeb, 0x25, 0xf8, 0x07, 0x54, 0x06, 0x8b, 0xd1, 0x16, 0x0a, 0xef, 0x81, 0x39, 0x26, 0x6c,
+	0x38, 0x9b, 0xfb, 0x4a, 0xa1, 0xe1, 0x96, 0xc7, 0x84, 0x1d, 0x8b, 0x77, 0x5a, 0x7e, 0x61, 0xf3,
+	0x6e, 0x35, 0xf5, 0xc6, 0xdd, 0xfe, 0x84, 0xdd, 0xcf, 0x64, 0xe2, 0x7b, 0x84, 0xd3, 0xcd, 0xab,
+	0x4d, 0x16, 0x93, 0xcf, 0x58, 0xcc, 0x76, 0x42, 0x1f, 0xc3, 0x5e, 0x42, 0x1e, 0x4b, 0xbd, 0x35,
+	0xa7, 0x6c, 0x31, 0x51, 0x53, 0x2e, 0xbb, 0xfa, 0xd9, 0xfe, 0x55, 0x00, 0xb3, 0xfb, 0x6e, 0x40,
+	0xe7, 0x67, 0x62, 0x22, 0x6f, 0xc1, 0x5a, 0xbb, 0x6a, 0x74, 0x28, 0x48, 0xae, 0x1f, 0xbf, 0x7d,
+	0xf7, 0x5a, 0x5c, 0xf2, 0xe0, 0x1c, 0x6a, 0x42, 0xa1, 0x47, 0x39, 0x8a, 0xb6, 0x98, 0x5c, 0xb9,
+	0xbd, 0x1b, 0xbf, 0xe3, 0xca, 0xe7, 0x50, 0x92, 0xc7, 0x82, 0xf6, 0x55, 0x32, 0x39, 0x47, 0x1b,
+	0xad, 0x87, 0xe2, 0x96, 0x37, 0x60, 0xc6, 0xc6, 0x46, 0x35, 0x55, 0x92, 0x3a, 0x21, 0xfb, 0xce,
+	0x95, 0xe8, 0x3a, 0x9d, 0x74, 0x95, 0xa4, 0x4b, 0x19, 0x5d, 0xd2, 0xa5, 0xdd, 0x29, 0x5b, 0xe4,
+	0xca, 0x65, 0x4b, 0xca, 0x79, 0xb2, 0x25, 0xed, 0x08, 0x9c, 0x43, 0xaf, 0xa0, 0xac, 0x87, 0x8f,
+	0x0e, 0x44, 0xc5, 0x15, 0x1f, 0xd8, 0xb5, 0x74, 0x50, 0x37, 0x76, 0xea, 0x7f, 0x96, 0x8e, 0x71,
+	0xb9, 0x74, 0x8c, 0x7f, 0x4b, 0xc7, 0xf8, 0xbd, 0x72, 0x72, 0x97, 0x2b, 0x27, 0xf7, 0x77, 0xe5,
+	0xe4, 0x46, 0xa5, 0xe8, 0x57, 0xf1, 0xe2, 0x7f, 0x00, 0x00, 0x00, 0xff, 0xff, 0xd8, 0x9a, 0xd0,
+	0x38, 0x39, 0x06, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -1019,8 +1019,8 @@ type DAServiceClient interface {
 	MaxBlobSize(ctx context.Context, in *MaxBlobSizeRequest, opts ...grpc.CallOption) (*MaxBlobSizeResponse, error)
 	// Get returns Blob for each given ID, or an error.
 	Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
-	// GetIDs returns IDs of all Blobs located in DA at given height.
-	GetIDs(ctx context.Context, in *GetIDsRequest, opts ...grpc.CallOption) (*GetIDsResponse, error)
+	// GetIds returns IDs of all Blobs located in DA at given height.
+	GetIds(ctx context.Context, in *GetIdsRequest, opts ...grpc.CallOption) (*GetIdsResponse, error)
 	// GetProofs returns inclusion Proofs for all Blobs located in DA at given height.
 	GetProofs(ctx context.Context, in *GetProofsRequest, opts ...grpc.CallOption) (*GetProofsResponse, error)
 	// Commit creates a Commitment for each given Blob.
@@ -1057,9 +1057,9 @@ func (c *dAServiceClient) Get(ctx context.Context, in *GetRequest, opts ...grpc.
 	return out, nil
 }
 
-func (c *dAServiceClient) GetIDs(ctx context.Context, in *GetIDsRequest, opts ...grpc.CallOption) (*GetIDsResponse, error) {
-	out := new(GetIDsResponse)
-	err := c.cc.Invoke(ctx, "/da.DAService/GetIDs", in, out, opts...)
+func (c *dAServiceClient) GetIds(ctx context.Context, in *GetIdsRequest, opts ...grpc.CallOption) (*GetIdsResponse, error) {
+	out := new(GetIdsResponse)
+	err := c.cc.Invoke(ctx, "/da.DAService/GetIds", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1108,8 +1108,8 @@ type DAServiceServer interface {
 	MaxBlobSize(context.Context, *MaxBlobSizeRequest) (*MaxBlobSizeResponse, error)
 	// Get returns Blob for each given ID, or an error.
 	Get(context.Context, *GetRequest) (*GetResponse, error)
-	// GetIDs returns IDs of all Blobs located in DA at given height.
-	GetIDs(context.Context, *GetIDsRequest) (*GetIDsResponse, error)
+	// GetIds returns IDs of all Blobs located in DA at given height.
+	GetIds(context.Context, *GetIdsRequest) (*GetIdsResponse, error)
 	// GetProofs returns inclusion Proofs for all Blobs located in DA at given height.
 	GetProofs(context.Context, *GetProofsRequest) (*GetProofsResponse, error)
 	// Commit creates a Commitment for each given Blob.
@@ -1130,8 +1130,8 @@ func (*UnimplementedDAServiceServer) MaxBlobSize(ctx context.Context, req *MaxBl
 func (*UnimplementedDAServiceServer) Get(ctx context.Context, req *GetRequest) (*GetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
-func (*UnimplementedDAServiceServer) GetIDs(ctx context.Context, req *GetIDsRequest) (*GetIDsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetIDs not implemented")
+func (*UnimplementedDAServiceServer) GetIds(ctx context.Context, req *GetIdsRequest) (*GetIdsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetIds not implemented")
 }
 func (*UnimplementedDAServiceServer) GetProofs(ctx context.Context, req *GetProofsRequest) (*GetProofsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetProofs not implemented")
@@ -1186,20 +1186,20 @@ func _DAService_Get_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
-func _DAService_GetIDs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetIDsRequest)
+func _DAService_GetIds_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetIdsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DAServiceServer).GetIDs(ctx, in)
+		return srv.(DAServiceServer).GetIds(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/da.DAService/GetIDs",
+		FullMethod: "/da.DAService/GetIds",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DAServiceServer).GetIDs(ctx, req.(*GetIDsRequest))
+		return srv.(DAServiceServer).GetIds(ctx, req.(*GetIdsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1289,8 +1289,8 @@ var _DAService_serviceDesc = grpc.ServiceDesc{
 			Handler:    _DAService_Get_Handler,
 		},
 		{
-			MethodName: "GetIDs",
-			Handler:    _DAService_GetIDs_Handler,
+			MethodName: "GetIds",
+			Handler:    _DAService_GetIds_Handler,
 		},
 		{
 			MethodName: "GetProofs",
@@ -1600,7 +1600,7 @@ func (m *GetResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *GetIDsRequest) Marshal() (dAtA []byte, err error) {
+func (m *GetIdsRequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1610,12 +1610,12 @@ func (m *GetIDsRequest) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *GetIDsRequest) MarshalTo(dAtA []byte) (int, error) {
+func (m *GetIdsRequest) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *GetIDsRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *GetIdsRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1640,7 +1640,7 @@ func (m *GetIDsRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *GetIDsResponse) Marshal() (dAtA []byte, err error) {
+func (m *GetIdsResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1650,12 +1650,12 @@ func (m *GetIDsResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *GetIDsResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *GetIdsResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *GetIDsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *GetIdsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -2171,7 +2171,7 @@ func (m *GetResponse) Size() (n int) {
 	return n
 }
 
-func (m *GetIDsRequest) Size() (n int) {
+func (m *GetIdsRequest) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -2187,7 +2187,7 @@ func (m *GetIDsRequest) Size() (n int) {
 	return n
 }
 
-func (m *GetIDsResponse) Size() (n int) {
+func (m *GetIdsResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -3093,7 +3093,7 @@ func (m *GetResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *GetIDsRequest) Unmarshal(dAtA []byte) error {
+func (m *GetIdsRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -3116,10 +3116,10 @@ func (m *GetIDsRequest) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: GetIDsRequest: wiretype end group for non-group")
+			return fmt.Errorf("proto: GetIdsRequest: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetIDsRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: GetIdsRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -3198,7 +3198,7 @@ func (m *GetIDsRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *GetIDsResponse) Unmarshal(dAtA []byte) error {
+func (m *GetIdsResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -3221,10 +3221,10 @@ func (m *GetIDsResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: GetIDsResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: GetIdsResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetIDsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: GetIdsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
