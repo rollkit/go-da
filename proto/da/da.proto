@@ -9,8 +9,8 @@ service DAService {
 	// Get returns Blob for each given ID, or an error.
 	rpc Get(GetRequest) returns (GetResponse) {}
 
-	// GetIDs returns IDs of all Blobs located in DA at given height.
-	rpc GetIDs(GetIDsRequest) returns (GetIDsResponse) {}
+	// GetIds returns IDs of all Blobs located in DA at given height.
+	rpc GetIds(GetIdsRequest) returns (GetIdsResponse) {}
 
 	// GetProofs returns inclusion Proofs for all Blobs located in DA at given height.
     rpc GetProofs(GetProofsRequest) returns (GetProofsResponse) {}
@@ -70,14 +70,14 @@ message GetResponse {
 	repeated Blob blobs = 1;
 }
 
-// GetIDsRequest is the request type for the GetIDs rpc method.
-message GetIDsRequest {
+// GetIdsRequest is the request type for the GetIds rpc method.
+message GetIdsRequest {
 	uint64 height = 1;
 	Namespace namespace = 2;
 }
 
-// GetIDsResponse is the response type for the GetIDs rpc method.
-message GetIDsResponse {
+// GetIdsResponse is the response type for the GetIds rpc method.
+message GetIdsResponse {
 	repeated ID ids = 1;
 }
 
