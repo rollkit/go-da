@@ -2,136 +2,109 @@ package proxy
 
 import (
 	"context"
+	"fmt"
+	"net/http"
 
-	"google.golang.org/grpc"
-
+	"github.com/filecoin-project/go-jsonrpc"
 	"github.com/rollkit/go-da"
-	pbda "github.com/rollkit/go-da/types/pb/da"
 )
 
-// Client is a gRPC proxy client for DA interface.
+//go:generate mockgen -destination=mocks/api.go -package=mocks . Module
+type Module interface {
+	da.DA
+}
+
+type API struct {
+	Internal struct {
+		MaxBlobSize func(ctx context.Context) (uint64, error)                                            `perm:"read"`
+		Get         func(ctx context.Context, ids []da.ID, ns da.Namespace) ([]da.Blob, error)           `perm:"read"`
+		GetIDs      func(ctx context.Context, height uint64, ns da.Namespace) ([]da.ID, error)           `perm:"read"`
+		GetProofs   func(ctx context.Context, ids []da.ID, ns da.Namespace) ([]da.Proof, error)          `perm:"read"`
+		Commit      func(ctx context.Context, blobs []da.Blob, ns da.Namespace) ([]da.Commitment, error) `perm:"read"`
+		Validate    func(context.Context, []da.ID, []da.Proof, da.Namespace) ([]bool, error)             `perm:"read"`
+		Submit      func(context.Context, []da.Blob, float64, da.Namespace) ([]da.ID, error)             `perm:"write"`
+	}
+}
+
+func (api *API) MaxBlobSize(ctx context.Context) (uint64, error) {
+	return api.Internal.MaxBlobSize(ctx)
+}
+
+func (api *API) Get(ctx context.Context, ids []da.ID, ns da.Namespace) ([]da.Blob, error) {
+	return api.Internal.Get(ctx, ids, ns)
+}
+
+func (api *API) GetIDs(ctx context.Context, height uint64, ns da.Namespace) ([]da.ID, error) {
+	return api.Internal.GetIDs(ctx, height, ns)
+}
+
+func (api *API) GetProofs(ctx context.Context, ids []da.ID, ns da.Namespace) ([]da.Proof, error) {
+	return api.Internal.GetProofs(ctx, ids, ns)
+}
+
+func (api *API) Commit(ctx context.Context, blobs []da.Blob, ns da.Namespace) ([]da.Commitment, error) {
+	return api.Internal.Commit(ctx, blobs, ns)
+}
+
+func (api *API) Validate(ctx context.Context, ids []da.ID, proofs []da.Proof, ns da.Namespace) ([]bool, error) {
+	return api.Internal.Validate(ctx, ids, proofs, ns)
+}
+
+func (api *API) Submit(ctx context.Context, blobs []da.Blob, gasPrice float64, ns da.Namespace) ([]da.ID, error) {
+	return api.Internal.Submit(ctx, blobs, gasPrice, ns)
+}
+
 type Client struct {
-	conn *grpc.ClientConn
-
-	client pbda.DAServiceClient
+	DA     API
+	closer multiClientCloser
 }
 
-// NewClient returns new Client instance.
-func NewClient() *Client {
-	return &Client{}
+// multiClientCloser is a wrapper struct to close clients across multiple namespaces.
+type multiClientCloser struct {
+	closers []jsonrpc.ClientCloser
 }
 
-// Start connects Client to target, with given options.
-func (c *Client) Start(target string, opts ...grpc.DialOption) (err error) {
-	c.conn, err = grpc.Dial(target, opts...)
-	if err != nil {
-		return err
-	}
-	c.client = pbda.NewDAServiceClient(c.conn)
-
-	return nil
+// register adds a new closer to the multiClientCloser
+func (m *multiClientCloser) register(closer jsonrpc.ClientCloser) {
+	m.closers = append(m.closers, closer)
 }
 
-// Stop gently closes Client connection.
-func (c *Client) Stop() error {
-	return c.conn.Close()
+// closeAll closes all saved clients.
+func (m *multiClientCloser) closeAll() {
+	for _, closer := range m.closers {
+		closer()
+	}
 }
 
-// MaxBlobSize returns the DA MaxBlobSize
-func (c *Client) MaxBlobSize(ctx context.Context) (uint64, error) {
-	req := &pbda.MaxBlobSizeRequest{}
-	resp, err := c.client.MaxBlobSize(ctx, req)
-	if err != nil {
-		return 0, err
-	}
-	return resp.MaxBlobSize, nil
+// Close closes the connections to all namespaces registered on the staticClient.
+func (c *Client) Close() {
+	c.closer.closeAll()
 }
 
-// Get returns Blob for each given ID, or an error.
-func (c *Client) Get(ctx context.Context, ids []da.ID, namespace da.Namespace) ([]da.Blob, error) {
-	req := &pbda.GetRequest{
-		Ids:       make([]*pbda.ID, len(ids)),
-		Namespace: &pbda.Namespace{Value: namespace},
-	}
-	for i := range ids {
-		req.Ids[i] = &pbda.ID{Value: ids[i]}
-	}
-	resp, err := c.client.Get(ctx, req)
-	if err != nil {
-		return nil, err
-	}
-
-	return blobsPB2DA(resp.Blobs), nil
+// NewClient creates a new Client with one connection per namespace with the
+// given token as the authorization token.
+func NewClient(ctx context.Context, addr string, token string) (*Client, error) {
+	authHeader := http.Header{"Authorization": []string{fmt.Sprintf("Bearer %s", token)}}
+	return newClient(ctx, addr, authHeader)
 }
 
-// GetIDs returns IDs of all Blobs located in DA at given height.
-func (c *Client) GetIDs(ctx context.Context, height uint64, namespace da.Namespace) ([]da.ID, error) {
-	req := &pbda.GetIDsRequest{Height: height, Namespace: &pbda.Namespace{Value: namespace}}
-	resp, err := c.client.GetIDs(ctx, req)
-	if err != nil {
-		return nil, err
+func newClient(ctx context.Context, addr string, authHeader http.Header) (*Client, error) {
+	var multiCloser multiClientCloser
+	var client Client
+	for name, module := range moduleMap(&client) {
+		closer, err := jsonrpc.NewClient(ctx, addr, name, module, authHeader)
+		if err != nil {
+			return nil, err
+		}
+		multiCloser.register(closer)
 	}
 
-	return idsPB2DA(resp.Ids), nil
+	return &client, nil
 }
 
-// GetProofs returns inclusion Proofs for all Blobs located in DA at given height.
-func (c *Client) GetProofs(ctx context.Context, ids []da.ID, namespace da.Namespace) ([]da.Proof, error) {
-	req := &pbda.GetProofsRequest{Ids: make([]*pbda.ID, len(ids)), Namespace: &pbda.Namespace{Value: namespace}}
-	for i := range ids {
-		req.Ids[i] = &pbda.ID{Value: ids[i]}
+func moduleMap(client *Client) map[string]interface{} {
+	// TODO: this duplication of strings many times across the codebase can be avoided with issue #1176
+	return map[string]interface{}{
+		"da": &client.DA.Internal,
 	}
-	resp, err := c.client.GetProofs(ctx, req)
-	if err != nil {
-		return nil, err
-	}
-
-	return proofsPB2DA(resp.Proofs), nil
-}
-
-// Commit creates a Commitment for each given Blob.
-func (c *Client) Commit(ctx context.Context, blobs []da.Blob, namespace da.Namespace) ([]da.Commitment, error) {
-	req := &pbda.CommitRequest{
-		Blobs:     blobsDA2PB(blobs),
-		Namespace: &pbda.Namespace{Value: namespace},
-	}
-
-	resp, err := c.client.Commit(ctx, req)
-	if err != nil {
-		return nil, err
-	}
-
-	return commitsPB2DA(resp.Commitments), nil
-}
-
-// Submit submits the Blobs to Data Availability layer.
-func (c *Client) Submit(ctx context.Context, blobs []da.Blob, gasPrice float64, namespace da.Namespace) ([]da.ID, error) {
-	req := &pbda.SubmitRequest{
-		Blobs:     blobsDA2PB(blobs),
-		GasPrice:  gasPrice,
-		Namespace: &pbda.Namespace{Value: namespace},
-	}
-
-	resp, err := c.client.Submit(ctx, req)
-	if err != nil {
-		return nil, err
-	}
-
-	ids := make([]da.ID, len(resp.Ids))
-	for i := range resp.Ids {
-		ids[i] = resp.Ids[i].Value
-	}
-
-	return ids, nil
-}
-
-// Validate validates Commitments against the corresponding Proofs. This should be possible without retrieving the Blobs.
-func (c *Client) Validate(ctx context.Context, ids []da.ID, proofs []da.Proof, namespace da.Namespace) ([]bool, error) {
-	req := &pbda.ValidateRequest{
-		Ids:       idsDA2PB(ids),
-		Proofs:    proofsDA2PB(proofs),
-		Namespace: &pbda.Namespace{Value: namespace},
-	}
-	resp, err := c.client.Validate(ctx, req)
-	return resp.Results, err
 }

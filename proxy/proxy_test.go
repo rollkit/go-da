@@ -1,12 +1,10 @@
 package proxy_test
 
 import (
-	"net"
+	"context"
 	"testing"
 
 	"github.com/stretchr/testify/require"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
 
 	"github.com/rollkit/go-da/proxy"
 	"github.com/rollkit/go-da/test"
@@ -14,15 +12,12 @@ import (
 
 func TestProxy(t *testing.T) {
 	dummy := test.NewDummyDA()
-	server := proxy.NewServer(dummy, grpc.Creds(insecure.NewCredentials()))
-	lis, err := net.Listen("tcp", "127.0.0.1:0")
+	server := proxy.NewServer("localhost", "3450", true, nil, dummy)
+	err := server.Start(context.TODO())
 	require.NoError(t, err)
-	go func() {
-		_ = server.Serve(lis)
-	}()
+	defer server.Stop(context.TODO())
 
-	client := proxy.NewClient()
-	err = client.Start(lis.Addr().String(), grpc.WithTransportCredentials(insecure.NewCredentials()))
+	client, err := proxy.NewClient(context.TODO(), "http://localhost:3450", "")
 	require.NoError(t, err)
-	test.RunDATestSuite(t, client)
+	test.RunDATestSuite(t, &client.DA)
 }
