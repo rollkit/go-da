@@ -12,7 +12,7 @@ import (
 
 func TestProxy(t *testing.T) {
 	dummy := test.NewDummyDA()
-	server := proxy.NewServer("localhost", "3450", true, nil, dummy)
+	server := proxy.NewServer("localhost", "3450", dummy)
 	err := server.Start(context.TODO())
 	require.NoError(t, err)
 	defer server.Stop(context.TODO())
