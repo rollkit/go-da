@@ -1,6 +1,3 @@
-pOCKER := $(shell which docker)
-DOCKER_BUF := $(DOCKER) run --rm -v $(CURDIR):/workspace --workdir /workspace bufbuild/buf
-
 # Define pkgs, run, and cover vairables for test so that we can override them in
 # the terminal more easily.
 pkgs := $(shell go list ./...)
