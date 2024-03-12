@@ -6,14 +6,18 @@ import (
 	"net/http"
 
 	"github.com/filecoin-project/go-jsonrpc"
+
 	"github.com/rollkit/go-da"
 )
 
+// Module wraps the DA interface
+//
 //go:generate mockgen -destination=mocks/api.go -package=mocks . Module
 type Module interface {
 	da.DA
 }
 
+// API defines the jsonrpc service module API
 type API struct {
 	Internal struct {
 		MaxBlobSize func(ctx context.Context) (uint64, error)                                            `perm:"read"`
@@ -26,34 +30,42 @@ type API struct {
 	}
 }
 
+// MaxBlobSize returns the max blob size
 func (api *API) MaxBlobSize(ctx context.Context) (uint64, error) {
 	return api.Internal.MaxBlobSize(ctx)
 }
 
+// Get returns Blob for each given ID, or an error.
 func (api *API) Get(ctx context.Context, ids []da.ID, ns da.Namespace) ([]da.Blob, error) {
 	return api.Internal.Get(ctx, ids, ns)
 }
 
+// GetIDs returns IDs of all Blobs located in DA at given height.
 func (api *API) GetIDs(ctx context.Context, height uint64, ns da.Namespace) ([]da.ID, error) {
 	return api.Internal.GetIDs(ctx, height, ns)
 }
 
+// GetProofs returns inclusion Proofs for Blobs specified by their IDs.
 func (api *API) GetProofs(ctx context.Context, ids []da.ID, ns da.Namespace) ([]da.Proof, error) {
 	return api.Internal.GetProofs(ctx, ids, ns)
 }
 
+// Commit creates a Commitment for each given Blob.
 func (api *API) Commit(ctx context.Context, blobs []da.Blob, ns da.Namespace) ([]da.Commitment, error) {
 	return api.Internal.Commit(ctx, blobs, ns)
 }
 
+// Validate validates Commitments against the corresponding Proofs. This should be possible without retrieving the Blobs.
 func (api *API) Validate(ctx context.Context, ids []da.ID, proofs []da.Proof, ns da.Namespace) ([]bool, error) {
 	return api.Internal.Validate(ctx, ids, proofs, ns)
 }
 
+// Submit submits the Blobs to Data Availability layer.
 func (api *API) Submit(ctx context.Context, blobs []da.Blob, gasPrice float64, ns da.Namespace) ([]da.ID, error) {
 	return api.Internal.Submit(ctx, blobs, gasPrice, ns)
 }
 
+// Client is the jsonrpc client
 type Client struct {
 	DA     API
 	closer multiClientCloser

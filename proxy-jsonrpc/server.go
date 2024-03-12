@@ -4,17 +4,18 @@ import (
 	"context"
 	"net"
 	"net/http"
-	"reflect"
 	"sync/atomic"
 	"time"
 
 	"github.com/filecoin-project/go-jsonrpc"
 	logging "github.com/ipfs/go-log/v2"
+
 	"github.com/rollkit/go-da"
 )
 
 var log = logging.Logger("go-da")
 
+// Server is a jsonrpc service that can serve the DA interface
 type Server struct {
 	srv      *http.Server
 	rpc      *jsonrpc.RPCServer
@@ -29,10 +30,7 @@ func (s *Server) RegisterService(namespace string, service interface{}, out inte
 	s.rpc.Register(namespace, service)
 }
 
-func getInternalStruct(api interface{}) interface{} {
-	return reflect.ValueOf(api).Elem().FieldByName("Internal").Addr().Interface()
-}
-
+// NewServer accepts the host address port and the DA implementation to serve as a jsonrpc service
 func NewServer(address, port string, DA da.DA) *Server {
 	rpc := jsonrpc.NewServer()
 	srv := &Server{

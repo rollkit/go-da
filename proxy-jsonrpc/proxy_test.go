@@ -6,7 +6,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/rollkit/go-da/proxy"
+	"github.com/rollkit/go-da/proxy-jsonrpc"
 	"github.com/rollkit/go-da/test"
 )
 
@@ -15,7 +15,11 @@ func TestProxy(t *testing.T) {
 	server := proxy.NewServer("localhost", "3450", dummy)
 	err := server.Start(context.TODO())
 	require.NoError(t, err)
-	defer server.Stop(context.TODO())
+	defer func() {
+		if err := server.Stop(context.TODO()); err != nil {
+			require.NoError(t, err)
+		}
+	}()
 
 	client, err := proxy.NewClient(context.TODO(), "http://localhost:3450", "")
 	require.NoError(t, err)
