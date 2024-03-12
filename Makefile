@@ -1,3 +1,6 @@
+DOCKER := $(shell which docker)
+DOCKER_BUF := $(DOCKER) run --rm -v $(CURDIR):/workspace --workdir /workspace bufbuild/buf
+
 # Define pkgs, run, and cover vairables for test so that we can override them in
 # the terminal more easily.
 pkgs := $(shell go list ./...)
@@ -27,6 +30,7 @@ cover:
 deps:
 	@echo "--> Installing dependencies"
 	@go mod download
+	@make proto-gen
 	@go mod tidy
 .PHONY: deps
 
@@ -50,7 +54,7 @@ fmt:
 .PHONY: fmt
 
 ## vet: Run go vet
-vet:
+vet: 
 	@echo "--> Running go vet"
 	@go vet $(pkgs)
 .PHONY: vet
@@ -60,3 +64,15 @@ test: vet
 	@echo "--> Running unit tests"
 	@go test -v -race -covermode=atomic -coverprofile=coverage.txt $(pkgs) -run $(run) -count=$(count)
 .PHONY: test
+
+## proto-gen: Generate protobuf files. Requires docker.
+proto-gen:
+	@echo "--> Generating Protobuf files"
+	./proto/gen.sh
+.PHONY: proto-gen
+
+## proto-lint: Lint protobuf files. Requires docker.
+proto-lint:
+	@echo "--> Linting Protobuf files"
+	@$(DOCKER_BUF) lint --error-format=json
+.PHONY: proto-lint
