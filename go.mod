@@ -3,10 +3,10 @@ module github.com/rollkit/go-da
 go 1.21.1
 
 require (
-	github.com/gogo/protobuf v1.3.2
-	github.com/stretchr/testify v1.9.0
-	github.com/cristalhq/jwt v1.2.0
 	github.com/filecoin-project/go-jsonrpc v0.3.1
+	github.com/gogo/protobuf v1.3.2
+	github.com/ipfs/go-log/v2 v2.0.8
+	github.com/stretchr/testify v1.9.0
 	google.golang.org/grpc v1.60.1
 )
 
@@ -16,7 +16,6 @@ require (
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/google/uuid v1.3.1 // indirect
 	github.com/gorilla/websocket v1.4.2 // indirect
-	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	go.opencensus.io v0.22.3 // indirect
 	go.uber.org/atomic v1.7.0 // indirect
