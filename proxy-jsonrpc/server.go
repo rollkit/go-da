@@ -5,7 +5,6 @@ import (
 	"net"
 	"net/http"
 	"sync/atomic"
-	"time"
 
 	"github.com/filecoin-project/go-jsonrpc"
 	logging "github.com/ipfs/go-log/v2"
@@ -37,8 +36,6 @@ func NewServer(address, port string, DA da.DA) *Server {
 		rpc: rpc,
 		srv: &http.Server{
 			Addr: address + ":" + port,
-			// the amount of time allowed to read request headers. set to the default 2 seconds
-			ReadHeaderTimeout: 2 * time.Second,
 		},
 	}
 	srv.srv.Handler = http.HandlerFunc(rpc.ServeHTTP)
