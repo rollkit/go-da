@@ -47,6 +47,8 @@ func NewServer(address, port string, DA da.DA) *Server {
 }
 
 // Start starts the RPC Server.
+// This function can be called multiple times concurrently
+// Once started, subsequent calls are a no-op
 func (s *Server) Start(context.Context) error {
 	couldStart := s.started.CompareAndSwap(false, true)
 	if !couldStart {
@@ -65,6 +67,8 @@ func (s *Server) Start(context.Context) error {
 }
 
 // Stop stops the RPC Server.
+// This function can be called multiple times concurrently
+// Once stopped, subsequent calls are a no-op
 func (s *Server) Stop(ctx context.Context) error {
 	couldStop := s.started.CompareAndSwap(true, false)
 	if !couldStop {
