@@ -1,4 +1,4 @@
-package proxy_test
+package grpc_test
 
 import (
 	"net"
@@ -8,7 +8,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	"github.com/rollkit/go-da/proxy-grpc"
+	proxy "github.com/rollkit/go-da/proxy/grpc"
 	"github.com/rollkit/go-da/test"
 )
 

@@ -1,4 +1,4 @@
-package proxy_test
+package jsonrpc_test
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/rollkit/go-da/proxy-jsonrpc"
+	proxy "github.com/rollkit/go-da/proxy/jsonrpc"
 	"github.com/rollkit/go-da/test"
 )
 
