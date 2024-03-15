@@ -13,7 +13,7 @@ import (
 	"github.com/rollkit/go-da"
 )
 
-var log = logging.Logger("go-da")
+var log = logging.Logger("jsonrpc")
 
 // Server is a jsonrpc service that can serve the DA interface
 type Server struct {
