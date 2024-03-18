@@ -1,4 +1,4 @@
-package proxy
+package grpc
 
 import (
 	"github.com/rollkit/go-da"
