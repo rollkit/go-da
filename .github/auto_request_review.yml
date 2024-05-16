@@ -10,21 +10,12 @@ reviewers:
       - Manav-Aggarwal
       - S1nus
       - tuxcanfly
-    devops:
-      - smuu
-      - sysrex
-      - jrmanes
-      - Bidon15
     celestia:
       - team:celestia
 files:
   '**':
     - code-owners
     - rollkit
-  '**/*Dockerfile':
-    - devops
-  '.github/**':
-    - devops
 options:
   ignore_draft: true
   ignored_keywords:
