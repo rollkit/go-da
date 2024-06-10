@@ -3,7 +3,7 @@ module github.com/rollkit/go-da
 go 1.21.1
 
 require (
-	github.com/filecoin-project/go-jsonrpc v0.3.1
+	github.com/filecoin-project/go-jsonrpc v0.5.0
 	github.com/gogo/protobuf v1.3.2
 	github.com/ipfs/go-log/v2 v2.5.1
 	github.com/stretchr/testify v1.9.0
