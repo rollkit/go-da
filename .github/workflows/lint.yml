@@ -39,13 +39,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: rollkit/.github/.github/actions/yamllint@v0.3.0
+      - uses: rollkit/.github/.github/actions/yamllint@v0.4.0
 
   markdown-lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: rollkit/.github/.github/actions/markdown-lint@v0.3.0
+      - uses: rollkit/.github/.github/actions/markdown-lint@v0.4.0
 
   protobuf-lint:
     runs-on: ubuntu-latest
