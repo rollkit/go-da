@@ -151,6 +151,7 @@ func ConcurrentReadWriteTest(t *testing.T, d da.DA) {
 	wg.Wait()
 }
 
+// NoBlobsAtHeightTest tests the case when there are no blobs at a given height in DA
 func NoBlobsAtHeightTest(t *testing.T, d da.DA) {
 	ctx := context.TODO()
 	_, err := d.GetIDs(ctx, 888888, []byte{})
