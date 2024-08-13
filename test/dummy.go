@@ -82,7 +82,10 @@ func (d *DummyDA) Get(ctx context.Context, ids []da.ID, _ da.Namespace) ([]da.Bl
 func (d *DummyDA) GetIDs(ctx context.Context, height uint64, _ da.Namespace) ([]da.ID, error) {
 	d.mu.Lock()
 	defer d.mu.Unlock()
-	kvps := d.data[height]
+	kvps, ok := d.data[height]
+	if !ok {
+		return nil, errors.New("no blobs at given height")
+	}
 	ids := make([]da.ID, len(kvps))
 	for i, kv := range kvps {
 		ids[i] = kv.key

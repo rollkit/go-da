@@ -28,6 +28,9 @@ func RunDATestSuite(t *testing.T, d da.DA) {
 	t.Run("Concurrent read/write test", func(t *testing.T) {
 		ConcurrentReadWriteTest(t, d)
 	})
+	t.Run("No blobs at a given height", func(t *testing.T) {
+		NoBlobsAtHeightTest(t, d)
+	})
 }
 
 // BasicDATest tests round trip of messages to DA and back.
@@ -133,8 +136,7 @@ func ConcurrentReadWriteTest(t *testing.T, d da.DA) {
 	go func() {
 		defer wg.Done()
 		for i := uint64(1); i <= 100; i++ {
-			_, err := d.GetIDs(ctx, i, []byte{})
-			assert.NoError(t, err)
+			_, _ = d.GetIDs(ctx, i, []byte{})
 		}
 	}()
 
@@ -147,4 +149,10 @@ func ConcurrentReadWriteTest(t *testing.T, d da.DA) {
 	}()
 
 	wg.Wait()
+}
+
+func NoBlobsAtHeightTest(t *testing.T, d da.DA) {
+	ctx := context.TODO()
+	_, err := d.GetIDs(ctx, 888888, []byte{})
+	assert.Error(t, err)
 }
