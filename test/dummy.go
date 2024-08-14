@@ -16,6 +16,9 @@ import (
 // DefaultMaxBlobSize is the default max blob size
 const DefaultMaxBlobSize = 64 * 64 * 482
 
+// ErrNoBlobAtHeight is returned when there is no blob at given height.
+var ErrNoBlobAtHeight = errors.New("no blob at given height")
+
 // DummyDA is a simple implementation of in-memory DA. Not production ready! Intended only for testing!
 //
 // Data is stored in a map, where key is a serialized sequence number. This key is returned as ID.
@@ -84,7 +87,7 @@ func (d *DummyDA) GetIDs(ctx context.Context, height uint64, _ da.Namespace) ([]
 	defer d.mu.Unlock()
 	kvps, ok := d.data[height]
 	if !ok {
-		return nil, errors.New("no blobs at given height")
+		return nil, ErrNoBlobAtHeight
 	}
 	ids := make([]da.ID, len(kvps))
 	for i, kv := range kvps {
