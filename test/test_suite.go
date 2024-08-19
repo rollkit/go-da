@@ -161,5 +161,5 @@ func NoBlobsAtHeightTest(t *testing.T, d da.DA) {
 	// GetIDs should return ErrNoBlobAtHeight when there are no blobs at a given height
 	_, err := d.GetIDs(ctx, 999999999, []byte{})
 	assert.Error(t, err)
-	assert.True(t, strings.Contains(err.Error(), ErrNoBlobAtHeight.Error()))
+	assert.ErrorContains(t, err, ErrNoBlobAtHeight.Error())
 }
