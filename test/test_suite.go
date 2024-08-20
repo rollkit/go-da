@@ -3,6 +3,7 @@ package test
 import (
 	"bytes"
 	"context"
+	"strings"
 	"sync"
 	"testing"
 	"time"
@@ -27,6 +28,9 @@ func RunDATestSuite(t *testing.T, d da.DA) {
 	})
 	t.Run("Concurrent read/write test", func(t *testing.T) {
 		ConcurrentReadWriteTest(t, d)
+	})
+	t.Run("No blobs at a given height", func(t *testing.T) {
+		NoBlobsAtHeightTest(t, d)
 	})
 }
 
@@ -134,7 +138,9 @@ func ConcurrentReadWriteTest(t *testing.T, d da.DA) {
 		defer wg.Done()
 		for i := uint64(1); i <= 100; i++ {
 			_, err := d.GetIDs(ctx, i, []byte{})
-			assert.NoError(t, err)
+			if err != nil && !strings.Contains(err.Error(), ErrNoBlobAtHeight.Error()) {
+				assert.NoError(t, err)
+			}
 		}
 	}()
 
@@ -147,4 +153,13 @@ func ConcurrentReadWriteTest(t *testing.T, d da.DA) {
 	}()
 
 	wg.Wait()
+}
+
+// NoBlobsAtHeightTest tests the case when there are no blobs at a given height in DA
+func NoBlobsAtHeightTest(t *testing.T, d da.DA) {
+	ctx := context.TODO()
+	// GetIDs should return ErrNoBlobAtHeight when there are no blobs at a given height
+	_, err := d.GetIDs(ctx, 999999999, []byte{})
+	assert.Error(t, err)
+	assert.ErrorContains(t, err, ErrNoBlobAtHeight.Error())
 }
