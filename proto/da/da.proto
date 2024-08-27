@@ -105,15 +105,14 @@ message CommitResponse {
 
 // SubmitRequest is the request type for the Submit rpc method.
 message SubmitRequest {
-	repeated Blob blobs = 1;
-	double gas_price = 2;
-	Namespace namespace = 3;
-	Keyringkeyname keyringkeyname = 4;
+    repeated Blob blobs = 1;
+    double gas_price = 2;
+    Namespace namespace = 3;
+    Keyringkeyname keyringkeyname = 4;
 }
 
-// Keyringkeyname is the key name for the DA service (optional).
 message Keyringkeyname {
-	bytes value = 1;
+    bytes value = 1;
 }
 
 // SubmitResponse is the response type for the Submit rpc method.
