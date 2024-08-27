@@ -105,11 +105,15 @@ func (c *Client) Commit(ctx context.Context, blobs []da.Blob, namespace da.Names
 }
 
 // Submit submits the Blobs to Data Availability layer.
-func (c *Client) Submit(ctx context.Context, blobs []da.Blob, gasPrice float64, namespace da.Namespace) ([]da.ID, error) {
+func (c *Client) Submit(ctx context.Context, blobs []da.Blob, gasPrice float64, namespace da.Namespace, keyringkeyname *da.Keyringkeyname) ([]da.ID, error) {
 	req := &pbda.SubmitRequest{
 		Blobs:     blobsDA2PB(blobs),
 		GasPrice:  gasPrice,
 		Namespace: &pbda.Namespace{Value: namespace},
+	}
+
+	if keyringkeyname != nil {
+		req.Keyringkeyname = &pbda.Keyringkeyname{Value: *keyringkeyname}
 	}
 
 	resp, err := c.client.Submit(ctx, req)

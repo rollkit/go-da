@@ -26,7 +26,7 @@ type API struct {
 		GetProofs   func(ctx context.Context, ids []da.ID, ns da.Namespace) ([]da.Proof, error)          `perm:"read"`
 		Commit      func(ctx context.Context, blobs []da.Blob, ns da.Namespace) ([]da.Commitment, error) `perm:"read"`
 		Validate    func(context.Context, []da.ID, []da.Proof, da.Namespace) ([]bool, error)             `perm:"read"`
-		Submit      func(context.Context, []da.Blob, float64, da.Namespace) ([]da.ID, error)             `perm:"write"`
+		Submit      func(context.Context, []da.Blob, float64, da.Namespace, *da.Keyringkeyname) ([]da.ID, error) `perm:"write"`
 	}
 }
 
@@ -61,8 +61,8 @@ func (api *API) Validate(ctx context.Context, ids []da.ID, proofs []da.Proof, ns
 }
 
 // Submit submits the Blobs to Data Availability layer.
-func (api *API) Submit(ctx context.Context, blobs []da.Blob, gasPrice float64, ns da.Namespace) ([]da.ID, error) {
-	return api.Internal.Submit(ctx, blobs, gasPrice, ns)
+func (api *API) Submit(ctx context.Context, blobs []da.Blob, gasPrice float64, ns da.Namespace, keyringkeyname *da.Keyringkeyname) ([]da.ID, error) {
+	return api.Internal.Submit(ctx, blobs, gasPrice, ns, keyringkeyname)
 }
 
 // Client is the jsonrpc client

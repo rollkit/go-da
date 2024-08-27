@@ -40,7 +40,7 @@ func BasicDATest(t *testing.T, d da.DA) {
 	msg2 := []byte("message 2")
 
 	ctx := context.TODO()
-	id1, err := d.Submit(ctx, []da.Blob{msg1}, 0, testNamespace)
+	id1, err := d.Submit(ctx, []da.Blob{msg1}, 0, testNamespace, nil)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, id1)
 

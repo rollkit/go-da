@@ -26,7 +26,7 @@ type DA interface {
 	//
 	// This method is synchronous. Upon successful submission to Data Availability layer, it returns the IDs identifying blobs
 	// in DA.
-	Submit(ctx context.Context, blobs []Blob, gasPrice float64, namespace Namespace) ([]ID, error)
+	Submit(ctx context.Context, blobs []Blob, gasPrice float64, namespace Namespace, keyringkeyname *Keyringkeyname) ([]ID, error)
 
 	// Validate validates Commitments against the corresponding Proofs. This should be possible without retrieving the Blobs.
 	Validate(ctx context.Context, ids []ID, proofs []Proof, namespace Namespace) ([]bool, error)
@@ -35,6 +35,10 @@ type DA interface {
 // Namespace is an optional parameter used to set the location a blob should be
 // posted to, for DA layers supporting the functionality.
 type Namespace = []byte
+
+// Keyringkeyname is an optional parameter used to set the keyring keyname for
+// the DA service.
+type Keyringkeyname = []byte
 
 // Blob is the data submitted/received from DA interface.
 type Blob = []byte
