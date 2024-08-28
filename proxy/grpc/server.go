@@ -74,7 +74,7 @@ func (p *proxySrv) Submit(ctx context.Context, request *pbda.SubmitRequest) (*pb
 		keyringkeyname = (*da.Keyringkeyname)(&request.Keyringkeyname.Value)
 	}
 
-	ids, err := p.target.Submit(ctx, blobs, request.GasPrice, request.Namespace.GetValue(), keyringkeyname)
+	ids, err := p.target.Submit(ctx, blobs, request.GasPrice, request.Namespace.GetValue(), request.KeyName.GetValue())
 	if err != nil {
 		return nil, err
 	}

@@ -110,6 +110,7 @@ func (c *Client) Submit(ctx context.Context, blobs []da.Blob, gasPrice float64, 
 		Blobs:     blobsDA2PB(blobs),
 		GasPrice:  gasPrice,
 		Namespace: &pbda.Namespace{Value: namespace},
+		Namespace: &pbda.KeyName{Value: keyName},
 	}
 
 	if keyringkeyname != nil {
