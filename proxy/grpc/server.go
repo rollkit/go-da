@@ -69,9 +69,9 @@ func (p *proxySrv) GetProofs(ctx context.Context, request *pbda.GetProofsRequest
 func (p *proxySrv) Submit(ctx context.Context, request *pbda.SubmitRequest) (*pbda.SubmitResponse, error) {
 	blobs := blobsPB2DA(request.Blobs)
 
-	var keyringkeyname *da.Keyringkeyname
-	if request.Keyringkeyname != nil {
-		keyringkeyname = (*da.Keyringkeyname)(&request.Keyringkeyname.Value)
+	var keyName da.KeyName
+	if request.KeyName != nil {
+		keyName = (da.KeyName)(&request.KeyName.Value)
 	}
 
 	ids, err := p.target.Submit(ctx, blobs, request.GasPrice, request.Namespace.GetValue(), request.KeyName.GetValue())

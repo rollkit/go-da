@@ -108,10 +108,10 @@ message SubmitRequest {
         repeated Blob blobs = 1;
         double gas_price = 2;
         Namespace namespace = 3;
-        Keyringkeyname keyringkeyname = 4;
+        KeyName keyName = 4;
 }
 
-message Keyringkeyname {
+message KeyName {
     bytes value = 1;
 }
 

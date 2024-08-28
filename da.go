@@ -36,9 +36,9 @@ type DA interface {
 // posted to, for DA layers supporting the functionality.
 type Namespace = []byte
 
-// Keyringkeyname is an optional parameter used to set the keyring keyname for
+// KeyName is an optional parameter used to set the keyring keyname for
 // the DA service.
-type Keyringkeyname = []byte
+type KeyName = []byte
 
 // Blob is the data submitted/received from DA interface.
 type Blob = []byte
