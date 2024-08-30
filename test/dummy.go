@@ -94,7 +94,7 @@ func (d *DummyDA) GetIDs(ctx context.Context, height uint64, _ da.Namespace) ([]
 	if !ok {
 		return nil, nil
 	}
-
+  
 	ids := make([]da.ID, len(kvps))
 	for i, kv := range kvps {
 		ids[i] = kv.key

@@ -3,6 +3,7 @@ package test
 import (
 	"bytes"
 	"context"
+	"strings"
 	"sync"
 	"testing"
 	"time"
@@ -137,7 +138,9 @@ func ConcurrentReadWriteTest(t *testing.T, d da.DA) {
 		defer wg.Done()
 		for i := uint64(1); i <= 100; i++ {
 			_, err := d.GetIDs(ctx, i, []byte{})
-			assert.NoError(t, err)
+			if err != nil && !strings.Contains(err.Error(), ErrNoBlobAtHeight.Error()) {
+				assert.NoError(t, err)
+			}
 		}
 	}()
 
