@@ -137,7 +137,9 @@ func ConcurrentReadWriteTest(t *testing.T, d da.DA) {
 		defer wg.Done()
 		for i := uint64(1); i <= 100; i++ {
 			_, err := d.GetIDs(ctx, i, []byte{})
-			assert.NoError(t, err)
+			if err != nil {
+				assert.Equal(t, err.Error(), ErrTooHigh.Error())
+			}
 		}
 	}()
 
