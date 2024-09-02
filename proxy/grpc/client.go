@@ -23,7 +23,7 @@ func NewClient() *Client {
 
 // Start connects Client to target, with given options.
 func (c *Client) Start(target string, opts ...grpc.DialOption) (err error) {
-	c.conn, err = grpc.Dial(target, opts...)
+	c.conn, err = grpc.NewClient(target, opts...)
 	if err != nil {
 		return err
 	}
