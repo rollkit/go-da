@@ -47,7 +47,7 @@ func BasicDATest(t *testing.T, d da.DA) {
 	assert.NoError(t, err)
 	assert.NotEmpty(t, id2)
 
-	id3, err := d.Submit(ctx, []da.Blob{msg1}, 0, testNamespace)
+	id3, err := d.SubmitWithOptions(ctx, []da.Blob{msg1}, 0, testNamespace, []byte("random options"))
 	assert.NoError(t, err)
 	assert.NotEmpty(t, id3)
 
