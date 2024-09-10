@@ -131,6 +131,7 @@ func (c *Client) SubmitWithOptions(ctx context.Context, blobs []da.Blob, gasPric
 		Blobs:     blobsDA2PB(blobs),
 		GasPrice:  gasPrice,
 		Namespace: &pbda.Namespace{Value: namespace},
+		Options:   options,
 	}
 
 	resp, err := c.client.Submit(ctx, req)

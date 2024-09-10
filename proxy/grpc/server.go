@@ -69,7 +69,7 @@ func (p *proxySrv) GetProofs(ctx context.Context, request *pbda.GetProofsRequest
 func (p *proxySrv) Submit(ctx context.Context, request *pbda.SubmitRequest) (*pbda.SubmitResponse, error) {
 	blobs := blobsPB2DA(request.Blobs)
 
-	ids, err := p.target.Submit(ctx, blobs, request.GasPrice, request.Namespace.GetValue())
+	ids, err := p.target.SubmitWithOptions(ctx, blobs, request.GasPrice, request.Namespace.GetValue(), request.Options)
 	if err != nil {
 		return nil, err
 	}
