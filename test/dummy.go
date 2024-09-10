@@ -132,6 +132,7 @@ func (d *DummyDA) Submit(ctx context.Context, blobs []da.Blob, gasPrice float64,
 	return d.SubmitWithOptions(ctx, blobs, gasPrice, ns, nil)
 }
 
+// SubmitWithOptions stores blobs in DA layer (options are ignored).
 func (d *DummyDA) SubmitWithOptions(ctx context.Context, blobs []da.Blob, gasPrice float64, _ da.Namespace, _ []byte) ([]da.ID, error) {
 	d.mu.Lock()
 	defer d.mu.Unlock()
