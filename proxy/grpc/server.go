@@ -2,7 +2,6 @@ package grpc
 
 import (
 	"context"
-
 	"google.golang.org/grpc"
 
 	"github.com/rollkit/go-da"
@@ -38,12 +37,12 @@ func (p *proxySrv) Get(ctx context.Context, request *pbda.GetRequest) (*pbda.Get
 }
 
 func (p *proxySrv) GetIds(ctx context.Context, request *pbda.GetIdsRequest) (*pbda.GetIdsResponse, error) {
-	ids, err := p.target.GetIDs(ctx, request.Height, request.Namespace.GetValue())
+	ret, err := p.target.GetIDs(ctx, request.Height, request.Namespace.GetValue())
 	if err != nil {
 		return nil, err
 	}
 
-	return &pbda.GetIdsResponse{Ids: idsDA2PB(ids)}, nil
+	return &pbda.GetIdsResponse{Ids: idsDA2PB(ret.IDs), Timestamp: ret.Timestamp.UnixMicro()}, nil
 }
 
 func (p *proxySrv) Commit(ctx context.Context, request *pbda.CommitRequest) (*pbda.CommitResponse, error) {

@@ -9,6 +9,7 @@ import (
 	"encoding/binary"
 	"errors"
 	"sync"
+	"time"
 
 	"github.com/rollkit/go-da"
 )
@@ -26,6 +27,7 @@ var ErrTooHigh = errors.New("given height is from the future")
 type DummyDA struct {
 	mu          *sync.Mutex // protects data and height
 	data        map[uint64][]kvp
+	timestamps  map[uint64]time.Time
 	maxBlobSize uint64
 	height      uint64
 	privKey     ed25519.PrivateKey
@@ -41,6 +43,7 @@ func NewDummyDA(opts ...func(*DummyDA) *DummyDA) *DummyDA {
 	da := &DummyDA{
 		mu:          new(sync.Mutex),
 		data:        make(map[uint64][]kvp),
+		timestamps:  make(map[uint64]time.Time),
 		maxBlobSize: DefaultMaxBlobSize,
 	}
 	for _, f := range opts {
@@ -82,7 +85,7 @@ func (d *DummyDA) Get(ctx context.Context, ids []da.ID, _ da.Namespace) ([]da.Bl
 }
 
 // GetIDs returns IDs of Blobs at given DA height.
-func (d *DummyDA) GetIDs(ctx context.Context, height uint64, _ da.Namespace) ([]da.ID, error) {
+func (d *DummyDA) GetIDs(ctx context.Context, height uint64, _ da.Namespace) (*da.GetIDsResult, error) {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 
@@ -99,7 +102,7 @@ func (d *DummyDA) GetIDs(ctx context.Context, height uint64, _ da.Namespace) ([]
 	for i, kv := range kvps {
 		ids[i] = kv.key
 	}
-	return ids, nil
+	return &da.GetIDsResult{IDs: ids, Timestamp: d.timestamps[height]}, nil
 }
 
 // GetProofs returns inclusion Proofs for all Blobs located in DA at given height.
@@ -138,6 +141,7 @@ func (d *DummyDA) SubmitWithOptions(ctx context.Context, blobs []da.Blob, gasPri
 	defer d.mu.Unlock()
 	ids := make([]da.ID, len(blobs))
 	d.height += 1
+	d.timestamps[d.height] = time.Now()
 	for i, blob := range blobs {
 		ids[i] = append(d.nextID(), d.getHash(blob)...)
 

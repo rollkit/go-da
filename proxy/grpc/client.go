@@ -2,6 +2,7 @@ package grpc
 
 import (
 	"context"
+	"time"
 
 	"google.golang.org/grpc"
 
@@ -65,14 +66,14 @@ func (c *Client) Get(ctx context.Context, ids []da.ID, namespace da.Namespace) (
 }
 
 // GetIDs returns IDs of all Blobs located in DA at given height.
-func (c *Client) GetIDs(ctx context.Context, height uint64, namespace da.Namespace) ([]da.ID, error) {
+func (c *Client) GetIDs(ctx context.Context, height uint64, namespace da.Namespace) (*da.GetIDsResult, error) {
 	req := &pbda.GetIdsRequest{Height: height, Namespace: &pbda.Namespace{Value: namespace}}
 	resp, err := c.client.GetIds(ctx, req)
 	if err != nil {
 		return nil, err
 	}
 
-	return idsPB2DA(resp.Ids), nil
+	return &da.GetIDsResult{IDs: idsPB2DA(resp.Ids), Timestamp: time.UnixMicro(resp.Timestamp)}, nil
 }
 
 // GetProofs returns inclusion Proofs for all Blobs located in DA at given height.

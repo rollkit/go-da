@@ -79,6 +79,7 @@ message GetIdsRequest {
 // GetIdsResponse is the response type for the GetIds rpc method.
 message GetIdsResponse {
 	repeated ID ids = 1;
+  int64 timestamp = 2;
 }
 
 // GetProofsRequest is the request type for the GetProofs rpc method.

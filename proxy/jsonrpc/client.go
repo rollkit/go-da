@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/filecoin-project/go-jsonrpc"
 
@@ -22,13 +23,18 @@ type API struct {
 	Internal struct {
 		MaxBlobSize       func(ctx context.Context) (uint64, error)                                            `perm:"read"`
 		Get               func(ctx context.Context, ids []da.ID, ns da.Namespace) ([]da.Blob, error)           `perm:"read"`
-		GetIDs            func(ctx context.Context, height uint64, ns da.Namespace) ([]da.ID, error)           `perm:"read"`
+		GetIDs            func(ctx context.Context, height uint64, ns da.Namespace) (*da.GetIDsResult, error)  `perm:"read"`
 		GetProofs         func(ctx context.Context, ids []da.ID, ns da.Namespace) ([]da.Proof, error)          `perm:"read"`
 		Commit            func(ctx context.Context, blobs []da.Blob, ns da.Namespace) ([]da.Commitment, error) `perm:"read"`
 		Validate          func(context.Context, []da.ID, []da.Proof, da.Namespace) ([]bool, error)             `perm:"read"`
 		Submit            func(context.Context, []da.Blob, float64, da.Namespace) ([]da.ID, error)             `perm:"write"`
 		SubmitWithOptions func(context.Context, []da.Blob, float64, da.Namespace, []byte) ([]da.ID, error)     `perm:"write"`
 	}
+}
+
+type GetIDsResult struct {
+	IDs       []da.ID
+	Timestamp time.Time
 }
 
 // MaxBlobSize returns the max blob size
@@ -42,7 +48,7 @@ func (api *API) Get(ctx context.Context, ids []da.ID, ns da.Namespace) ([]da.Blo
 }
 
 // GetIDs returns IDs of all Blobs located in DA at given height.
-func (api *API) GetIDs(ctx context.Context, height uint64, ns da.Namespace) ([]da.ID, error) {
+func (api *API) GetIDs(ctx context.Context, height uint64, ns da.Namespace) (*da.GetIDsResult, error) {
 	return api.Internal.GetIDs(ctx, height, ns)
 }
 
