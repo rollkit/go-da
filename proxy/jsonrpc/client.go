@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"time"
 
 	"github.com/filecoin-project/go-jsonrpc"
 
@@ -30,12 +29,6 @@ type API struct {
 		Submit            func(context.Context, []da.Blob, float64, da.Namespace) ([]da.ID, error)             `perm:"write"`
 		SubmitWithOptions func(context.Context, []da.Blob, float64, da.Namespace, []byte) ([]da.ID, error)     `perm:"write"`
 	}
-}
-
-// GetIDsResult is returned by `GetIDs` method.
-type GetIDsResult struct {
-	IDs       []da.ID
-	Timestamp time.Time
 }
 
 // MaxBlobSize returns the max blob size
