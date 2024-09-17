@@ -128,7 +128,12 @@ func (d *DummyDA) Commit(ctx context.Context, blobs []da.Blob, _ da.Namespace) (
 }
 
 // Submit stores blobs in DA layer.
-func (d *DummyDA) Submit(ctx context.Context, blobs []da.Blob, gasPrice float64, _ da.Namespace) ([]da.ID, error) {
+func (d *DummyDA) Submit(ctx context.Context, blobs []da.Blob, gasPrice float64, ns da.Namespace) ([]da.ID, error) {
+	return d.SubmitWithOptions(ctx, blobs, gasPrice, ns, nil)
+}
+
+// SubmitWithOptions stores blobs in DA layer (options are ignored).
+func (d *DummyDA) SubmitWithOptions(ctx context.Context, blobs []da.Blob, gasPrice float64, _ da.Namespace, _ []byte) ([]da.ID, error) {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	ids := make([]da.ID, len(blobs))
