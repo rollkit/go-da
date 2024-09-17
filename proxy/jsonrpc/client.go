@@ -32,6 +32,7 @@ type API struct {
 	}
 }
 
+// GetIDsResult is returned by `GetIDs` method.
 type GetIDsResult struct {
 	IDs       []da.ID
 	Timestamp time.Time
