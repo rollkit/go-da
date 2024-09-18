@@ -55,6 +55,6 @@ jobs:
       - name: set up go
         uses: actions/setup-go@v5
         with:
-          go-version: ${{ inputs.go-version }}
+          go-version-file: 'go.mod'
       - run: make proto-gen
       - run: make proto-lint
