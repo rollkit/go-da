@@ -8,8 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - run: echo "$GITHUB_WORKSPACE/go/bin" >> $GITHUB_PATH
       - uses: actions/checkout@v4
+      - name: set up go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ inputs.go-version }}
       - name: "Check protobuf generated code matches committed code"
         # yamllint disable
         run: |
