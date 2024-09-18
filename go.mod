@@ -7,7 +7,7 @@ require (
 	github.com/gogo/protobuf v1.3.2
 	github.com/ipfs/go-log/v2 v2.5.1
 	github.com/stretchr/testify v1.9.0
-	google.golang.org/grpc v1.66.0
+	google.golang.org/grpc v1.66.2
 )
 
 require (
