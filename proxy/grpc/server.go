@@ -3,6 +3,7 @@ package grpc
 import (
 	"context"
 
+	"github.com/cosmos/gogoproto/types"
 	"google.golang.org/grpc"
 
 	"github.com/rollkit/go-da"
@@ -43,7 +44,11 @@ func (p *proxySrv) GetIds(ctx context.Context, request *pbda.GetIdsRequest) (*pb
 		return nil, err
 	}
 
-	return &pbda.GetIdsResponse{Ids: idsDA2PB(ret.IDs), Timestamp: ret.Timestamp.UnixMicro()}, nil
+	timestamp, err := types.TimestampProto(ret.Timestamp)
+	if err != nil {
+		return nil, err
+	}
+	return &pbda.GetIdsResponse{Ids: idsDA2PB(ret.IDs), Timestamp: timestamp}, nil
 }
 
 func (p *proxySrv) Commit(ctx context.Context, request *pbda.CommitRequest) (*pbda.CommitResponse, error) {

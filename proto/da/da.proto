@@ -1,6 +1,8 @@
 syntax = "proto3";
 package da;
 
+import "google/protobuf/timestamp.proto";
+
 // DAService is the protobuf service definition for interaction with Data Availability layers.
 service DAService {
     // MaxBlobSize returns the maximum blob size
@@ -79,7 +81,7 @@ message GetIdsRequest {
 // GetIdsResponse is the response type for the GetIds rpc method.
 message GetIdsResponse {
 	repeated ID ids = 1;
-  int64 timestamp = 2;
+  google.protobuf.Timestamp timestamp = 2;
 }
 
 // GetProofsRequest is the request type for the GetProofs rpc method.
