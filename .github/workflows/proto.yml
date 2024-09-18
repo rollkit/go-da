@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
+      - run: echo "$GITHUB_WORKSPACE/go/bin" >> $GITHUB_PATH
       - uses: actions/checkout@v4
       - name: "Check protobuf generated code matches committed code"
         # yamllint disable

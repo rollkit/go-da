@@ -52,5 +52,6 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+      - run: echo "$GITHUB_WORKSPACE/go/bin" >> $GITHUB_PATH
       - run: make proto-gen
       - run: make proto-lint
