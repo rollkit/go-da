@@ -65,14 +65,21 @@ test: vet
 	@go test -v -race -covermode=atomic -coverprofile=coverage.txt $(pkgs) -run $(run) -count=$(count)
 .PHONY: test
 
-## proto-gen: Generate protobuf files. Requires docker.
-proto-gen:
+## check-proto-deps: Check protobuf deps
+check-proto-deps:
+ifeq (,$(shell which protoc-gen-gocosmos))
+	@go install github.com/cosmos/gogoproto/protoc-gen-gocosmos@latest
+endif
+.PHONY: check-proto-deps
+
+## proto-gen: Generate protobuf files
+proto-gen: check-proto-deps
 	@echo "--> Generating Protobuf files"
-	./proto/gen.sh
+	@go run github.com/bufbuild/buf/cmd/buf@latest generate --path proto/da
 .PHONY: proto-gen
 
-## proto-lint: Lint protobuf files. Requires docker.
-proto-lint:
+## proto-lint: Lint protobuf files.
+proto-lint: check-proto-deps
 	@echo "--> Linting Protobuf files"
-	@$(DOCKER_BUF) lint --error-format=json
+	@go run github.com/bufbuild/buf/cmd/buf@latest lint --error-format=json
 .PHONY: proto-lint

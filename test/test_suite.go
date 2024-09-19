@@ -106,8 +106,10 @@ func GetIDsTest(t *testing.T, d da.DA) {
 		if err != nil {
 			t.Error("failed to get IDs:", err)
 		}
-		if len(ret) > 0 {
-			blobs, err := d.Get(ctx, ret, testNamespace)
+		assert.NotNil(t, ret)
+		assert.NotZero(t, ret.Timestamp)
+		if len(ret.IDs) > 0 {
+			blobs, err := d.Get(ctx, ret.IDs, testNamespace)
 			assert.NoError(t, err)
 
 			// Submit ensures atomicity of batch, so it makes sense to compare actual blobs (bodies) only when lengths
@@ -157,7 +159,7 @@ func ConcurrentReadWriteTest(t *testing.T, d da.DA) {
 // HeightFromFutureTest tests the case when the given height is from the future
 func HeightFromFutureTest(t *testing.T, d da.DA) {
 	ctx := context.TODO()
-	ids, err := d.GetIDs(ctx, 999999999, []byte{})
+	ret, err := d.GetIDs(ctx, 999999999, []byte{})
 	assert.Error(t, err)
-	assert.Nil(t, ids)
+	assert.Nil(t, ret)
 }

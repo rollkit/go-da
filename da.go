@@ -1,6 +1,9 @@
 package da
 
-import "context"
+import (
+	"context"
+	"time"
+)
 
 // DA defines very generic interface for interaction with Data Availability layers.
 type DA interface {
@@ -14,7 +17,7 @@ type DA interface {
 	Get(ctx context.Context, ids []ID, namespace Namespace) ([]Blob, error)
 
 	// GetIDs returns IDs of all Blobs located in DA at given height.
-	GetIDs(ctx context.Context, height uint64, namespace Namespace) ([]ID, error)
+	GetIDs(ctx context.Context, height uint64, namespace Namespace) (*GetIDsResult, error)
 
 	// GetProofs returns inclusion Proofs for Blobs specified by their IDs.
 	GetProofs(ctx context.Context, ids []ID, namespace Namespace) ([]Proof, error)
@@ -53,3 +56,9 @@ type Commitment = []byte
 
 // Proof should contain serialized proof of inclusion (publication) of Blob in Data Availability layer.
 type Proof = []byte
+
+// GetIDsResult holds the result of GetIDs call: IDs and timestamp of corresponding block.
+type GetIDsResult struct {
+	IDs       []ID
+	Timestamp time.Time
+}

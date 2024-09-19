@@ -52,5 +52,9 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+      - name: set up go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: 'go.mod'
       - run: make proto-gen
       - run: make proto-lint

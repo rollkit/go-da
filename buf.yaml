@@ -1,12 +1,13 @@
 version: v1beta1
-
+deps:
+  - buf.build/cosmos/gogo-proto
 build:
   roots:
     - proto
     - third_party/proto
 lint:
   use:
-    - DEFAULT
+    - STANDARD
     - COMMENTS
     - FILE_LOWER_SNAKE_CASE
   except:
