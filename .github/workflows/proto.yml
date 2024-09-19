@@ -12,7 +12,7 @@ jobs:
       - name: set up go
         uses: actions/setup-go@v5
         with:
-          go-version-file: 'go.mod'
+          go-version-file: go.mod
       - name: "Check protobuf generated code matches committed code"
         # yamllint disable
         run: |
