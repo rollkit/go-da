@@ -1,0 +1,8 @@
+packages:
+  github.com/rollkit/go-da:
+    config:
+      dir: mocks
+      outpkg: mocks
+      filename: "{{.InterfaceName}}.go"
+    interfaces:
+      DA:
