@@ -83,3 +83,11 @@ proto-lint: check-proto-deps
 	@echo "--> Linting Protobuf files"
 	@go run github.com/bufbuild/buf/cmd/buf@latest lint --error-format=json
 .PHONY: proto-lint
+
+## mock-gen: Re-generates DA mock
+mock-gen: mocks/DA.go
+.PHONY: mock-gen
+
+mocks/DA.go: da.go .mockery.yaml
+	@mockery
+
