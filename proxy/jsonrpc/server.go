@@ -32,7 +32,16 @@ func (s *Server) RegisterService(namespace string, service interface{}, out inte
 
 // NewServer accepts the host address port and the DA implementation to serve as a jsonrpc service
 func NewServer(address, port string, DA da.DA) *Server {
-	rpc := jsonrpc.NewServer()
+	errs := jsonrpc.NewErrors()
+	errs.Register(jsonrpc.ErrorCode(da.CodeTxAlreadyInMempool), new(*da.ErrTxAlreadyInMempool))
+	errs.Register(jsonrpc.ErrorCode(da.CodeBlobNotFound), new(*da.ErrBlobNotFound))
+	errs.Register(jsonrpc.ErrorCode(da.CodeBlobSizeOverLimit), new(*da.ErrBlobSizeOverLimit))
+	errs.Register(jsonrpc.ErrorCode(da.CodeTxTimedOut), new(*da.ErrTxTimedOut))
+	errs.Register(jsonrpc.ErrorCode(da.CodeTxAlreadyInMempool), new(*da.ErrTxAlreadyInMempool))
+	errs.Register(jsonrpc.ErrorCode(da.CodeTxIncorrectAccountSequence), new(*da.ErrTxIncorrectAccountSequence))
+	errs.Register(jsonrpc.ErrorCode(da.CodeTxTooLarge), new(*da.ErrTxTooLarge))
+	errs.Register(jsonrpc.ErrorCode(da.CodeContextDeadline), new(*da.ErrContextDeadline))
+	rpc := jsonrpc.NewServer(jsonrpc.WithServerErrors(errs))
 	srv := &Server{
 		rpc: rpc,
 		srv: &http.Server{

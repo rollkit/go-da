@@ -78,7 +78,7 @@ func (d *DummyDA) Get(ctx context.Context, ids []da.ID, _ da.Namespace) ([]da.Bl
 			}
 		}
 		if !found {
-			return nil, errors.New("no blob for given ID")
+			return nil, &da.ErrBlobNotFound{}
 		}
 	}
 	return blobs, nil

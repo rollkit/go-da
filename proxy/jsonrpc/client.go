@@ -109,8 +109,17 @@ func NewClient(ctx context.Context, addr string, token string) (*Client, error) 
 func newClient(ctx context.Context, addr string, authHeader http.Header) (*Client, error) {
 	var multiCloser multiClientCloser
 	var client Client
+	errs := jsonrpc.NewErrors()
+	errs.Register(jsonrpc.ErrorCode(da.CodeTxAlreadyInMempool), new(*da.ErrTxAlreadyInMempool))
+	errs.Register(jsonrpc.ErrorCode(da.CodeBlobNotFound), new(*da.ErrBlobNotFound))
+	errs.Register(jsonrpc.ErrorCode(da.CodeBlobSizeOverLimit), new(*da.ErrBlobSizeOverLimit))
+	errs.Register(jsonrpc.ErrorCode(da.CodeTxTimedOut), new(*da.ErrTxTimedOut))
+	errs.Register(jsonrpc.ErrorCode(da.CodeTxAlreadyInMempool), new(*da.ErrTxAlreadyInMempool))
+	errs.Register(jsonrpc.ErrorCode(da.CodeTxIncorrectAccountSequence), new(*da.ErrTxIncorrectAccountSequence))
+	errs.Register(jsonrpc.ErrorCode(da.CodeTxTooLarge), new(*da.ErrTxTooLarge))
+	errs.Register(jsonrpc.ErrorCode(da.CodeContextDeadline), new(*da.ErrContextDeadline))
 	for name, module := range moduleMap(&client) {
-		closer, err := jsonrpc.NewClient(ctx, addr, name, module, authHeader)
+		closer, err := jsonrpc.NewMergeClient(ctx, addr, name, []interface{}{module}, authHeader, jsonrpc.WithErrors(errs))
 		if err != nil {
 			return nil, err
 		}

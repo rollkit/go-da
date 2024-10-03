@@ -81,8 +81,9 @@ func BasicDATest(t *testing.T, d da.DA) {
 // CheckErrors ensures that errors are handled properly by DA.
 func CheckErrors(t *testing.T, d da.DA) {
 	ctx := context.TODO()
-	blob, err := d.Get(ctx, []da.ID{[]byte("invalid")}, testNamespace)
+	blob, err := d.Get(ctx, []da.ID{[]byte("invalid blob id")}, testNamespace)
 	assert.Error(t, err)
+	assert.ErrorIs(t, err, &da.ErrBlobNotFound{})
 	assert.Empty(t, blob)
 }
 
