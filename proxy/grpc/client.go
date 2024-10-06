@@ -2,7 +2,6 @@ package grpc
 
 import (
 	"context"
-	"google.golang.org/grpc/status"
 
 	"github.com/cosmos/gogoproto/types"
 	"google.golang.org/grpc"
@@ -60,12 +59,7 @@ func (c *Client) Get(ctx context.Context, ids []da.ID, namespace da.Namespace) (
 	}
 	resp, err := c.client.Get(ctx, req)
 	if err != nil {
-		s, ok := status.FromError(err)
-		if ok && s.Message() == "blob: not found" {
-			return nil, &da.ErrBlobNotFound{}
-		}
-
-		return nil, err
+		return nil, tryToMapError(err)
 	}
 
 	return blobsPB2DA(resp.Blobs), nil

@@ -130,3 +130,18 @@ message ValidateRequest {
 message ValidateResponse {
 	repeated bool results = 1;
 }
+
+enum ErrorCode {
+		Unknown                    = 0;
+		BlobNotFound               = 32001;
+		BlobSizeOverLimit          = 32002;
+		TxTimedOut                 = 32003;
+		TxAlreadyInMempool         = 32004;
+		TxIncorrectAccountSequence = 32005;
+		TxTooLarge                 = 32006;
+		ContextDeadline            = 32007;
+}
+
+message ErrorDetails {
+	ErrorCode code = 1;
+}

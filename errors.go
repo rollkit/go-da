@@ -3,8 +3,13 @@ package da
 import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+
+	pbda "github.com/rollkit/go-da/types/pb/da"
 )
 
+// Code defines error codes for JSON-RPC.
+//
+// They are reused for GRPC
 type Code int
 
 // Codes are used by JSON-RPC client and server
@@ -23,10 +28,6 @@ type ErrBlobNotFound struct{}
 
 func (e *ErrBlobNotFound) Error() string {
 	return "blob: not found"
-}
-
-func (e *ErrBlobNotFound) GRPCStatus() *status.Status {
-	return status.New(codes.NotFound, e.Error())
 }
 
 // ErrBlobSizeOverLimit is used to indicate that the blob size is over limit.
@@ -69,4 +70,51 @@ type ErrContextDeadline struct{}
 
 func (e *ErrContextDeadline) Error() string {
 	return "context deadline"
+}
+
+// gRPC checks for GPRCStatus method on errors to enable advanced error handling.
+
+// getGRPCStatus constructs a gRPC status with error details based on the provided error, gRPC code, and DA error code.
+func getGRPCStatus(err error, grpcCode codes.Code, daCode pbda.ErrorCode) *status.Status {
+	base := status.New(grpcCode, err.Error())
+	detailed, err := base.WithDetails(&pbda.ErrorDetails{Code: daCode})
+	if err != nil {
+		return base
+	}
+	return detailed
+}
+
+// GRPCStatus returns the gRPC status with details for an ErrBlobNotFound error.
+func (e *ErrBlobNotFound) GRPCStatus() *status.Status {
+	return getGRPCStatus(e, codes.NotFound, pbda.ErrorCode_BlobNotFound)
+}
+
+// GRPCStatus returns the gRPC status with details for an ErrBlobSizeOverLimit error.
+func (e *ErrBlobSizeOverLimit) GRPCStatus() *status.Status {
+	return getGRPCStatus(e, codes.ResourceExhausted, pbda.ErrorCode_BlobSizeOverLimit)
+}
+
+// GRPCStatus returns the gRPC status with details for an ErrTxTimedOut error.
+func (e *ErrTxTimedOut) GRPCStatus() *status.Status {
+	return getGRPCStatus(e, codes.DeadlineExceeded, pbda.ErrorCode_TxTimedOut)
+}
+
+// GRPCStatus returns the gRPC status with details for an ErrTxAlreadyInMempool error.
+func (e *ErrTxAlreadyInMempool) GRPCStatus() *status.Status {
+	return getGRPCStatus(e, codes.AlreadyExists, pbda.ErrorCode_TxAlreadyInMempool)
+}
+
+// GRPCStatus returns the gRPC status with details for an ErrTxIncorrectAccountSequence error.
+func (e *ErrTxIncorrectAccountSequence) GRPCStatus() *status.Status {
+	return getGRPCStatus(e, codes.InvalidArgument, pbda.ErrorCode_TxIncorrectAccountSequence)
+}
+
+// GRPCStatus returns the gRPC status with details for an ErrTxTooLarge error.
+func (e *ErrTxTooLarge) GRPCStatus() *status.Status {
+	return getGRPCStatus(e, codes.ResourceExhausted, pbda.ErrorCode_TxTooLarge)
+}
+
+// GRPCStatus returns the gRPC status with details for an ErrContextDeadline error.
+func (e *ErrContextDeadline) GRPCStatus() *status.Status {
+	return getGRPCStatus(e, codes.DeadlineExceeded, pbda.ErrorCode_ContextDeadline)
 }
