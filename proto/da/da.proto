@@ -132,15 +132,15 @@ message ValidateResponse {
 }
 
 enum ErrorCode {
-		Unknown                    = 0;
-		BlobNotFound               = 32001;
-		BlobSizeOverLimit          = 32002;
-		TxTimedOut                 = 32003;
-		TxAlreadyInMempool         = 32004;
-		TxIncorrectAccountSequence = 32005;
-		TxTooLarge                 = 32006;
-		ContextDeadline            = 32007;
-		FutureHeight               = 32008;
+	Unknown = 0;
+	BlobNotFound = 32001;
+	BlobSizeOverLimit = 32002;
+	TxTimedOut = 32003;
+	TxAlreadyInMempool = 32004;
+	TxIncorrectAccountSequence = 32005;
+	TxTooLarge = 32006;
+	ContextDeadline = 32007;
+	FutureHeight = 32008;
 }
 
 message ErrorDetails {
