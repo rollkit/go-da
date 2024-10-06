@@ -140,6 +140,7 @@ enum ErrorCode {
 		TxIncorrectAccountSequence = 32005;
 		TxTooLarge                 = 32006;
 		ContextDeadline            = 32007;
+		FutureHeight               = 32008;
 }
 
 message ErrorDetails {

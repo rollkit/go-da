@@ -118,6 +118,7 @@ func newClient(ctx context.Context, addr string, authHeader http.Header) (*Clien
 	errs.Register(jsonrpc.ErrorCode(da.CodeTxIncorrectAccountSequence), new(*da.ErrTxIncorrectAccountSequence))
 	errs.Register(jsonrpc.ErrorCode(da.CodeTxTooLarge), new(*da.ErrTxTooLarge))
 	errs.Register(jsonrpc.ErrorCode(da.CodeContextDeadline), new(*da.ErrContextDeadline))
+	errs.Register(jsonrpc.ErrorCode(da.CodeFutureHeight), new(*da.ErrFutureHeight))
 	for name, module := range moduleMap(&client) {
 		closer, err := jsonrpc.NewMergeClient(ctx, addr, name, []interface{}{module}, authHeader, jsonrpc.WithErrors(errs))
 		if err != nil {

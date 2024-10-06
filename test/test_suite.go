@@ -141,7 +141,7 @@ func ConcurrentReadWriteTest(t *testing.T, d da.DA) {
 		for i := uint64(1); i <= 100; i++ {
 			_, err := d.GetIDs(ctx, i, []byte{})
 			if err != nil {
-				assert.Equal(t, err.Error(), ErrTooHigh.Error())
+				assert.ErrorIs(t, err, &da.ErrFutureHeight{})
 			}
 		}
 	}()
@@ -162,5 +162,6 @@ func HeightFromFutureTest(t *testing.T, d da.DA) {
 	ctx := context.TODO()
 	ret, err := d.GetIDs(ctx, 999999999, []byte{})
 	assert.Error(t, err)
+	assert.ErrorIs(t, err, &da.ErrFutureHeight{})
 	assert.Nil(t, ret)
 }

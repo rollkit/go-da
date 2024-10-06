@@ -21,6 +21,7 @@ const (
 	CodeTxIncorrectAccountSequence Code = 32005
 	CodeTxTooLarge                 Code = 32006
 	CodeContextDeadline            Code = 32007
+	CodeFutureHeight               Code = 32008
 )
 
 // ErrBlobNotFound is used to indicate that the blob was not found.
@@ -72,6 +73,13 @@ func (e *ErrContextDeadline) Error() string {
 	return "context deadline"
 }
 
+// ErrFutureHeight is returned when requested height is from the future
+type ErrFutureHeight struct{}
+
+func (e *ErrFutureHeight) Error() string {
+	return "given height is from the future"
+}
+
 // gRPC checks for GPRCStatus method on errors to enable advanced error handling.
 
 // getGRPCStatus constructs a gRPC status with error details based on the provided error, gRPC code, and DA error code.
@@ -117,4 +125,9 @@ func (e *ErrTxTooLarge) GRPCStatus() *status.Status {
 // GRPCStatus returns the gRPC status with details for an ErrContextDeadline error.
 func (e *ErrContextDeadline) GRPCStatus() *status.Status {
 	return getGRPCStatus(e, codes.DeadlineExceeded, pbda.ErrorCode_ContextDeadline)
+}
+
+// GRPCStatus returns the gRPC status with details for an ErrFutureHeight error.
+func (e *ErrFutureHeight) GRPCStatus() *status.Status {
+	return getGRPCStatus(e, codes.OutOfRange, pbda.ErrorCode_FutureHeight)
 }

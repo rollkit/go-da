@@ -41,6 +41,7 @@ func NewServer(address, port string, DA da.DA) *Server {
 	errs.Register(jsonrpc.ErrorCode(da.CodeTxIncorrectAccountSequence), new(*da.ErrTxIncorrectAccountSequence))
 	errs.Register(jsonrpc.ErrorCode(da.CodeTxTooLarge), new(*da.ErrTxTooLarge))
 	errs.Register(jsonrpc.ErrorCode(da.CodeContextDeadline), new(*da.ErrContextDeadline))
+	errs.Register(jsonrpc.ErrorCode(da.CodeFutureHeight), new(*da.ErrFutureHeight))
 	rpc := jsonrpc.NewServer(jsonrpc.WithServerErrors(errs))
 	srv := &Server{
 		rpc: rpc,

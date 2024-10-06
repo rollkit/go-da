@@ -10,6 +10,10 @@ import (
 )
 
 func tryToMapError(err error) error {
+	if err == nil {
+		return nil
+	}
+
 	s, ok := status.FromError(err)
 	if ok {
 		details := s.Proto().Details
@@ -41,6 +45,8 @@ func errorForCode(code pbda.ErrorCode) error {
 		return &da.ErrTxTooLarge{}
 	case pbda.ErrorCode_ContextDeadline:
 		return &da.ErrContextDeadline{}
+	case pbda.ErrorCode_FutureHeight:
+		return &da.ErrFutureHeight{}
 	default:
 		return errors.New("unknown error code")
 	}
