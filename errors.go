@@ -94,40 +94,40 @@ func getGRPCStatus(err error, grpcCode codes.Code, daCode pbda.ErrorCode) *statu
 
 // GRPCStatus returns the gRPC status with details for an ErrBlobNotFound error.
 func (e *ErrBlobNotFound) GRPCStatus() *status.Status {
-	return getGRPCStatus(e, codes.NotFound, pbda.ErrorCode_BlobNotFound)
+	return getGRPCStatus(e, codes.NotFound, pbda.ErrorCode_ERROR_CODE_BLOB_NOT_FOUND)
 }
 
 // GRPCStatus returns the gRPC status with details for an ErrBlobSizeOverLimit error.
 func (e *ErrBlobSizeOverLimit) GRPCStatus() *status.Status {
-	return getGRPCStatus(e, codes.ResourceExhausted, pbda.ErrorCode_BlobSizeOverLimit)
+	return getGRPCStatus(e, codes.ResourceExhausted, pbda.ErrorCode_ERROR_CODE_BLOB_SIZE_OVER_LIMIT)
 }
 
 // GRPCStatus returns the gRPC status with details for an ErrTxTimedOut error.
 func (e *ErrTxTimedOut) GRPCStatus() *status.Status {
-	return getGRPCStatus(e, codes.DeadlineExceeded, pbda.ErrorCode_TxTimedOut)
+	return getGRPCStatus(e, codes.DeadlineExceeded, pbda.ErrorCode_ERROR_CODE_TX_TIMED_OUT)
 }
 
 // GRPCStatus returns the gRPC status with details for an ErrTxAlreadyInMempool error.
 func (e *ErrTxAlreadyInMempool) GRPCStatus() *status.Status {
-	return getGRPCStatus(e, codes.AlreadyExists, pbda.ErrorCode_TxAlreadyInMempool)
+	return getGRPCStatus(e, codes.AlreadyExists, pbda.ErrorCode_ERROR_CODE_TX_ALREADY_IN_MEMPOOL)
 }
 
 // GRPCStatus returns the gRPC status with details for an ErrTxIncorrectAccountSequence error.
 func (e *ErrTxIncorrectAccountSequence) GRPCStatus() *status.Status {
-	return getGRPCStatus(e, codes.InvalidArgument, pbda.ErrorCode_TxIncorrectAccountSequence)
+	return getGRPCStatus(e, codes.InvalidArgument, pbda.ErrorCode_ERROR_CODE_TX_INCORRECT_ACCOUNT_SEQUENCE)
 }
 
 // GRPCStatus returns the gRPC status with details for an ErrTxTooLarge error.
 func (e *ErrTxTooLarge) GRPCStatus() *status.Status {
-	return getGRPCStatus(e, codes.ResourceExhausted, pbda.ErrorCode_TxTooLarge)
+	return getGRPCStatus(e, codes.ResourceExhausted, pbda.ErrorCode_ERROR_CODE_TX_TOO_LARGE)
 }
 
 // GRPCStatus returns the gRPC status with details for an ErrContextDeadline error.
 func (e *ErrContextDeadline) GRPCStatus() *status.Status {
-	return getGRPCStatus(e, codes.DeadlineExceeded, pbda.ErrorCode_ContextDeadline)
+	return getGRPCStatus(e, codes.DeadlineExceeded, pbda.ErrorCode_ERROR_CODE_CONTEXT_DEADLINE)
 }
 
 // GRPCStatus returns the gRPC status with details for an ErrFutureHeight error.
 func (e *ErrFutureHeight) GRPCStatus() *status.Status {
-	return getGRPCStatus(e, codes.OutOfRange, pbda.ErrorCode_FutureHeight)
+	return getGRPCStatus(e, codes.OutOfRange, pbda.ErrorCode_ERROR_CODE_FUTURE_HEIGHT)
 }

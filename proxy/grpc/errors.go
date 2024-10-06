@@ -31,21 +31,21 @@ func tryToMapError(err error) error {
 
 func errorForCode(code pbda.ErrorCode) error {
 	switch code {
-	case pbda.ErrorCode_BlobNotFound:
+	case pbda.ErrorCode_ERROR_CODE_BLOB_NOT_FOUND:
 		return &da.ErrBlobNotFound{}
-	case pbda.ErrorCode_BlobSizeOverLimit:
+	case pbda.ErrorCode_ERROR_CODE_BLOB_SIZE_OVER_LIMIT:
 		return &da.ErrBlobSizeOverLimit{}
-	case pbda.ErrorCode_TxTimedOut:
+	case pbda.ErrorCode_ERROR_CODE_TX_TIMED_OUT:
 		return &da.ErrTxTimedOut{}
-	case pbda.ErrorCode_TxAlreadyInMempool:
+	case pbda.ErrorCode_ERROR_CODE_TX_ALREADY_IN_MEMPOOL:
 		return &da.ErrTxAlreadyInMempool{}
-	case pbda.ErrorCode_TxIncorrectAccountSequence:
+	case pbda.ErrorCode_ERROR_CODE_TX_INCORRECT_ACCOUNT_SEQUENCE:
 		return &da.ErrTxIncorrectAccountSequence{}
-	case pbda.ErrorCode_TxTooLarge:
+	case pbda.ErrorCode_ERROR_CODE_TX_TOO_LARGE:
 		return &da.ErrTxTooLarge{}
-	case pbda.ErrorCode_ContextDeadline:
+	case pbda.ErrorCode_ERROR_CODE_CONTEXT_DEADLINE:
 		return &da.ErrContextDeadline{}
-	case pbda.ErrorCode_FutureHeight:
+	case pbda.ErrorCode_ERROR_CODE_FUTURE_HEIGHT:
 		return &da.ErrFutureHeight{}
 	default:
 		return errors.New("unknown error code")
