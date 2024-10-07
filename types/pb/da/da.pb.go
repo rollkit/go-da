@@ -1405,6 +1405,7 @@ func _DAService_Validate_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+var DAService_serviceDesc = _DAService_serviceDesc
 var _DAService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "da.DAService",
 	HandlerType: (*DAServiceServer)(nil),
