@@ -32,7 +32,7 @@ func (s *Server) RegisterService(namespace string, service interface{}, out inte
 
 // NewServer accepts the host address port and the DA implementation to serve as a jsonrpc service
 func NewServer(address, port string, DA da.DA) *Server {
-	rpc := jsonrpc.NewServer()
+	rpc := jsonrpc.NewServer(jsonrpc.WithServerErrors(getKnownErrorsMapping()))
 	srv := &Server{
 		rpc: rpc,
 		srv: &http.Server{

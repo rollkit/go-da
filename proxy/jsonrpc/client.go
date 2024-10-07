@@ -109,8 +109,9 @@ func NewClient(ctx context.Context, addr string, token string) (*Client, error) 
 func newClient(ctx context.Context, addr string, authHeader http.Header) (*Client, error) {
 	var multiCloser multiClientCloser
 	var client Client
+	errs := getKnownErrorsMapping()
 	for name, module := range moduleMap(&client) {
-		closer, err := jsonrpc.NewClient(ctx, addr, name, module, authHeader)
+		closer, err := jsonrpc.NewMergeClient(ctx, addr, name, []interface{}{module}, authHeader, jsonrpc.WithErrors(errs))
 		if err != nil {
 			return nil, err
 		}

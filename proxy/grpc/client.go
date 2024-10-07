@@ -43,7 +43,7 @@ func (c *Client) MaxBlobSize(ctx context.Context) (uint64, error) {
 	req := &pbda.MaxBlobSizeRequest{}
 	resp, err := c.client.MaxBlobSize(ctx, req)
 	if err != nil {
-		return 0, err
+		return 0, tryToMapError(err)
 	}
 	return resp.MaxBlobSize, nil
 }
@@ -59,7 +59,7 @@ func (c *Client) Get(ctx context.Context, ids []da.ID, namespace da.Namespace) (
 	}
 	resp, err := c.client.Get(ctx, req)
 	if err != nil {
-		return nil, err
+		return nil, tryToMapError(err)
 	}
 
 	return blobsPB2DA(resp.Blobs), nil
@@ -70,7 +70,7 @@ func (c *Client) GetIDs(ctx context.Context, height uint64, namespace da.Namespa
 	req := &pbda.GetIdsRequest{Height: height, Namespace: &pbda.Namespace{Value: namespace}}
 	resp, err := c.client.GetIds(ctx, req)
 	if err != nil {
-		return nil, err
+		return nil, tryToMapError(err)
 	}
 
 	timestamp, err := types.TimestampFromProto(resp.Timestamp)
@@ -103,7 +103,7 @@ func (c *Client) Commit(ctx context.Context, blobs []da.Blob, namespace da.Names
 
 	resp, err := c.client.Commit(ctx, req)
 	if err != nil {
-		return nil, err
+		return nil, tryToMapError(err)
 	}
 
 	return commitsPB2DA(resp.Commitments), nil
@@ -119,7 +119,7 @@ func (c *Client) Submit(ctx context.Context, blobs []da.Blob, gasPrice float64, 
 
 	resp, err := c.client.Submit(ctx, req)
 	if err != nil {
-		return nil, err
+		return nil, tryToMapError(err)
 	}
 
 	ids := make([]da.ID, len(resp.Ids))
@@ -141,7 +141,7 @@ func (c *Client) SubmitWithOptions(ctx context.Context, blobs []da.Blob, gasPric
 
 	resp, err := c.client.Submit(ctx, req)
 	if err != nil {
-		return nil, err
+		return nil, tryToMapError(err)
 	}
 
 	ids := make([]da.ID, len(resp.Ids))
@@ -160,5 +160,5 @@ func (c *Client) Validate(ctx context.Context, ids []da.ID, proofs []da.Proof, n
 		Namespace: &pbda.Namespace{Value: namespace},
 	}
 	resp, err := c.client.Validate(ctx, req)
-	return resp.Results, err
+	return resp.Results, tryToMapError(err)
 }
