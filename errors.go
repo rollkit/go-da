@@ -9,7 +9,7 @@ import (
 
 // Code defines error codes for JSON-RPC.
 //
-// They are reused for GRPC
+// They are reused for gRPC
 type Code int
 
 // Codes are used by JSON-RPC client and server
@@ -80,7 +80,7 @@ func (e *ErrFutureHeight) Error() string {
 	return "given height is from the future"
 }
 
-// gRPC checks for GPRCStatus method on errors to enable advanced error handling.
+// gRPC checks for GRPCStatus method on errors to enable advanced error handling.
 
 // getGRPCStatus constructs a gRPC status with error details based on the provided error, gRPC code, and DA error code.
 func getGRPCStatus(err error, grpcCode codes.Code, daCode pbda.ErrorCode) *status.Status {
