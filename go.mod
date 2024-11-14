@@ -1,7 +1,6 @@
 module github.com/rollkit/go-da
 
-go 1.21.1
-toolchain go1.22.9
+go 1.23.3
 
 require (
 	github.com/cosmos/gogoproto v1.7.0
