@@ -6,7 +6,7 @@ require (
 	github.com/cosmos/gogoproto v1.7.0
 	github.com/filecoin-project/go-jsonrpc v0.6.0
 	github.com/ipfs/go-log/v2 v2.5.1
-	github.com/stretchr/testify v1.9.0
+	github.com/stretchr/testify v1.10.0
 	google.golang.org/grpc v1.67.1
 )
 
