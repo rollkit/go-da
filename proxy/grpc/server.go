@@ -44,6 +44,11 @@ func (p *proxySrv) GetIds(ctx context.Context, request *pbda.GetIdsRequest) (*pb
 		return nil, err
 	}
 
+	// for ErrBlobNotFound cases
+	if ret == nil {
+		return &pbda.GetIdsResponse{Ids: []*pbda.ID{}, Timestamp: nil}, nil
+	}
+
 	timestamp, err := types.TimestampProto(ret.Timestamp)
 	if err != nil {
 		return nil, err
