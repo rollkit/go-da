@@ -6,7 +6,6 @@ reviewers:
       - team:core
 files:
   '.github/**':
-    - MSevey
     - core
 options:
   ignore_draft: true
